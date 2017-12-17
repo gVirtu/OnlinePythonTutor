@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "OPT v5",
   "main": "bundle.js",
-  "repository": "https://github.com/pgbovine/OnlinePythonTutor",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pgbovine/OnlinePythonTutor.git"
+  },
   "license": "BSD-3-Clause",
   "scripts": {
     "start": "python bottle_server.py",
@@ -17,5 +20,11 @@
     "style-loader": "",
     "ts-loader": "",
     "url-loader": ""
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/pgbovine/OnlinePythonTutor/issues"
+  },
+  "homepage": "https://github.com/pgbovine/OnlinePythonTutor#readme",
+  "devDependencies": {},
+  "author": ""
 }
