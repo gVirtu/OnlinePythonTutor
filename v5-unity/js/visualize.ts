@@ -12,6 +12,7 @@ import {pythonExamplesHtml,PY2_EXAMPLES,PY3_EXAMPLES,
         rubyExamplesHtml,RUBY_EXAMPLES,
         cExamplesHtml,C_EXAMPLES,
         cppExamplesHtml,CPP_EXAMPLES,
+        tupyExamplesHtml,TUPY_EXAMPLES,
         exampleHeaderHtml} from './example-links';
 import {footerHtml} from './footer-html';
 import {eureka_survey,eureka_prompt,eureka_survey_version} from './surveys';
@@ -450,6 +451,8 @@ export class OptFrontendWithTestcases extends OptFrontendSharedSessions {
         mod = 'typescript';
       } else if (lang === 'ruby') {
         mod = 'ruby';
+      } else if (lang === 'tupy') {
+        mod = 'tupy';
       } else if (lang === 'c' || lang === 'cpp') {
         mod = 'c_cpp';
       }
@@ -695,6 +698,8 @@ $(document).ready(function() {
       $("#exampleSnippets").append(tsExamplesHtml);
     } else if (optOverride.frontendLang === 'ruby') {
       $("#exampleSnippets").append(rubyExamplesHtml);
+    } else if (optOverride.frontendLang === 'tupy') {
+      $("#exampleSnippets").append(tupyExamplesHtml);
     } else if (optOverride.frontendLang === 'c') {
       $("#exampleSnippets").append(cExamplesHtml);
     } else if (optOverride.frontendLang === 'cpp') {
@@ -708,7 +713,8 @@ $(document).ready(function() {
       .append(tsExamplesHtml)
       .append(rubyExamplesHtml)
       .append(cExamplesHtml)
-      .append(cppExamplesHtml);
+      .append(cppExamplesHtml)
+      .append(tupyExamplesHtml);
   }
   $("#footer").append(footerHtml);
 
@@ -749,6 +755,9 @@ $(document).ready(function() {
     } else if (CPP_EXAMPLES[myId] !== undefined) {
       exFile = CPP_EXAMPLES[myId];
       lang = 'cpp';
+    } else if (TUPY_EXAMPLES[myId] !== undefined) {
+      exFile = TUPY_EXAMPLES[myId];
+      lang = 'tupy';
     } else if (PY2_EXAMPLES[myId] !== undefined) {
       exFile = PY2_EXAMPLES[myId];
       if ($('#pythonVersionSelector').val() === '3') {

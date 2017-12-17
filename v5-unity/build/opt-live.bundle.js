@@ -3331,6 +3331,9 @@ var CodeDisplay = /** @class */ (function () {
             else if (lang === 'ruby') {
                 this.domRoot.find('#langDisplayDiv').html('Ruby');
             }
+            else if (lang === 'tupy') {
+                this.domRoot.find('#langDisplayDiv').html('TuPy');
+            }
             else if (lang === 'java') {
                 this.domRoot.find('#langDisplayDiv').html('Java');
             }
@@ -3879,6 +3882,7 @@ var AbstractBaseFrontend = /** @class */ (function () {
             //  permissions)
             '2': 'web_exec_py2.py',
             '3': 'web_exec_py3.py',
+            'tupy': 'web_exec_tupy.py',
             // empty dummy scripts just to do logging on Apache server
             'js': 'web_exec_js.py',
             'ts': 'web_exec_ts.py',
@@ -3900,6 +3904,7 @@ var AbstractBaseFrontend = /** @class */ (function () {
             'ts': this.serverRoot + 'exec_ts_jsonp',
             'java': this.serverRoot + 'exec_java_jsonp',
             'ruby': this.serverRoot + 'exec_ruby_jsonp',
+            'tupy': this.serverRoot + 'exec_tupy_jsonp',
             'c': this.serverRoot + 'exec_c_jsonp',
             'cpp': this.serverRoot + 'exec_cpp_jsonp',
         };
@@ -22884,6 +22889,9 @@ var OptFrontend = /** @class */ (function (_super) {
         else if (selectorVal === 'ruby') {
             mod = 'ruby';
         }
+        else if (selectorVal === 'tupy') {
+            mod = 'tupy';
+        }
         else if (selectorVal === 'c' || selectorVal == 'cpp') {
             mod = 'c_cpp';
             if (editorVal === '') {
@@ -23629,6 +23637,9 @@ var OptFrontendSharedSessions = /** @class */ (function (_super) {
         }
         else if (lang === 'ruby') {
             return 'Ruby';
+        }
+        else if (lang === 'tupy') {
+            return 'TuPy';
         }
         else if (lang === 'c') {
             return 'C';
@@ -24878,6 +24889,7 @@ __webpack_require__(38);
 __webpack_require__(39);
 __webpack_require__(40);
 __webpack_require__(41);
+//TODO: TuPy mode for Ace?
 var optLiveFrontend;
 var OptLiveFrontend = /** @class */ (function (_super) {
     __extends(OptLiveFrontend, _super);
@@ -24897,6 +24909,7 @@ var OptLiveFrontend = /** @class */ (function (_super) {
             'ts': 'LIVE_exec_ts.py',
             'java': 'LIVE_exec_java.py',
             'ruby': 'LIVE_exec_ruby.py',
+            'tupy': 'LIVE_exec_tupy.py',
             'c': 'LIVE_exec_c.py',
             'cpp': 'LIVE_exec_cpp.py',
         };

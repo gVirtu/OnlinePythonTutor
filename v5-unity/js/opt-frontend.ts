@@ -311,6 +311,8 @@ export class OptFrontend extends AbstractBaseFrontend {
       mod = 'typescript';
     } else if (selectorVal === 'ruby') {
       mod = 'ruby';
+    } else if (selectorVal === 'tupy') {
+      mod = 'tupy';
     } else if (selectorVal === 'c' || selectorVal == 'cpp') {
       mod = 'c_cpp';
       if (editorVal === '') {

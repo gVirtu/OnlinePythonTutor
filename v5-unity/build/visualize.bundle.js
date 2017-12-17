@@ -3331,6 +3331,9 @@ var CodeDisplay = /** @class */ (function () {
             else if (lang === 'ruby') {
                 this.domRoot.find('#langDisplayDiv').html('Ruby');
             }
+            else if (lang === 'tupy') {
+                this.domRoot.find('#langDisplayDiv').html('TuPy');
+            }
             else if (lang === 'java') {
                 this.domRoot.find('#langDisplayDiv').html('Java');
             }
@@ -3879,6 +3882,7 @@ var AbstractBaseFrontend = /** @class */ (function () {
             //  permissions)
             '2': 'web_exec_py2.py',
             '3': 'web_exec_py3.py',
+            'tupy': 'web_exec_tupy.py',
             // empty dummy scripts just to do logging on Apache server
             'js': 'web_exec_js.py',
             'ts': 'web_exec_ts.py',
@@ -3900,6 +3904,7 @@ var AbstractBaseFrontend = /** @class */ (function () {
             'ts': this.serverRoot + 'exec_ts_jsonp',
             'java': this.serverRoot + 'exec_java_jsonp',
             'ruby': this.serverRoot + 'exec_ruby_jsonp',
+            'tupy': this.serverRoot + 'exec_tupy_jsonp',
             'c': this.serverRoot + 'exec_c_jsonp',
             'cpp': this.serverRoot + 'exec_cpp_jsonp',
         };
@@ -22884,6 +22889,9 @@ var OptFrontend = /** @class */ (function (_super) {
         else if (selectorVal === 'ruby') {
             mod = 'ruby';
         }
+        else if (selectorVal === 'tupy') {
+            mod = 'tupy';
+        }
         else if (selectorVal === 'c' || selectorVal == 'cpp') {
             mod = 'c_cpp';
             if (editorVal === '') {
@@ -23629,6 +23637,9 @@ var OptFrontendSharedSessions = /** @class */ (function (_super) {
         }
         else if (lang === 'ruby') {
             return 'Ruby';
+        }
+        else if (lang === 'tupy') {
+            return 'TuPy';
         }
         else if (lang === 'c') {
             return 'C';
@@ -25215,6 +25226,9 @@ var OptFrontendWithTestcases = /** @class */ (function (_super) {
             else if (lang === 'ruby') {
                 mod = 'ruby';
             }
+            else if (lang === 'tupy') {
+                mod = 'tupy';
+            }
             else if (lang === 'c' || lang === 'cpp') {
                 mod = 'c_cpp';
             }
@@ -25430,6 +25444,9 @@ $(document).ready(function () {
         else if (optOverride.frontendLang === 'ruby') {
             $("#exampleSnippets").append(example_links_1.rubyExamplesHtml);
         }
+        else if (optOverride.frontendLang === 'tupy') {
+            $("#exampleSnippets").append(example_links_1.tupyExamplesHtml);
+        }
         else if (optOverride.frontendLang === 'c') {
             $("#exampleSnippets").append(example_links_1.cExamplesHtml);
         }
@@ -25445,7 +25462,8 @@ $(document).ready(function () {
             .append(example_links_1.tsExamplesHtml)
             .append(example_links_1.rubyExamplesHtml)
             .append(example_links_1.cExamplesHtml)
-            .append(example_links_1.cppExamplesHtml);
+            .append(example_links_1.cppExamplesHtml)
+            .append(example_links_1.tupyExamplesHtml);
     }
     $("#footer").append(footer_html_1.footerHtml);
     // insert a toggle for examples after #exampleSnippets, then hide it
@@ -25487,6 +25505,10 @@ $(document).ready(function () {
         else if (example_links_1.CPP_EXAMPLES[myId] !== undefined) {
             exFile = example_links_1.CPP_EXAMPLES[myId];
             lang = 'cpp';
+        }
+        else if (example_links_1.TUPY_EXAMPLES[myId] !== undefined) {
+            exFile = example_links_1.TUPY_EXAMPLES[myId];
+            lang = 'tupy';
         }
         else if (example_links_1.PY2_EXAMPLES[myId] !== undefined) {
             exFile = example_links_1.PY2_EXAMPLES[myId];
@@ -25650,6 +25672,10 @@ var OptTestcases = /** @class */ (function () {
         if (lang === 'java') {
             mod = 'java';
             defaultVal = '// sorry, Java tests not yet supported';
+        }
+        else if (lang === 'tupy') {
+            mod = 'tupy';
+            defaultVal = '// sorry, TuPy tests not yet supported';
         }
         else if (lang === 'c' || lang === 'cpp') {
             mod = 'c_cpp';
@@ -25875,6 +25901,18 @@ exports.RUBY_EXAMPLES = {
     rubyToplevelLink: 'toplevel-inst-class-vars.rb',
     rubyBlocksScoping3Link: 'blocks-scoping-3.rb',
     rubyProcReturnLink: 'proc-return.rb',
+};
+exports.tupyExamplesHtml = "<p style=\"margin-top: 25px; font-weight: bold;\">Exemplos de TuPy</p>\n\n<p style=\"margin-top: 5px;\">\n  <a class=\"exampleLink\" id=\"tupyHelloWorldLink\" href=\"#\">Ol\u00E1 Mundo</a> |\n  <a class=\"exampleLink\" id=\"tupyMathsLink\" href=\"#\">Fun\u00E7\u00F5es Matem\u00E1ticas</a> |\n  <a class=\"exampleLink\" id=\"tupyLoopsLink\" href=\"#\">La\u00E7os</a> |\n  <a class=\"exampleLink\" id=\"tupyVectorsLink\" href=\"#\">Vetores</a> |\n  <a class=\"exampleLink\" id=\"tupyMatricesLink\" href=\"#\">Matrizes</a> |\n  <a class=\"exampleLink\" id=\"tupyLinkedListsLink\" href=\"#\">Listas Encadeadas</a>\n  <p/>\n  <a class=\"exampleLink\" id=\"tupyFunctionsLink\" href=\"#\">Fun\u00E7\u00F5es</a> |\n  <a class=\"exampleLink\" id=\"tupyClassesLink\" href=\"#\">Classes</a> |\n  <a class=\"exampleLink\" id=\"tupyAdvClassesLink\" href=\"#\">Heran\u00E7a e Polimorfismo</a>\n</p>";
+exports.TUPY_EXAMPLES = {
+    tupyHelloWorldLink: 'helloWorld.tupy',
+    tupyMathsLink: 'maths.tupy',
+    tupyLoopsLink: 'loops.tupy',
+    tupyVectorsLink: 'vectors.tupy',
+    tupyMatricesLink: 'matrices.tupy',
+    tupyLinkedListsLink: 'linkedlists.tupy',
+    tupyFunctionsLink: 'functions.tupy',
+    tupyClassesLink: 'classes.tupy',
+    tupyAdvClassesLink: 'advclasses.tupy',
 };
 exports.cExamplesHtml = "<p style=\"margin-top: 25px; font-weight: bold;\">C Examples</p>\n\n<p style=\"margin-top: 5px;\">\n  <a class=\"exampleLink\" id=\"cMengThesisLink\" href=\"#\">Thesis</a> |\n  <a class=\"exampleLink\" id=\"cGlobalsLink\" href=\"#\">Globals</a> |\n  <a class=\"exampleLink\" id=\"cStructLink\" href=\"#\">Structs</a> |\n  <a class=\"exampleLink\" id=\"cNestedStructLink\" href=\"#\">Nested structs</a> |\n  <a class=\"exampleLink\" id=\"cArrOverflowLink\" href=\"#\">Array overflow</a> |\n  <a class=\"exampleLink\" id=\"cArrParamLink\" href=\"#\">Array param</a>\n  <p/>\n  <a class=\"exampleLink\" id=\"cStringRevLink\" href=\"#\">String reverse</a> |\n  <a class=\"exampleLink\" id=\"cPtrLevelsLink\" href=\"#\">Pointer levels</a> |\n  <a class=\"exampleLink\" id=\"cPtrChainLink\" href=\"#\">Pointer chain</a> |\n  <a class=\"exampleLink\" id=\"cPtrWildLink\" href=\"#\">Pointers wild</a> |\n  <a class=\"exampleLink\" id=\"cTypedefLink\" href=\"#\">Typedef</a>\n</p>";
 exports.C_EXAMPLES = {

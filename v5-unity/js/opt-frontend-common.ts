@@ -66,6 +66,7 @@ export abstract class AbstractBaseFrontend {
     //  permissions)
     '2': 'web_exec_py2.py',
     '3': 'web_exec_py3.py',
+    'tupy': 'web_exec_tupy.py',
 
     // empty dummy scripts just to do logging on Apache server
     'js':   'web_exec_js.py',
@@ -90,6 +91,7 @@ export abstract class AbstractBaseFrontend {
     'ts':   this.serverRoot + 'exec_ts_jsonp',
     'java': this.serverRoot + 'exec_java_jsonp',
     'ruby': this.serverRoot + 'exec_ruby_jsonp',
+    'tupy': this.serverRoot + 'exec_tupy_jsonp',
     'c':    this.serverRoot + 'exec_c_jsonp',
     'cpp':  this.serverRoot + 'exec_cpp_jsonp',
   };

@@ -354,6 +354,32 @@ export var RUBY_EXAMPLES = {
   rubyProcReturnLink: 'proc-return.rb',
 };
 
+export var tupyExamplesHtml = `<p style="margin-top: 25px; font-weight: bold;">Exemplos de TuPy</p>
+
+<p style="margin-top: 5px;">
+  <a class="exampleLink" id="tupyHelloWorldLink" href="#">Olá Mundo</a> |
+  <a class="exampleLink" id="tupyMathsLink" href="#">Funções Matemáticas</a> |
+  <a class="exampleLink" id="tupyLoopsLink" href="#">Laços</a> |
+  <a class="exampleLink" id="tupyVectorsLink" href="#">Vetores</a> |
+  <a class="exampleLink" id="tupyMatricesLink" href="#">Matrizes</a> |
+  <a class="exampleLink" id="tupyLinkedListsLink" href="#">Listas Encadeadas</a>
+  <p/>
+  <a class="exampleLink" id="tupyFunctionsLink" href="#">Funções</a> |
+  <a class="exampleLink" id="tupyClassesLink" href="#">Classes</a> |
+  <a class="exampleLink" id="tupyAdvClassesLink" href="#">Herança e Polimorfismo</a>
+</p>`;
+
+export var TUPY_EXAMPLES = {
+  tupyHelloWorldLink: 'helloWorld.tupy',
+  tupyMathsLink: 'maths.tupy',
+  tupyLoopsLink: 'loops.tupy',
+  tupyVectorsLink: 'vectors.tupy',
+  tupyMatricesLink: 'matrices.tupy',
+  tupyLinkedListsLink: 'linkedlists.tupy',
+  tupyFunctionsLink: 'functions.tupy',
+  tupyClassesLink: 'classes.tupy',
+  tupyAdvClassesLink: 'advclasses.tupy',
+};
 
 export var cExamplesHtml = `<p style="margin-top: 25px; font-weight: bold;">C Examples</p>
 

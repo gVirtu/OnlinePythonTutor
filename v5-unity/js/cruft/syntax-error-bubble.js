@@ -268,6 +268,8 @@ function experimentalPopUpSyntaxErrorSurvey() {
         mod = 'typescript';
       } else if (lang === 'ruby') {
         mod = 'ruby';
+      } else if (lang === 'tupy') {
+        mod = 'tupy';
       } else if (lang === 'c' || lang === 'cpp') {
         mod = 'c_cpp';
       }

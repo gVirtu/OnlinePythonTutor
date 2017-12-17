@@ -50,7 +50,7 @@ require('script-loader!./lib/ace/src-min-noconflict/mode-typescript.js');
 require('script-loader!./lib/ace/src-min-noconflict/mode-c_cpp.js');
 require('script-loader!./lib/ace/src-min-noconflict/mode-java.js');
 require('script-loader!./lib/ace/src-min-noconflict/mode-ruby.js');
-
+//TODO: TuPy mode for Ace?
 
 var optLiveFrontend: OptLiveFrontend;
 
@@ -73,6 +73,7 @@ export class OptLiveFrontend extends OptFrontendSharedSessions {
     'ts':   'LIVE_exec_ts.py',
     'java': 'LIVE_exec_java.py',
     'ruby': 'LIVE_exec_ruby.py',
+    'tupy': 'LIVE_exec_tupy.py',
     'c':   'LIVE_exec_c.py',
     'cpp': 'LIVE_exec_cpp.py',
   };

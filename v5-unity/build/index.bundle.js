@@ -3299,6 +3299,9 @@ var CodeDisplay = /** @class */ (function () {
             else if (lang === 'ruby') {
                 this.domRoot.find('#langDisplayDiv').html('Ruby');
             }
+            else if (lang === 'tupy') {
+                this.domRoot.find('#langDisplayDiv').html('TuPy');
+            }
             else if (lang === 'java') {
                 this.domRoot.find('#langDisplayDiv').html('Java');
             }

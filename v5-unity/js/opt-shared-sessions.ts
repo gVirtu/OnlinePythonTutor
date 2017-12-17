@@ -388,6 +388,8 @@ Get live help! (NEW!)
       return 'TypeScript';
     } else if (lang === 'ruby') {
       return 'Ruby';
+    } else if (lang === 'tupy') {
+      return 'TuPy';
     } else if (lang === 'c') {
       return 'C';
     } else if (lang === 'cpp') {
