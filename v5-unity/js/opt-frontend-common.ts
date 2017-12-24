@@ -87,11 +87,11 @@ export abstract class AbstractBaseFrontend {
   langSettingToJsonpEndpoint = {
     '2':    null,
     '3':    null,
+    'tupy': null,
     'js':   this.serverRoot + 'exec_js_jsonp',
     'ts':   this.serverRoot + 'exec_ts_jsonp',
     'java': this.serverRoot + 'exec_java_jsonp',
     'ruby': this.serverRoot + 'exec_ruby_jsonp',
-    'tupy': this.serverRoot + 'exec_tupy_jsonp',
     'c':    this.serverRoot + 'exec_c_jsonp',
     'cpp':  this.serverRoot + 'exec_cpp_jsonp',
   };
@@ -437,7 +437,7 @@ export abstract class AbstractBaseFrontend {
         });
       } else {
         // for Python 2 or 3, directly execute backendScript
-        assert (pyState === '2' || pyState === '3');
+        //assert (pyState === '2' || pyState === '3');
         $.get(backendScript,
               {user_script : codeToExec,
                raw_input_json: this.rawInputLst.length > 0 ? JSON.stringify(this.rawInputLst) : '',

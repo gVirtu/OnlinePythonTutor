@@ -1554,6 +1554,29 @@ var DataVisualizer = /** @class */ (function () {
                 return 'Heap';
             }
         }
+        else if (this.params.lang === 'tupy') {
+            if (label === 'Global frame') {
+                return 'Contexto global';
+            }
+            else if (label === 'Frames') {
+                return 'Contextos';
+            }
+            else if (label === 'Objects') {
+                return 'Memória';
+            }
+            else if (label === 'list') {
+                return 'lista';
+            }
+            else if (label === 'instance') {
+                return 'objeto';
+            }
+            else if (label === 'True') {
+                return 'verdadeiro';
+            }
+            else if (label === 'False') {
+                return 'falso';
+            }
+        }
         // default fallthrough case if no matches above
         return label;
     };
@@ -2078,7 +2101,7 @@ var DataVisualizer = /** @class */ (function () {
             // TODO: add a smoother transition in the future
             // Right now, just delete the old element and render a new one in its place
             $(this).empty();
-            if (myViz.isCppMode()) {
+            if (myViz.isCppMode() || myViz.params.lang == 'tupy') {
                 // TODO: why might this be undefined?!? because the object
                 // disappeared from the heap all of a sudden?!?
                 if (curEntry.heap[objID] !== undefined) {

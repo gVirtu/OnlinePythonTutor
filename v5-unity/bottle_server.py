@@ -18,6 +18,7 @@ except:
     import io as StringIO # py3
 import json
 import pg_logger
+import tupy.Interpreter
 
 
 @route('/web_exec_<name:re:.+>.py')
@@ -33,6 +34,9 @@ def dummy_ok(name=None):
 def index(filepath):
     return static_file(filepath, root='.')
 
+@route('/web_exec_tupy.py')
+def get_tupy_exec():
+    return tupy.Interpreter.Interpreter.interpret(request.query.user_script, trace=True)
 
 # Note that this will run either Python 2 or 3, depending on which
 # version of Python you used to start the server, REGARDLESS of which

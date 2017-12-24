@@ -1554,6 +1554,29 @@ var DataVisualizer = /** @class */ (function () {
                 return 'Heap';
             }
         }
+        else if (this.params.lang === 'tupy') {
+            if (label === 'Global frame') {
+                return 'Contexto global';
+            }
+            else if (label === 'Frames') {
+                return 'Contextos';
+            }
+            else if (label === 'Objects') {
+                return 'Memória';
+            }
+            else if (label === 'list') {
+                return 'lista';
+            }
+            else if (label === 'instance') {
+                return 'objeto';
+            }
+            else if (label === 'True') {
+                return 'verdadeiro';
+            }
+            else if (label === 'False') {
+                return 'falso';
+            }
+        }
         // default fallthrough case if no matches above
         return label;
     };
@@ -2078,7 +2101,7 @@ var DataVisualizer = /** @class */ (function () {
             // TODO: add a smoother transition in the future
             // Right now, just delete the old element and render a new one in its place
             $(this).empty();
-            if (myViz.isCppMode()) {
+            if (myViz.isCppMode() || myViz.params.lang == 'tupy') {
                 // TODO: why might this be undefined?!? because the object
                 // disappeared from the heap all of a sudden?!?
                 if (curEntry.heap[objID] !== undefined) {
@@ -3868,11 +3891,11 @@ var AbstractBaseFrontend = /** @class */ (function () {
         this.langSettingToJsonpEndpoint = {
             '2': null,
             '3': null,
+            'tupy': null,
             'js': this.serverRoot + 'exec_js_jsonp',
             'ts': this.serverRoot + 'exec_ts_jsonp',
             'java': this.serverRoot + 'exec_java_jsonp',
             'ruby': this.serverRoot + 'exec_ruby_jsonp',
-            'tupy': this.serverRoot + 'exec_tupy_jsonp',
             'c': this.serverRoot + 'exec_c_jsonp',
             'cpp': this.serverRoot + 'exec_cpp_jsonp',
         };
@@ -4179,7 +4202,7 @@ var AbstractBaseFrontend = /** @class */ (function () {
         }
         else {
             // for Python 2 or 3, directly execute backendScript
-            pytutor_1.assert(pyState === '2' || pyState === '3');
+            //assert (pyState === '2' || pyState === '3');
             $.get(backendScript, { user_script: codeToExec,
                 raw_input_json: this.rawInputLst.length > 0 ? JSON.stringify(this.rawInputLst) : '',
                 options_json: JSON.stringify(backendOptionsObj),
