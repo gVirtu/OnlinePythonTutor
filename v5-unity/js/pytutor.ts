@@ -1228,12 +1228,16 @@ class DataVisualizer {
         return 'Memória';
       } else if (label === 'list') {
         return 'lista';
-      } else if (label === 'instance') {
+      } else if (label === 'struct') {
         return 'objeto';
       } else if (label === 'True') {
         return 'verdadeiro';
       } else if (label === 'False') {
         return 'falso';
+      } else if (label === 'tuple') {
+        return 'tupla';
+      } else if (label === 'Return</br>value') {
+        return 'Retorno';
       }
     }
 
@@ -1941,7 +1945,10 @@ class DataVisualizer {
       .order() // VERY IMPORTANT to put in the order corresponding to data elements
       .each(function(varname, i) {
         if (i == 0) {
-          $(this).html(varname);
+          if (varname == '__return__')
+            $(this).html('<span class="retval">' + myViz.getRealLabel('Return</br>value') + '</span>');
+          else
+            $(this).html(varname);
         }
         else {
           // always delete and re-render the global var ...
@@ -2172,7 +2179,7 @@ class DataVisualizer {
 
         if (i == 0) {
           if (varname == '__return__')
-            $(this).html('<span class="retval">Return<br/>value</span>');
+            $(this).html('<span class="retval">' + myViz.getRealLabel('Return</br>value') + '</span>');
           else
             $(this).html(varname);
         }
@@ -2999,7 +3006,7 @@ class DataVisualizer {
         // call it 'object' instead of 'struct'
         d3DomElement.append('<div class="typeLabel">' + leader + 'object ' + typename + '</div>');
       } else {
-        d3DomElement.append('<div class="typeLabel">' + leader + 'struct ' + typename + '</div>');
+        d3DomElement.append('<div class="typeLabel">' + leader + myViz.getRealLabel('struct') + ' ' + typename + '</div>');
       }
 
       if (obj.length > 3) {
