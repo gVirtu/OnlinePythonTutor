@@ -1844,6 +1844,10 @@ class DataVisualizer {
           // disappeared from the heap all of a sudden?!?
           if (curEntry.heap[objID] !== undefined) {
             myViz.renderCompoundObject(objID, curInstr, $(this), true);
+          } else {
+            // This makes sure no awkward gaps are left when garbage collecting
+            d3.select(this.parentNode)
+              .attr('style', 'display:none;');
           }
         } else {
           myViz.renderCompoundObject(objID, curInstr, $(this), true);
@@ -2617,6 +2621,8 @@ class DataVisualizer {
               //rep = '\uD83D\uDCA9'; // pile of poo emoji
             } else if (literalStr == '<UNALLOCATED>') {
               rep = '\uD83D\uDC80'; // skull emoji
+            } else if (literalStr == '<NULL>') {
+              rep = '\uD83D\uDEAB'; // no entry emoji
             } else {
               // a regular string
               literalStr = literalStr.replace(new RegExp("\n", 'g'), '\\n'); // replace ALL
