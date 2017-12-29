@@ -65,4 +65,4 @@ def get_py_exec():
 
 
 if __name__ == "__main__":
-    run(host='localhost', port=8003, reloader=True)
+    run(host='0.0.0.0', port=8003, reloader=True)

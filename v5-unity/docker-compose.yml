@@ -1,0 +1,23 @@
+version: '3'
+services:
+  tcc_tupy:
+    build: .
+
+    container_name: tcc_tupy
+
+    command: python3 bottle_server.py
+    
+    #entrypoint: /bin/sh
+    #stdin_open: true
+    #tty: true
+
+    volumes:
+      - ../../uerjInterpreter/tupy:/opt/tcc/tupy
+
+    ports:
+      - "8003:8003"
+
+    working_dir: /opt/tcc
+
+    logging:
+      driver: journald
