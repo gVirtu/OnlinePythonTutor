@@ -32,6 +32,7 @@ require('script-loader!./lib/ace/src-min-noconflict/mode-typescript.js');
 require('script-loader!./lib/ace/src-min-noconflict/mode-c_cpp.js');
 require('script-loader!./lib/ace/src-min-noconflict/mode-java.js');
 require('script-loader!./lib/ace/src-min-noconflict/mode-ruby.js');
+require('script-loader!./lib/ace/src-min-noconflict/mode-tupy.js');
 
 require('script-loader!./lib/socket.io-client/socket.io.js');
 

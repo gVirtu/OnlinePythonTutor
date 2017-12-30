@@ -16,5 +16,9 @@ RUN apt-get update -y -q && apt-get install -y -q --no-install-recommends \
         wget \
     && rm -rf /var/lib/apt/lists/*
 
-COPY v5-unity .
+COPY . .
 RUN pip3 install --no-cache-dir -r requirements.txt
+
+EXPOSE 8003
+
+CMD ["python3", "bottle_server.py"]

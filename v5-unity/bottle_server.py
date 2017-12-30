@@ -19,6 +19,7 @@ except:
 import json
 import pg_logger
 import tupy.Interpreter
+import os
 
 
 @route('/web_exec_<name:re:.+>.py')
@@ -41,28 +42,28 @@ def get_tupy_exec():
 # Note that this will run either Python 2 or 3, depending on which
 # version of Python you used to start the server, REGARDLESS of which
 # route was taken:
-@route('/web_exec_py2.py')
-@route('/web_exec_py3.py')
-@route('/LIVE_exec_py2.py')
-@route('/LIVE_exec_py3.py')
-def get_py_exec():
-  out_s = StringIO.StringIO()
+# @route('/web_exec_py2.py')
+# @route('/web_exec_py3.py')
+# @route('/LIVE_exec_py2.py')
+# @route('/LIVE_exec_py3.py')
+# def get_py_exec():
+#   out_s = StringIO.StringIO()
 
-  def json_finalizer(input_code, output_trace):
-    ret = dict(code=input_code, trace=output_trace)
-    json_output = json.dumps(ret, indent=None)
-    out_s.write(json_output)
+#   def json_finalizer(input_code, output_trace):
+#     ret = dict(code=input_code, trace=output_trace)
+#     json_output = json.dumps(ret, indent=None)
+#     out_s.write(json_output)
 
-  options = json.loads(request.query.options_json)
+#   options = json.loads(request.query.options_json)
 
-  pg_logger.exec_script_str_local(request.query.user_script,
-                                  request.query.raw_input_json,
-                                  options['cumulative_mode'],
-                                  options['heap_primitives'],
-                                  json_finalizer)
+#   pg_logger.exec_script_str_local(request.query.user_script,
+#                                   request.query.raw_input_json,
+#                                   options['cumulative_mode'],
+#                                   options['heap_primitives'],
+#                                   json_finalizer)
 
-  return out_s.getvalue()
+#   return out_s.getvalue()
 
 
 if __name__ == "__main__":
-    run(host='0.0.0.0', port=8003, reloader=True)
+    run(host='0.0.0.0', port=os.getenv('PORT', 8003), reloader=True)

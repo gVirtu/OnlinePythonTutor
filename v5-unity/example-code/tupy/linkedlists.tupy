@@ -1,0 +1,16 @@
+tipo Lista:    
+    inteiro chave    
+    Lista prox    
+    Lista(inteiro c):    
+        chave <- c    
+        prox <- nulo    
+Lista cab <- Lista(10)    
+inteiro i    
+Lista atual <- ref cab    
+para i <- 1..4:    
+    Lista p <- Lista(10-(i*2))    
+    atual.prox <- ref p    
+    atual <- ref p    
+enquanto cab ~= nulo:    
+    escrever(cab.chave)    
+    cab <- ref cab.prox    
