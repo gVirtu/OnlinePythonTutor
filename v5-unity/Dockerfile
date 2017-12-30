@@ -16,5 +16,5 @@ RUN apt-get update -y -q && apt-get install -y -q --no-install-recommends \
         wget \
     && rm -rf /var/lib/apt/lists/*
 
-COPY . .
+COPY v5-unity .
 RUN pip3 install --no-cache-dir -r requirements.txt

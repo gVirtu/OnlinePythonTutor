@@ -1567,7 +1567,7 @@ var DataVisualizer = /** @class */ (function () {
             else if (label === 'list') {
                 return 'lista';
             }
-            else if (label === 'instance') {
+            else if (label === 'struct') {
                 return 'objeto';
             }
             else if (label === 'True') {
@@ -1575,6 +1575,12 @@ var DataVisualizer = /** @class */ (function () {
             }
             else if (label === 'False') {
                 return 'falso';
+            }
+            else if (label === 'tuple') {
+                return 'tupla';
+            }
+            else if (label === 'Return</br>value') {
+                return 'Retorno';
             }
         }
         // default fallthrough case if no matches above
@@ -2107,6 +2113,11 @@ var DataVisualizer = /** @class */ (function () {
                 if (curEntry.heap[objID] !== undefined) {
                     myViz.renderCompoundObject(objID, curInstr, $(this), true);
                 }
+                else {
+                    // This makes sure no awkward gaps are left when garbage collecting
+                    d3.select(this.parentNode)
+                        .attr('style', 'display:none;');
+                }
             }
             else {
                 myViz.renderCompoundObject(objID, curInstr, $(this), true);
@@ -2187,7 +2198,10 @@ var DataVisualizer = /** @class */ (function () {
             .order() // VERY IMPORTANT to put in the order corresponding to data elements
             .each(function (varname, i) {
             if (i == 0) {
-                $(this).html(varname);
+                if (varname == '__return__')
+                    $(this).html('<span class="retval">' + myViz.getRealLabel('Return</br>value') + '</span>');
+                else
+                    $(this).html(varname);
             }
             else {
                 // always delete and re-render the global var ...
@@ -2378,7 +2392,7 @@ var DataVisualizer = /** @class */ (function () {
             var frame = d.frame;
             if (i == 0) {
                 if (varname == '__return__')
-                    $(this).html('<span class="retval">Return<br/>value</span>');
+                    $(this).html('<span class="retval">' + myViz.getRealLabel('Return</br>value') + '</span>');
                 else
                     $(this).html(varname);
             }
@@ -2754,6 +2768,9 @@ var DataVisualizer = /** @class */ (function () {
                         else if (literalStr == '<UNALLOCATED>') {
                             rep = '\uD83D\uDC80'; // skull emoji
                         }
+                        else if (literalStr == '<NULL>') {
+                            rep = '\uD83D\uDEAB'; // no entry emoji
+                        }
                         else {
                             // a regular string
                             literalStr = literalStr.replace(new RegExp("\n", 'g'), '\\n'); // replace ALL
@@ -3087,7 +3104,7 @@ var DataVisualizer = /** @class */ (function () {
                 d3DomElement.append('<div class="typeLabel">' + leader + 'object ' + typename + '</div>');
             }
             else {
-                d3DomElement.append('<div class="typeLabel">' + leader + 'struct ' + typename + '</div>');
+                d3DomElement.append('<div class="typeLabel">' + leader + myViz.getRealLabel('struct') + ' ' + typename + '</div>');
             }
             if (obj.length > 3) {
                 d3DomElement.append('<table class="instTbl"></table>');
@@ -22179,4 +22196,3 @@ window.createAllVisualizersFromHtmlAttrs = createAllVisualizersFromHtmlAttrs;
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=pytutor-embed.bundle.js.map
