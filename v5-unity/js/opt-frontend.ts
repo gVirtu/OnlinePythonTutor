@@ -259,7 +259,7 @@ export class OptFrontend extends AbstractBaseFrontend {
     this.pyInputAceEditor.$blockScrolling = Infinity; // kludgy to shut up weird warnings
 
     // auto-grow height as fit
-    this.pyInputAceEditor.setOptions({minLines: 18, maxLines: 1000});
+    this.pyInputAceEditor.setOptions({minLines: 18, maxLines: 1000, fontFamily: "Fira Code", fontSize: "10pt"});
 
     $('#codeInputPane').css('width', '700px');
     $('#codeInputPane').css('height', height + 'px'); // VERY IMPORTANT so that it works on I.E., ugh!
