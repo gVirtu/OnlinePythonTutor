@@ -122,7 +122,7 @@ export class OptTestcases {
       defaultVal = '// sorry, Java tests not yet supported';
     } else if (lang === 'tupy') {
         mod = 'tupy';
-        defaultVal = '// sorry, TuPy tests not yet supported';
+        defaultVal = '// Testes em TuPy ainda não são suportados.';
     } else if (lang === 'c' || lang === 'cpp') {
       mod = 'c_cpp';
       defaultVal = '// sorry, C/C++ tests not yet supported';
