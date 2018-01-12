@@ -3981,14 +3981,13 @@ var AbstractBaseFrontend = /** @class */ (function () {
                 }
                 else {
                     _this.num414Tries = 0;
-                    _this.setFronendError(["Server error! Your code might be too long for this tool. Shorten your code and re-try."]);
+                    _this.setFronendError(["Erro do servidor! Talvez seu código esteja longo demais para executar aqui.",
+                        "Tente encurtá-lo e então execute novamente."]);
                 }
             }
             else {
-                _this.setFronendError(["Server error! Your code might be taking too much time/memory. Or the server CRASHED",
-                    "due to too many people using it. Or you are behind a FIREWALL that blocks access.",
-                    "Try again later, or report a bug to philip@pgbovine.net by clicking the 'Generate",
-                    "permanent link' button at the bottom of this page and including a URL in your email."]);
+                _this.setFronendError(["Erro do servidor! O interpretador pode ter sofrido uma falha inesperada tentando",
+                    "executar o código, ou houve alguma falha na conexão. Tente novamente mais tarde."]);
             }
             _this.doneExecutingCode();
         });
@@ -4232,9 +4231,9 @@ var AbstractBaseFrontend = /** @class */ (function () {
         // use ${this.userUUID} within the string ...
         var survey_v12 = '\n\
     <p style="font-size: 10pt; margin-top: 12px; margin-bottom: 15px; line-height: 150%;">\n\
-    <span>Support our research and keep this tool free by <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQJP1ojlv8XzXAvHz0al-J_Hs3GQu4XeblxT8EzS8dIzuaYA/viewform?entry.956368502=';
+    <span>Contribua com a pesquisa e o desenvolvimento do Online Python Tutor, sobre o qual este visualizador foi construído, <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQJP1ojlv8XzXAvHz0al-J_Hs3GQu4XeblxT8EzS8dIzuaYA/viewform?entry.956368502=';
         survey_v12 += this.userUUID;
-        survey_v12 += '" target="_blank"><b>filling out this short user survey</b></a>.</span></p>';
+        survey_v12 += '" target="_blank"><b>respondendo a essa enquete em inglês</b></a>.</span></p>';
         $('#surveyPane').html(survey_v12);
     };
     return AbstractBaseFrontend;
