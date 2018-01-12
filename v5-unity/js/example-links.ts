@@ -1,49 +1,10 @@
-export var exampleHeaderHtml = `<p>Here are some free courses that either already use Python Tutor or are good to use with it:
-</p>
+export var exampleHeaderHtml = `<p style="margin-top: 25px; font-weight: bold; font-size: 13pt;">Referência rápida de TuPy:</p>
 
-<p>
-edX:
+<div id="cheatSheet"></div>
 
-<a href="https://www.edx.org/course/python-data-science-uc-san-diegox-dse200x">Python for Data Science</a> |
-<a href="https://www.edx.org/course/introduction-computer-science-mitx-6-00-1x-10">Intro CS w/ Python (MIT)</a> |
-<a href="https://www.edx.org/course/introduction-computational-thinking-data-mitx-6-00-2x-5#!">Data Science (MIT)</a> |
-<a href="https://www.edx.org/course/introduction-computer-science-harvardx-cs50x">Intro CS (Harvard)</a> | <br/>
-<a href="https://www.edx.org/course/software-construction-java-mitx-6-005-1x">Software Construction in Java</a> |
-<a href="https://www.edx.org/course/using-python-research-harvardx-ph526x">Python for Research</a> |
-<a href="https://www.edx.org/course/statistics-probability-data-science-uc-san-diegox-dse210x">Stats w/ Python</a> |
-<a href="https://www.edx.org/course/how-win-coding-competitions-secrets-itmox-i2cpx-0#!">Coding Competitions</a>
-</p>
+<p>Os exemplos abaixo demonstram algumas funcionalidades da linguagem TuPy e suas visualizações. Cada um também conta com uma tradução equivalente em Python para visualização no <a href="https://www.pythontutor.com">Online Python Tutor</a>.</p>`
 
-<p>
-Coursera:
-
-<a href="https://www.coursera.org/learn/learn-to-program">Intro CS w/ Python</a> |
-<a href="https://www.coursera.org/learn/python">Intro Python</a> |
-<a href="https://www.coursera.org/learn/python-data-analysis">Data Science w/ Python</a> |
-<a href="https://www.coursera.org/specializations/python">Intro Python series</a><br/>
-</p>
-
-<p>
-Udacity:
-
-<a href="https://www.udacity.com/course/intro-to-computer-science--cs101">Intro CS w/ Python</a> |
-<a href="https://www.udacity.com/course/intro-to-java-programming--cs046">Intro Java</a> |
-<a href="https://www.udacity.com/course/intro-to-artificial-intelligence--cs271">Intro A.I.</a> |
-<a href="https://www.udacity.com/course/design-of-computer-programs--cs212">Design of Computer Programs</a> | <br/>
-<a href="https://www.udacity.com/course/javascript-basics--ud804">JavaScript Basics</a> |
-<a href="https://www.udacity.com/course/technical-interview--ud513">Technical Interview Prep</a>
-</p>
-
-<p>
-Textbooks:
-
-<a href="http://composingprograms.com/">Composing Programs</a> |
-<a href="https://www.inferentialthinking.com/">Computational Thinking</a> |
-<a href="http://interactivepython.org/runestone/static/thinkcspy/index.html">Interactive Python</a> |
-<a href="http://runestoneinteractive.org/library.html">Runestone Books</a>
-</p>
-
-<p style="margin-top: 35px;">The examples below illustrate some of this tool's visualization capabilities but are <em>not</em> meant as standalone programming lessons. See the courses listed above for lessons.</p>`
+export var TUPY_CHEATSHEET = "TODO detail everything"
 
 // extraneous:
 // <a href="https://www.edx.org/course/nature-code-biology-javascript-epflx-nic1-0x">Comp. Bio w/ JavaScript</a> | <br/>
@@ -354,7 +315,7 @@ export var RUBY_EXAMPLES = {
   rubyProcReturnLink: 'proc-return.rb',
 };
 
-export var tupyExamplesHtml = `<p style="margin-top: 25px; font-weight: bold;">Exemplos de TuPy</p>
+export var tupyExamplesHtml = `<p style="margin-top: 25px; font-weight: bold; font-size: 13pt;">Exemplos de TuPy</p>
 
 <p style="margin-top: 5px;">
   <a class="exampleLink" id="tupyHelloWorldLink" href="#">Olá Mundo</a> |

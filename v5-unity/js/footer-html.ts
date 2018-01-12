@@ -1,34 +1,34 @@
 export var footerHtml = `
 <p>
-  <button id="genUrlBtn" class="smallBtn" type="button">Generate permanent link</button> <input type="text" id="urlOutput" size="70"/>
+  <button id="genUrlBtn" class="smallBtn" type="button">Gerar link permanente</button> <input type="text" id="urlOutput" size="70"/>
 </p>
 <p>
-  <button id="genUrlShortenedBtn" class="smallBtn" type="button">Generate shortened link</button> <input type="text" id="urlOutputShortened" size="25"/>
+  <button id="genUrlShortenedBtn" class="smallBtn" type="button">Encurtar link</button> <input type="text" id="urlOutputShortened" size="25"/>
 </p>
 
-<p>Click the button above to create a permanent link to your
-visualization. To report a bug, paste the link along with a brief error
-description in an email addressed to philip@pgbovine.net</p>
+<p>Clique no botão acima para gerar um endereço permanente para sua
+visualização. Para informar um bug, copie o link gerado com uma breve
+descrição e envie um email para giandroberto@yahoo.com.br</p>
 
 <div id="embedLinkDiv">
 <p>
-  <button id="genEmbedBtn" class="smallBtn" type="button">Generate embed code</button> <input type="text" id="embedCodeOutput" size="70"/>
+  <button id="genEmbedBtn" class="smallBtn" type="button">Gerar código de embed</button> <input type="text" id="embedCodeOutput" size="70"/>
 </p>
 
-<p>To embed this visualization in your webpage, click the 'Generate
-embed code' button above and paste the resulting HTML code into your
-webpage. Adjust the height and width parameters and
-change the link to <b>https://</b> if needed.</p>
+<p>Para incluir essa visualização em uma página web, clique no botão
+'Gerar código de embed' acima e cole o código HTML resultante na sua
+página. Ajuste os parâmetros de largura e altura (width/height) e
+mude o link para <b>https://</b> se necessário.</p>
 </div>
 
 <p style="margin-top: 25px;">
-<a href="http://pythontutor.com/">Python Tutor</a> (<a href="https://github.com/pgbovine/OnlinePythonTutor">code on GitHub</a>) supports seven
-languages (despite its name!):</p>
+<a href="http://pythontutor.com/">Python Tutor</a> (<a href="https://github.com/pgbovine/OnlinePythonTutor">código no GitHub</a>) suporta sete
+linguagens (apesar do nome):</p>
 
-<p>1. Python <a href="https://docs.python.org/2.7/">2.7</a> and <a
-href="https://docs.python.org/3.6/">3.6</a> with limited module
-imports and no file I/O.
-The following modules may be imported: 
+<p>1. Python <a href="https://docs.python.org/2.7/">2.7</a> e <a
+href="https://docs.python.org/3.6/">3.6</a> com imports de módulos
+limitados e sem suporte a entrada do usuário.
+Os módulos a seguir podem ser importados: 
 bisect,
 collections,
 copy,
@@ -47,58 +47,45 @@ time,
 typing,
 io/StringIO.
 <a
-href="https://github.com/pgbovine/OnlinePythonTutor/tree/master/v3">Backend source code</a>.
+href="https://github.com/pgbovine/OnlinePythonTutor/tree/master/v3">Código do backend</a>.
 </p>
 
-<p>2. Java using Oracle's Java 8. The original <a
-href="http://cscircles.cemc.uwaterloo.ca/java_visualize/">Java
-visualizer</a> was created by <a href="https://github.com/daveagp">David Pritchard</a> and Will Gwozdz.
-It supports
+<p>2. Java usando Java 8 da Oracle. O<a
+href="http://cscircles.cemc.uwaterloo.ca/java_visualize/">
+visualizador Java</a> original foi criado por <a href="https://github.com/daveagp">David Pritchard</a> e Will Gwozdz.
+Ele suporta
 <code><a href="http://introcs.cs.princeton.edu/java/stdlib/javadoc/StdIn.html">StdIn</a></code>, 
 <code><a href="http://introcs.cs.princeton.edu/java/stdlib/javadoc/StdOut.html">StdOut</a></code>, 
-most other <a href="http://introcs.cs.princeton.edu/java/stdlib"><tt>stdlib</tt> libraries</a>,
+a maioria das outras <a href="http://introcs.cs.princeton.edu/java/stdlib">bibliotecas <tt>stdlib</tt></a>,
 <a href="http://introcs.cs.princeton.edu/java/43stack/Stack.java.html"><tt>Stack</tt></a>,
 <a href="http://introcs.cs.princeton.edu/java/43stack/Queue.java.html"><tt>Queue</tt></a>,
-and <a href="http://introcs.cs.princeton.edu/java/44st/ST.java.html"><tt>ST</tt></a>.
-(To access Java's built-in <tt>Stack</tt>/<tt>Queue</tt> classes, write
-<tt>import java.util.Stack;</tt> &mdash; note, <tt>import
-java.util.*;</tt> won't work.)
+e <a href="http://introcs.cs.princeton.edu/java/44st/ST.java.html"><tt>ST</tt></a>.
+(Para acessar as classes <tt>Stack</tt>/<tt>Queue</tt> do Java, escreva
+<tt>import java.util.Stack;</tt> &mdash; atenção, <tt>import
+java.util.*;</tt> não funcionará.)
 <a
-href="https://github.com/pgbovine/OnlinePythonTutor/tree/master/v4-cokapi/backends/java">Backend
-source code</a>.</p>
+href="https://github.com/pgbovine/OnlinePythonTutor/tree/master/v4-cokapi/backends/java">Código do backend</a>.</p>
 
-<p>3. JavaScript running in Node.js v6.0.0 with limited support for ES6. <a
-href="https://github.com/pgbovine/OnlinePythonTutor/tree/master/v4-cokapi/backends/javascript">Backend
-source code</a>.</p>
+<p>3. JavaScript rodando em Node.js v6.0.0 com suporte limitado para ES6. <a
+href="https://github.com/pgbovine/OnlinePythonTutor/tree/master/v4-cokapi/backends/javascript">Código do backend</a>.</p>
 
-<p>4. <a href="http://www.typescriptlang.org">TypeScript</a> 1.4.1 running in Node.js v6.0.0. <a
-href="https://github.com/pgbovine/OnlinePythonTutor/tree/master/v4-cokapi/backends/javascript">Backend
-source code</a>.</p>
+<p>4. <a href="http://www.typescriptlang.org">TypeScript</a> 1.4.1 rodando em Node.js v6.0.0. <a
+href="https://github.com/pgbovine/OnlinePythonTutor/tree/master/v4-cokapi/backends/javascript">Código do backend</a>.</p>
 
-<p>5. Ruby 2 using MRI 2.2.2. <a
-href="https://github.com/pgbovine/OnlinePythonTutor/tree/master/v4-cokapi/backends/ruby">Backend
-source code</a>.</p>
+<p>5. Ruby 2 usando MRI 2.2.2. <a
+href="https://github.com/pgbovine/OnlinePythonTutor/tree/master/v4-cokapi/backends/ruby">Código do backend</a>.</p>
 
-<p>6. C using gcc 4.8, C11, and Valgrind Memcheck.
-<a href="https://github.com/pgbovine/opt-cpp-backend">Backend source code</a>.</p>
+<p>6. C usando gcc 4.8, C11, e Valgrind Memcheck.
+<a href="https://github.com/pgbovine/opt-cpp-backend">Código do backend</a>.</p>
 
-<p>7. C++ using gcc 4.8, C++11, and Valgrind Memcheck.
-<a href="https://github.com/pgbovine/opt-cpp-backend">Backend source code</a>.</p>
+<p>7. C++ usando gcc 4.8, C++11, e Valgrind Memcheck.
+<a href="https://github.com/pgbovine/opt-cpp-backend">Código do backend</a>.</p>
 
-<p style="margin-top: 30px;">Privacy Policy: By using Online Python
-Tutor, your visualized code, options, user interactions, text chats, and
-IP address are logged on our server and may be analyzed for research
-purposes. Nearly all Web services collect this basic information from
-users. However, the Online Python Tutor website (pythontutor.com) does
-not collect any personal information or session state from users, nor
-does it issue any cookies.</p>
-
-<p>Use this website at your own risk. The developers of Python Tutor are
-not responsible for the chat messages or behaviors of any of the users
-on this website. We are also not responsible for any damages caused by
-using this website.</p>
+<p>Use este website sob sua conta e risco. Os desenvolvedores do Python Tutor e do
+Tutor TuPy não se responsabilizam por quaisquer danos causados pelo uso deste
+site.</p>
 
 <p style="margin-top: 25px;">
-Copyright &copy; <a href="http://www.pgbovine.net/">Philip Guo</a>.  All rights reserved.
+Copyright &copy; <a href="http://www.pgbovine.net/">Philip Guo</a> e Giancarlo França. Todos os direitos reservados.
 </p>
 `;

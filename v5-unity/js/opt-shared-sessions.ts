@@ -304,7 +304,7 @@ Get live help! (NEW!)
 `;
 
     var togetherJsDiv = `
-<div id="togetherjsStatus">
+<div id="togetherjsStatus" style="display:none">
   <div id="publicHelpQueue"></div>
 </div>
 `;

@@ -39,6 +39,7 @@ require('script-loader!./lib/socket.io-client/socket.io.js');
 // need to directly import the class for type checking to work
 import {AbstractBaseFrontend, generateUUID, supports_html5_storage} from './opt-frontend-common';
 import {ExecutionVisualizer, assert, htmlspecialchars} from './pytutor';
+import {TUPY_CHEATSHEET} from './example-links';
 
 require('../css/opt-frontend.css');
 require('../css/opt-testcases.css');
@@ -68,6 +69,7 @@ function sanitizeURL(s) {
 export class OptFrontend extends AbstractBaseFrontend {
   originFrontendJsFile: string = 'opt-frontend.js';
   pyInputAceEditor = undefined; // Ace editor object that contains the user's code
+  cheatSheetEditor = undefined; // Ace editor object for quick reference
 
   // some subclasses use these, so put them in the superclass
   activateSyntaxErrorSurvey: boolean = true;
@@ -141,7 +143,7 @@ export class OptFrontend extends AbstractBaseFrontend {
              });
     });
 
-    $("#instructionsPane").html('Instructions: <a href="https://www.youtube.com/watch?v=h4q3UKdEFKE" target="_blank">sharing permanent links</a> | <a href="https://www.youtube.com/watch?v=Mxt9HZWgwAM" target="_blank">hiding variables</a> | <a href="https://www.youtube.com/watch?v=80ztTXP90Vs" target="_blank">setting breakpoints</a>');
+    $("#instructionsPane").html('Vídeo-tutoriais (em inglês): <a href="https://www.youtube.com/watch?v=h4q3UKdEFKE" target="_blank">compartilhando links permanentes</a> | <a href="https://www.youtube.com/watch?v=Mxt9HZWgwAM" target="_blank">escondendo variáveis</a> | <a href="https://www.youtube.com/watch?v=80ztTXP90Vs" target="_blank">configurando breakpoints</a>');
 
     // first initialize options from HTML LocalStorage. very important
     // that this code runs FIRST so that options get overridden by query
@@ -246,6 +248,7 @@ export class OptFrontend extends AbstractBaseFrontend {
   initAceEditor(height: number) {
     assert(!this.pyInputAceEditor);
     this.pyInputAceEditor = ace.edit('codeInputPane');
+    this.cheatSheetEditor = ace.edit('cheatSheet');
     var s = this.pyInputAceEditor.getSession();
     // tab -> 4 spaces
     s.setTabSize(4);
@@ -257,6 +260,17 @@ export class OptFrontend extends AbstractBaseFrontend {
     this.pyInputAceEditor.setShowPrintMargin(false);
     this.pyInputAceEditor.setBehavioursEnabled(false);
     this.pyInputAceEditor.$blockScrolling = Infinity; // kludgy to shut up weird warnings
+
+    this.cheatSheetEditor.getSession().setMode("ace/mode/tupy");
+    this.cheatSheetEditor.setHighlightActiveLine(false);
+    this.cheatSheetEditor.setValue(TUPY_CHEATSHEET, -1);
+    this.cheatSheetEditor.setReadOnly(true);
+    this.cheatSheetEditor.setShowPrintMargin(false);
+    this.cheatSheetEditor.setOptions({minLines: 18, maxLines: 1000, fontSize: "12pt"});
+    this.cheatSheetEditor.$blockScrolling = Infinity; // kludgy to shut up weird warnings
+
+    $('#cheatSheet').css('width', '100%');
+    $('#cheatSheet').css('height', '520px'); // VERY IMPORTANT so that it works on I.E., ugh!
 
     // auto-grow height as fit
     this.pyInputAceEditor.setOptions({minLines: 18, maxLines: 1000, fontFamily: "Fira Code", fontSize: "10pt"});
