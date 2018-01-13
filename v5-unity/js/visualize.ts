@@ -217,9 +217,9 @@ export class OptFrontendWithTestcases extends OptFrontendSharedSessions {
     }
     this.prevExecutionExceptionObjLst = []; // reset this since there was no compile-time error
 
-    if (this.activateRuntimeErrorSurvey) {
-      this.popupRuntimeErrorSurvey();
-    }
+    // if (this.activateRuntimeErrorSurvey) {
+    //   this.popupRuntimeErrorSurvey();
+    // }
     this.prevExecutionRuntimeErrorMsg = null; // clear this now and populate it in updateOutputCallbackFunc
     this.prevExecutionRuntimeErrorLine = null;
     this.prevExecutionRuntimeErrorCode = null;
@@ -494,7 +494,7 @@ export class OptFrontendWithTestcases extends OptFrontendSharedSessions {
   // created on 2017-05-15 to mimic experimentalPopUpSyntaxErrorSurvey
   // (lots of copy-pasta!!!), except this is for run-time errors instead of
   // compile-time (i.e., syntax) errors
-  popupRuntimeErrorSurvey() {
+  /*popupRuntimeErrorSurvey() {
     var noErrorsInCurTrace = true;
     // scan through the entire trace to make sure there are no errors;
     // if there are any errors, then we haven't really definitively "fixed"
@@ -674,7 +674,7 @@ export class OptFrontendWithTestcases extends OptFrontendSharedSessions {
                            v: version};
       $.get('runtime_err_survey.py', {arg: JSON.stringify(impressionObj)}, function(dat) {});
     }
-  }
+  }*/
 
 } // END Class OptFrontendWithTestcases
 

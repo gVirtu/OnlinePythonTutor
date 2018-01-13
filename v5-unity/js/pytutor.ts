@@ -34,7 +34,9 @@ require('./lib/jquery-ui-1.11.4/jquery-ui.js');
 require('./lib/jquery-ui-1.11.4/jquery-ui.css');
 require('./lib/jquery.ba-bbq.js'); // contains slight pgbovine modifications
 require('../css/pytutor');
-
+require('./lib/ace/src-min-noconflict/ace.js');
+require('./lib/ace/src-min-noconflict/ext-static_highlight.js');
+require('./lib/ace/src-min-noconflict/mode-tupy.js');
 
 // for TypeScript
 declare var jQuery: JQueryStatic;
@@ -96,6 +98,7 @@ export class ExecutionVisualizer {
   //   'executionPoints' - an ordered array of zero-indexed execution points where this line was executed
   //   'breakpointHere' - has a breakpoint been set here?
   codeOutputLines: {text: string, lineNumber: number, executionPoints: number[], breakpointHere: boolean}[] = [];
+  codeOutputCSS: string;
 
   promptForUserInput: boolean;
   userInputPromptStr: string;
@@ -242,10 +245,18 @@ export class ExecutionVisualizer {
       this.activateJavaFrontend(); // ohhhh yeah! do this before initializing codeOutputLines (ugh order dependency)
     }
 
+    //Static highlight (won't work well for multiline ace rules!!)
+    var highlight = ace.require("ace/ext/static_highlight")
+    var dom = ace.require("ace/lib/dom")
+
+    var highlighted = highlight.render(this.curInputCode, "ace/mode/tupy", "ace/theme/textmate",
+                                       1, true)
+    // var highlightedCode = highlighted.html
+    this.codeOutputCSS = highlighted.css
 
     var lines = this.curInputCode.split('\n');
     for (var i = 0; i < lines.length; i++) {
-      var cod = lines[i];
+      var cod = highlight.render(lines[i], "ace/mode/tupy", "ace/theme/textmate", 1, true).html;
       var n: {text: string, lineNumber: number, executionPoints: number[], breakpointHere: boolean} = {
         text: cod,
         lineNumber: i + 1,
@@ -365,14 +376,16 @@ export class ExecutionVisualizer {
 
     var myViz = this; // to prevent confusion of 'this' inside of nested functions
 
+    var aceStyle = '<style type="text/css" media="screen">\n' + this.codeOutputCSS + '</style>\n'
+
     if (this.params.verticalStack) {
-      this.domRoot.html('<table border="0" class="visualizer">\
+      this.domRoot.html(aceStyle + '<table border="0" class="visualizer">\
                            <tr><td class="vizLayoutTd" id="vizLayoutTdFirst""></td></tr>\
                            <tr><td class="vizLayoutTd" id="vizLayoutTdSecond"></td></tr>\
                          </table>');
     }
     else {
-      this.domRoot.html('<table border="0" class="visualizer"><tr>\
+      this.domRoot.html(aceStyle + '<table border="0" class="visualizer"><tr>\
                            <td class="vizLayoutTd" id="vizLayoutTdFirst"></td>\
                            <td class="vizLayoutTd" id="vizLayoutTdSecond"></td>\
                          </tr></table>');
@@ -3382,7 +3395,7 @@ class CodeDisplay {
           return d.lineNumber;
         }
         else {
-          return htmlspecialchars(d.text);
+          return d.text; //htmlspecialchars(d.text);
         }
       });
 
