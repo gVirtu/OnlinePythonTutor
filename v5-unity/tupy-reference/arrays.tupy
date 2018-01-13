@@ -17,8 +17,11 @@ V <- V + [8, 10]                # V = [2, 4, 6, 8, 10]
 
 #                0   1   2   3   4
 inteiro V[5] <- [10, 20, 30, 40, 50]
-V[0] <- 15
+
+V[0] <- 15                      # V = [15, 20, 30, 40, 50]
 V[2..4] <- [33, 44, 55]         # V = [15, 20, 33, 44, 55]
+V[*] <- [1, 2, 3]               # V = [1, 2, 3, 0, 0]
+V <- [1, 2, 3]                  # é equivalente à linha anterior
 
 # TuPy permite que elementos sejam replicados para
 # preencher um intervalo arbitrário:
@@ -65,4 +68,19 @@ M[1..2, 1..2] <- 0    # Submatriz 2x2 inferior direita
                       #       [4, 0, 0],
                       #       [7, 0, 0] ]
                       
-                      
+# Quando acessamos submatrizes ao invés de elementos
+# individuais, é importante destacar a diferença entre
+# os modos de empregar o operador de acesso:
+
+inteiro M[3, 3] <- [ [1, 2, 3],
+                     [4, 5, 6],
+                     [7, 8, 9] ]
+
+escrever(M[0..1, 2])        # Processa o recorte superior 2x1 da direita.
+                            # Escreve a matriz: [ 3, 6 ]
+
+escrever(M[0..1][2])        # Processa primeiro o recorte M[0..1], ou seja,
+                            # a matriz N = [ [1, 2, 3], [4, 5, 6] ].
+                            # Em seguida, busca o elemento N[2], mas
+                            # como não existe o elemento de índice 2 em N,
+                            # é retornado um ERRO.
