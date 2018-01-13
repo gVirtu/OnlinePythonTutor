@@ -1,0 +1,66 @@
+### OPERADORES ###
+
+# Operadores matemáticos tradicionais estão
+# disponíveis em TuPy para manipular valores:
+#   +  -  *  / 
+
+inteiro a <- 1 + 2 * 3         # a = 7
+
+# Expressões também podem ser parentizadas:
+
+inteiro b <- (1 + 2) * 3       # a = 9
+
+# Os operadores de soma e multiplicação
+# também funcionam em cadeias:
+
+cadeia c <- "concat" + "enada" # c = "concatenada"
+cadeia d <- "abc" * 3          # d = "abcabcabc"
+
+# Outros operadores matemáticos estão
+# demonstrados a seguir:
+
+# Exponenciação
+inteiro f <- 2^10              # f = 1024
+
+# Divisão inteira
+real g <- 5.0 div 2.0          # g = 2.0
+
+# Resto da divisão
+inteiro h <- 5 mod 3           # h = 2
+
+# Os seguintes operadores lógicos também
+# podem ser utilizados em TuPy:
+#     e    ou    não
+
+lógico i <- verdadeiro e falso  # i = falso
+lógico j <- verdadeiro ou falso # j = verdadeiro
+lógico k <- não falso           # k = verdadeiro
+
+# Para manipulação de bits, existem os
+# operadores abaixo:
+
+# E (AND) bit a bit
+inteiro l <- 3 && 2             # l = 2
+
+# OU (OR) bit a bit
+inteiro m <- 5 || 3             # m = 7
+
+# NÃO (NOT) bit a bit
+inteiro n <- ~5                 # n = -6
+
+# OU EXCLUSIVO (XOR) bit a bit
+inteiro o <- 6 xor 3            # o = 5
+
+# Existe, ainda, um operador para calcular
+# a cardinalidade:
+#      |x| = cardinalidade de x
+
+--------------------------------------
+inteiro valor <- 3
+cadeia palavra <- "TuPy"
+inteiro lista[*] <- [0, 1, 2, 3, 4, 5]
+--------------------------------------
+
+inteiro p <- |valor|            # p = 1
+inteiro q <- |palavra|          # q = 4
+inteiro r <- |lista|            # r = 6

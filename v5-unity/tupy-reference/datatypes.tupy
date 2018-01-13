@@ -1,0 +1,48 @@
+### TIPOS DE DADOS ###
+
+# TuPy conta com os seguintes tipos primitivos de dados:
+#   inteiro => para números inteiros positivos ou negativos
+#      real => para números reais de ponto flutuante
+#  caracter => para caracteres ASCII ou Unicode
+#    cadeia => para cadeias de caracteres (strings)
+#    lógico => para verdadeiro / falso (booleanos)
+
+inteiro i <- 329
+real r <- 3.29
+caracter c <- 'k'
+cadeia s <- "TuPy"
+lógico L <- verdadeiro
+
+# Em TuPy, qualquer palavra reservada que possui
+# acentos pode ser digitada sem eles. Portanto,
+# pode-se escrever 'logico' para usar o tipo lógico.
+
+logico L2 <- falso
+
+# Por padrão, dados declarados sem inicialização
+# explícita assumem o valor zero/cadeia vazia/falso.
+
+cadeia t # t é igual a ""
+
+# Uma variável de qualquer tipo também pode
+# assumir o valor 'nulo'. No entanto, esta não
+# poderá operar com outras variáveis.
+
+inteiro n <- nulo
+
+# Para converter o tipo de uma variável, use
+# o nome do tipo desejado como uma função:
+
+inteiro ic <- inteiro('A') # ic = 65
+cadeia cr <- cadeia(9.57)  # cr = "9.57"
+
+# É possível declarar tipos compostos por um ou
+# mais atributos primitivos, como veremos em mais
+# detalhe no módulo 'classes':
+
+tipo Aluno:
+  cadeia nome
+  inteiro idade
+  
+Aluno a <- Aluno()
+a.nome <- "Gian"
