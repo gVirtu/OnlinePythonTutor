@@ -12,7 +12,7 @@ import {pythonExamplesHtml,PY2_EXAMPLES,PY3_EXAMPLES,
         rubyExamplesHtml,RUBY_EXAMPLES,
         cExamplesHtml,C_EXAMPLES,
         cppExamplesHtml,CPP_EXAMPLES,
-        tupyExamplesHtml,TUPY_EXAMPLES,
+        tupyExamplesHtml,TUPY_EXAMPLES,TUPY_CHEATSHEET,
         exampleHeaderHtml} from './example-links';
 import {footerHtml} from './footer-html';
 import {eureka_survey,eureka_prompt,eureka_survey_version} from './surveys';
@@ -794,6 +794,19 @@ $(document).ready(function() {
                                                    myVisualizer.domRoot.find('#pyCodeOutputDiv').scrollTop() :
                                                    undefined});
       }
+    }, 'text' /* data type - set to text or else jQuery tries to EXECUTE the JS example code, haha, eeek! */);
+    return false; // prevent an HTML 'a' element click from going to a link
+  });
+  // tupy cheatsheet
+  $(".tupyReference").click(function() {
+    var myId = $(this).attr('id');
+    var exFile;
+    var lang;
+    exFile = TUPY_CHEATSHEET[myId];
+    exFile = 'tupy-reference/' + exFile;
+
+    $.get(exFile, function(dat) {
+      optFrontend.cheatSheetEditor.setValue(dat, -1)
     }, 'text' /* data type - set to text or else jQuery tries to EXECUTE the JS example code, haha, eeek! */);
     return false; // prevent an HTML 'a' element click from going to a link
   });

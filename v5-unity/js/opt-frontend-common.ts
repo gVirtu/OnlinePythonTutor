@@ -270,13 +270,13 @@ export abstract class AbstractBaseFrontend {
   }
 
   startExecutingCode(startingInstruction=0) {
-    $('#executeBtn').html("Please wait ... executing (takes up to 10 seconds)");
+    $('#executeBtn').html("Por favor aguarde... executando (pode levar até 10 segundos)");
     $('#executeBtn').attr('disabled', true);
     this.isExecutingCode = true;
   }
 
   doneExecutingCode() {
-    $('#executeBtn').html("Visualize Execution");
+    $('#executeBtn').html("Visualizar Execução");
     $('#executeBtn').attr('disabled', false);
     this.isExecutingCode = false;
   }

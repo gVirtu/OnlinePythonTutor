@@ -668,14 +668,14 @@ export class ExecutionVisualizer {
     var totalInstrs = this.curTrace.length;
     var isFirstInstr = (this.curInstr == 0);
     var isLastInstr = (this.curInstr == (totalInstrs-1));
-    var msg = "Step " + String(this.curInstr + 1) + " of " + String(totalInstrs-1);
+    var msg = "Passo " + String(this.curInstr + 1) + " de " + String(totalInstrs-1);
     if (isLastInstr) {
       if (this.promptForUserInput || this.promptForMouseInput) {
         msg = '<b><font color="' + brightRed + '">Enter user input below:</font></b>';
       } else if (this.instrLimitReached) {
-        msg = "Instruction limit reached";
+        msg = "Limite de instruções alcançado";
       } else {
-        msg = "Program terminated";
+        msg = "Programa terminado";
       }
     }
 
@@ -1829,6 +1829,30 @@ class DataVisualizer {
     // remember that the enter selection is added to the update
     // selection so that we can process it later ...
 
+    heapRows
+      .attr('style', 'display:block');
+
+    heapRows
+      .filter(function(d) {
+        console.log("CHECKING ROW "+this.id)
+        var validChildren = myViz.domRootD3
+          .select("#" + this.id)
+          .selectAll('td.toplevelHeapObject');
+
+        console.log(validChildren);
+
+        validChildren = validChildren
+          .filter(function(d) {
+            console.log(this.id)
+            console.log(d)
+            console.log(curEntry.heap[d])
+            return curEntry.heap[d] !== undefined;
+          })
+        
+        return validChildren.empty();
+      })
+      .attr('style', 'display:none;');
+
     // update a toplevelHeapObject
     toplevelHeapObjects
       .order() // VERY IMPORTANT to put in the order corresponding to data elements
@@ -1844,11 +1868,11 @@ class DataVisualizer {
           // disappeared from the heap all of a sudden?!?
           if (curEntry.heap[objID] !== undefined) {
             myViz.renderCompoundObject(objID, curInstr, $(this), true);
-          } else {
+          } //else {
             // This makes sure no awkward gaps are left when garbage collecting
-            d3.select(this.parentNode)
-              .attr('style', 'display:none;');
-          }
+            //d3.select(this.parentNode)
+            //  .attr('style', 'display:none;');
+          //}
         } else {
           myViz.renderCompoundObject(objID, curInstr, $(this), true);
         }
@@ -3152,7 +3176,7 @@ class ProgramOutputBox {
 
     var outputsHTML =
       '<div id="progOutputs">\
-         <div id="printOutputDocs">Print output (drag lower right corner to resize)</div>\n\
+         <div id="printOutputDocs">Saída do programa (puxe o canto inferior direito para redimensionar)</div>\n\
          <textarea id="pyStdout" cols="40" rows="5" wrap="off" readonly></textarea>\
        </div>';
 
@@ -3233,11 +3257,11 @@ class CodeDisplay {
       '<div id="codeDisplayDiv">\
          <div id="langDisplayDiv"></div>\
          <div id="pyCodeOutputDiv"/>\
-         <div id="editCodeLinkDiv"><a id="editBtn">Edit code</a>\
+         <div id="editCodeLinkDiv"><a id="editBtn">Editar código</a>\
          <span id="liveModeSpan" style="display: none;">| <a id="editLiveModeBtn" href="#">Live programming</a></a>\
          </div>\
          <div id="legendDiv"/>\
-         <div id="codeFooterDocs">Click a line of code to set a breakpoint; use the Back and Forward buttons to jump there.</div>\
+         <div id="codeFooterDocs">Clique em uma linha de código para colocar um breakpoint; use os botões Próximo/Anterior para se deslocar entre eles.</div>\
        </div>';
 
     this.domRoot.append(codeDisplayHTML);
@@ -3245,8 +3269,8 @@ class CodeDisplay {
       this.domRoot.find('#editCodeLinkDiv').css('font-size', '10pt');
     }
     this.domRoot.find('#legendDiv')
-        .append('<svg id="prevLegendArrowSVG"/> line that has just executed')
-        .append('<p style="margin-top: 4px"><svg id="curLegendArrowSVG"/> next line to execute</p>');
+        .append('<svg id="prevLegendArrowSVG"/> linha que acabou de executar')
+        .append('<p style="margin-top: 4px"><svg id="curLegendArrowSVG"/> próxima linha</p>');
     this.domRootD3.select('svg#prevLegendArrowSVG')
         .append('polygon')
         .attr('points', SVG_ARROW_POLYGON)
@@ -3596,16 +3620,16 @@ class NavigationController {
                      <div id="executionSlider"/>\
                      <div id="executionSliderFooter"/>\
                      <div id="vcrControls">\
-                       <button id="jmpFirstInstr", type="button">&lt;&lt; First</button>\
-                       <button id="jmpStepBack", type="button">&lt; Back</button>\
-                       <span id="curInstr">Step ? of ?</span>\
-                       <button id="jmpStepFwd", type="button">Forward &gt;</button>\
-                       <button id="jmpLastInstr", type="button">Last &gt;&gt;</button>\
+                       <button id="jmpFirstInstr", type="button">&lt;&lt; Primeiro</button>\
+                       <button id="jmpStepBack", type="button">&lt; Anterior</button>\
+                       <span id="curInstr">Passo ? de ?</span>\
+                       <button id="jmpStepFwd", type="button">Próximo &gt;</button>\
+                       <button id="jmpLastInstr", type="button">Último &gt;&gt;</button>\
                      </div>\
                      <div id="rawUserInputDiv">\
                        <span id="userInputPromptStr"/>\
                        <input type="text" id="raw_input_textbox" size="30"/>\
-                       <button id="raw_input_submit_btn">Submit</button>\
+                       <button id="raw_input_submit_btn">Submeter</button>\
                      </div>\
                      <div id="errorOutput"/>\
                    </div>';

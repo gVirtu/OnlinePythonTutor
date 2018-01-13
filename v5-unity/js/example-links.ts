@@ -1,10 +1,34 @@
 export var exampleHeaderHtml = `<p style="margin-top: 25px; font-weight: bold; font-size: 13pt;">Referência rápida de TuPy:</p>
 
+<p>Utilize os links a seguir para se familiarizar com a sintaxe de TuPy:</b>
+
+<p style="margin-top: 10px;">
+<a class="tupyReference" id="tupyIntroduction" href="#">introdução</a> |
+<a class="tupyReference" id="tupyDatatypes" href="#">tipos de dados</a> |
+<a class="tupyReference" id="tupyOperators" href="#">operadores</a> |
+<a class="tupyReference" id="tupyArrays" href="#">vetores e matrizes</a> |
+<a class="tupyReference" id="tupyControlFlow" href="#">estruturas de controle</a> |
+<a class="tupyReference" id="tupyFunctions" href="#">funções</a> |
+<a class="tupyReference" id="tupyClasses" href="#">classes</a> |
+<a class="tupyReference" id="tupyStdlib" href="#">funções embutidas</a> |
+<a class="tupyReference" id="tupyMaths" href="#">funções matemáticas</a>
+</p>
+
 <div id="cheatSheet"></div>
 
 <p>Os exemplos abaixo demonstram algumas funcionalidades da linguagem TuPy e suas visualizações. Cada um também conta com uma tradução equivalente em Python para visualização no <a href="https://www.pythontutor.com">Online Python Tutor</a>.</p>`
 
-export var TUPY_CHEATSHEET = "TODO detail everything"
+export var TUPY_CHEATSHEET = {
+  tupyIntroduction: "introduction.tupy",
+  tupyDatatypes: "datatypes.tupy",
+  tupyOperators: "operators.tupy",
+  tupyArrays: "arrays.tupy",
+  tupyControlFlow: "controlflow.tupy",
+  tupyFunctions: "functions.tupy",
+  tupyClasses: "classes.tupy",
+  tupyStdlib: "stdlib.tupy",
+  tupyMaths: "maths.tupy"
+}
 
 // extraneous:
 // <a href="https://www.edx.org/course/nature-code-biology-javascript-epflx-nic1-0x">Comp. Bio w/ JavaScript</a> | <br/>

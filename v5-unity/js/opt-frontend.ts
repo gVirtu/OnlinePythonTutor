@@ -263,14 +263,18 @@ export class OptFrontend extends AbstractBaseFrontend {
 
     this.cheatSheetEditor.getSession().setMode("ace/mode/tupy");
     this.cheatSheetEditor.setHighlightActiveLine(false);
-    this.cheatSheetEditor.setValue(TUPY_CHEATSHEET, -1);
+    var exFile = "tupy-reference/" + TUPY_CHEATSHEET.tupyIntroduction
+    var optFrontend = this
+    $.get(exFile, function(dat) {
+      optFrontend.cheatSheetEditor.setValue(dat, -1)
+    }, 'text' /* data type - set to text or else jQuery tries to EXECUTE the JS example code, haha, eeek! */);
     this.cheatSheetEditor.setReadOnly(true);
     this.cheatSheetEditor.setShowPrintMargin(false);
-    this.cheatSheetEditor.setOptions({minLines: 18, maxLines: 1000, fontSize: "12pt"});
+    this.cheatSheetEditor.setOptions({minLines: 18, maxLines: 18, fontSize: "12pt"});
     this.cheatSheetEditor.$blockScrolling = Infinity; // kludgy to shut up weird warnings
 
     $('#cheatSheet').css('width', '100%');
-    $('#cheatSheet').css('height', '520px'); // VERY IMPORTANT so that it works on I.E., ugh!
+    $('#cheatSheet').css('height', '420px'); // VERY IMPORTANT so that it works on I.E., ugh!
 
     // auto-grow height as fit
     this.pyInputAceEditor.setOptions({minLines: 18, maxLines: 1000, fontFamily: "Fira Code", fontSize: "10pt"});
