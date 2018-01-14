@@ -26,8 +26,8 @@
 
 */
 
-
 require('./lib/d3.v2.min.js');
+require('script-loader!./lib/viz.js');
 require('./lib/jquery-3.0.0.min.js');
 require('./lib/jquery.jsPlumb-1.3.10-all-min.js'); // DO NOT UPGRADE ABOVE 1.3.10 OR ELSE BREAKAGE WILL OCCUR 
 require('./lib/jquery-ui-1.11.4/jquery-ui.js');
@@ -41,7 +41,7 @@ require('./lib/ace/src-min-noconflict/mode-tupy.js');
 // for TypeScript
 declare var jQuery: JQueryStatic;
 declare var jsPlumb: any;
-
+declare var Viz: any;
 
 export var SVG_ARROW_POLYGON = '0,3 12,3 12,0 18,5 12,10 12,7 0,7';
 var SVG_ARROW_HEIGHT = 10; // must match height of SVG_ARROW_POLYGON
@@ -1156,7 +1156,7 @@ class DataVisualizer {
 
 
     this.jsPlumbInstance = jsPlumb.getInstance({
-      Endpoint: ["Dot", {radius:3}],
+      Endpoint: ["Dot", {radius:6}],
       EndpointStyles: [{fillStyle: connectorBaseColor}, {fillstyle: null} /* make right endpoint invisible */],
       Anchors: ["RightMiddle", "LeftMiddle"],
       PaintStyle: {lineWidth:1, strokeStyle: connectorBaseColor},
@@ -1167,9 +1167,10 @@ class DataVisualizer {
 
       // state machine curve style:
       Connector: [ "StateMachine" ],
+      ConnectionsDetachable   : false,
       Overlays: [[ "Arrow", { length: 10, width:7, foldback:0.55, location:1 }]],
       EndpointHoverStyles: [{fillStyle: connectorHighlightColor}, {fillstyle: null} /* make right endpoint invisible */],
-      HoverPaintStyle: {lineWidth: 1, strokeStyle: connectorHighlightColor},
+      HoverPaintStyle: {lineWidth: 2, strokeStyle: connectorHighlightColor},
     });
   }
 
@@ -2646,41 +2647,59 @@ class DataVisualizer {
             myViz.jsPlumbManager.connectionEndpointIDs.set(ptrSrcId, ptrTargetId);
           }
         } else {
-          // for non-pointers, put cdataId on the element itself, so that
-          // pointers can point directly at the element, not the header
-          d3DomElement.append('<div class="cdataHeader">' + leader + typeName + '</div>');
+          var dotRegexp = /\[\[DOT\s+(.*)\]\]/i;
+          var isGraphviz = (typeName === 'cadeia' && typeof obj[3] === 'string' && dotRegexp.test(obj[3]))
 
-          var rep = '';
-          if (typeof obj[3] === 'string') {
-            var literalStr = obj[3];
-            if (literalStr === '<UNINITIALIZED>') {
-              rep = '<span class="cdataUninit">?</span>';
-              //rep = '\uD83D\uDCA9'; // pile of poo emoji
-            } else if (literalStr == '<UNALLOCATED>') {
-              rep = '\uD83D\uDC80'; // skull emoji
-            } else if (literalStr == '<NULL>') {
-              rep = '\uD83D\uDEAB'; // no entry emoji
-            } else {
-              // a regular string
-              literalStr = literalStr.replace(new RegExp("\n", 'g'), '\\n'); // replace ALL
-              literalStr = literalStr.replace(new RegExp("\t", 'g'), '\\t'); // replace ALL
-              literalStr = literalStr.replace(new RegExp('\"', 'g'), '\\"'); // replace ALL
+          if (isGraphviz) {
+            d3DomElement.append('<div class="cdataHeader">' + leader + 'grafo' + '</div>');
+            var dotSrc = dotRegexp.exec(obj[3])[1]
+            var resultSvg = Viz(dotSrc);
+            var tempElement = d3DomElement.append('<div id="' + cdataId + '" class="cdataElt"></div>')
 
-              // unprintable chars are denoted with '???', so show them as
-              // a special unicode character:
-              if (typeName === 'char' && literalStr === '???') {
-                literalStr = '\uFFFD'; // question mark in black diamond unicode character
-              } else {
-                // print as a SINGLE-quoted string literal (to emulate C-style chars)
-                literalStr = "'" + literalStr + "'";
-              }
-              rep = htmlspecialchars(literalStr);
-            }
+            var resultImg = Viz.svgXmlToPngImageElement(resultSvg, 1, function(err, img) {
+              var myElement = tempElement.html( '<img src="' + img.src + 
+                                                '" width="' + img.width/2 +
+                                                '" height="' + img.height/2 + '"/>');
+              myViz.redrawConnectors()
+            })
           } else {
-            rep = htmlspecialchars(obj[3]);
-          }
+            // for non-pointers, put cdataId on the element itself, so that
+            // pointers can point directly at the element, not the header
 
-          d3DomElement.append('<div id="' + cdataId + '" class="cdataElt">' + rep + '</div>');
+            d3DomElement.append('<div class="cdataHeader">' + leader + typeName + '</div>');
+
+            var rep = '';
+            if (typeof obj[3] === 'string') {
+              var literalStr = obj[3];
+              if (literalStr === '<UNINITIALIZED>') {
+                rep = '<span class="cdataUninit">?</span>';
+                //rep = '\uD83D\uDCA9'; // pile of poo emoji
+              } else if (literalStr == '<UNALLOCATED>') {
+                rep = '\uD83D\uDC80'; // skull emoji
+              } else if (literalStr == '<NULL>') {
+                rep = '\uD83D\uDEAB'; // no entry emoji
+              } else {
+                // a regular string
+                literalStr = literalStr.replace(new RegExp("\n", 'g'), '\\n'); // replace ALL
+                literalStr = literalStr.replace(new RegExp("\t", 'g'), '\\t'); // replace ALL
+                literalStr = literalStr.replace(new RegExp('\"', 'g'), '\\"'); // replace ALL
+
+                // unprintable chars are denoted with '???', so show them as
+                // a special unicode character:
+                if (typeName === 'char' && literalStr === '???') {
+                  literalStr = '\uFFFD'; // question mark in black diamond unicode character
+                } else {
+                  // print as a SINGLE-quoted string literal (to emulate C-style chars)
+                  literalStr = "'" + literalStr + "'";
+                }
+                rep = htmlspecialchars(literalStr);
+              }
+            } else {
+              rep = htmlspecialchars(obj[3]);
+            }
+
+            d3DomElement.append('<div id="' + cdataId + '" class="cdataElt">' + rep + '</div>');
+          }
         }
       } else {
         assert(obj[0] == 'SPECIAL_FLOAT' || obj[0] == 'JS_SPECIAL_VAL');

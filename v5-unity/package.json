@@ -15,11 +15,13 @@
   },
   "dependencies": {
     "css-loader": "",
+    "node-fs": "^0.1.7",
     "on-build-webpack": "^0.1.0",
     "script-loader": "",
     "style-loader": "",
     "ts-loader": "",
-    "url-loader": ""
+    "url-loader": "",
+    "viz.js": "^1.8.0"
   },
   "bugs": {
     "url": "https://github.com/pgbovine/OnlinePythonTutor/issues"
