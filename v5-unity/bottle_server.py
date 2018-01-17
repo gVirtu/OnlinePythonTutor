@@ -33,7 +33,9 @@ def dummy_ok(name=None):
 
 @route('/<filepath:path>')
 def index(filepath):
-    return static_file(filepath, root='.')
+    response = static_file(filepath, root='.')
+    response.set_header("Cache-Control", "public, max-age=1")
+    return response
 
 @route('/web_exec_tupy.py')
 def get_tupy_exec():

@@ -1185,6 +1185,10 @@ class DataVisualizer {
     return this.owner.generateID('heap_object_' + objID + '_s' + stepNum);
   }
 
+  escape(string) {
+    return String(string).replace(/(:|\.|\[|\]|,|=|@)/g, '\\$1')
+  }
+
   // customize labels for each language's preferred vocabulary
   getRealLabel(label) {
     if (this.params.lang === 'js' || this.params.lang === 'ts' || this.params.lang === 'ruby') {
@@ -2350,9 +2354,9 @@ class DataVisualizer {
       $.each(srcHeapConnectorIDs, function(i, srcID) {
         var dstID = myViz.jsPlumbManager.heapConnectionEndpointIDs.get(srcID);
 
-        var srcAnchorObject = myViz.domRoot.find('#' + srcID);
+        var srcAnchorObject = myViz.domRoot.find('#' + myViz.escape(srcID));
         var srcHeapObject = srcAnchorObject.closest('.heapObject');
-        var dstHeapObject = myViz.domRoot.find('#' + dstID);
+        var dstHeapObject = myViz.domRoot.find('#' + myViz.escape(dstID));
         assert(dstHeapObject.attr('class') == 'heapObject');
 
         var srcHeapRow = srcHeapObject.closest('.heapRow');
@@ -2690,7 +2694,8 @@ class DataVisualizer {
                   literalStr = '\uFFFD'; // question mark in black diamond unicode character
                 } else {
                   // print as a SINGLE-quoted string literal (to emulate C-style chars)
-                  literalStr = "'" + literalStr + "'";
+                  if (typeName === 'caracter') { literalStr = "'" + literalStr + "'"; }
+                  else if (typeName === 'cadeia') { literalStr = '"' + literalStr + '"'; }
                 }
                 rep = htmlspecialchars(literalStr);
               }
@@ -2774,7 +2779,7 @@ class DataVisualizer {
     // wrap ALL compound objects in a heapObject div so that jsPlumb
     // connectors can point to it:
     d3DomElement.append('<div class="heapObject" id="' + heapObjID + '"></div>');
-    d3DomElement = myViz.domRoot.find('#' + heapObjID); // TODO: maybe inefficient
+    d3DomElement = myViz.domRoot.find('#' + myViz.escape(heapObjID)); // TODO: maybe inefficient
 
     myViz.jsPlumbManager.renderedHeapObjectIDs.set(heapObjID, 1);
 
@@ -2801,7 +2806,7 @@ class DataVisualizer {
 
       assert(obj.length >= 1);
       if (obj.length == 1) {
-        d3DomElement.append('<div class="typeLabel">' + typeLabelPrefix + ' empty ' + myViz.getRealLabel(label) + '</div>');
+        d3DomElement.append('<div class="typeLabel">' + typeLabelPrefix + myViz.getRealLabel(label) + ' vazia</div>');
       }
       else {
         d3DomElement.append('<div class="typeLabel">' + typeLabelPrefix + myViz.getRealLabel(label) + '</div>');

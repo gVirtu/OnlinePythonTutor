@@ -9,9 +9,10 @@ export var exampleHeaderHtml = `<p style="margin-top: 25px; font-weight: bold; f
 <a class="tupyReference" id="tupyArrays" href="#">vetores e matrizes</a> |
 <a class="tupyReference" id="tupyControlFlow" href="#">estruturas de controle</a> |
 <a class="tupyReference" id="tupyFunctions" href="#">funções</a> |
-<a class="tupyReference" id="tupyClasses" href="#">classes</a> |
-<a class="tupyReference" id="tupyStdlib" href="#">funções embutidas</a> |
-<a class="tupyReference" id="tupyMaths" href="#">funções matemáticas</a>
+<a class="tupyReference" id="tupyClasses" href="#">classes</a><br/>
+<a class="tupyReference" id="tupyStdlib" href="#">funções internas</a> |
+<a class="tupyReference" id="tupyMaths" href="#">funções matemáticas</a> |
+<a class="tupyReference" id="tupyGraphviz" href="#">integração com GraphViz</a>
 </p>
 
 <div id="cheatSheet"></div>
@@ -27,7 +28,8 @@ export var TUPY_CHEATSHEET = {
   tupyFunctions: "functions.tupy",
   tupyClasses: "classes.tupy",
   tupyStdlib: "stdlib.tupy",
-  tupyMaths: "maths.tupy"
+  tupyMaths: "maths.tupy",
+  tupyGraphviz: "graphviz.tupy",
 }
 
 // extraneous:
@@ -340,8 +342,9 @@ export var RUBY_EXAMPLES = {
 };
 
 export var tupyExamplesHtml = `<p style="margin-top: 25px; font-weight: bold; font-size: 13pt;">Exemplos de TuPy</p>
-
-<p style="margin-top: 5px;">
+<p style="margin-top: 5px;">a fazer</p>
+`
+/*<p style="margin-top: 5px;">
   <a class="exampleLink" id="tupyHelloWorldLink" href="#">Olá Mundo</a> |
   <a class="exampleLink" id="tupyMathsLink" href="#">Funções Matemáticas</a> |
   <a class="exampleLink" id="tupyLoopsLink" href="#">Laços</a> |
@@ -352,7 +355,7 @@ export var tupyExamplesHtml = `<p style="margin-top: 25px; font-weight: bold; fo
   <a class="exampleLink" id="tupyFunctionsLink" href="#">Funções</a> |
   <a class="exampleLink" id="tupyClassesLink" href="#">Classes</a> |
   <a class="exampleLink" id="tupyAdvClassesLink" href="#">Herança e Polimorfismo</a>
-</p>`;
+</p>`*/;
 
 export var TUPY_EXAMPLES = {
   tupyHelloWorldLink: 'helloWorld.tupy',
