@@ -1,0 +1,14 @@
+### FUNÇÕES MATEMÁTICAS ###
+
+# A linguagem TuPy também conta com algumas funções
+# embutidas que podem ser chamadas a qualquer momento
+# no programa.
+
+# As funções a seguir lidam com operações matemáticas.
+
+# Lista de funções disponíveis:
+# log, ln, raiz, exp, sinal, piso, teto, arredondar
+# graus, radianos, sen, cos, tg, arcsen, arccos, arctg
+# arctg2, senh, cosh, tgh, arsenh, arcosh, artgh
+
+# A documentar.

@@ -1,0 +1,68 @@
+### CLASSES ###
+
+# TuPy possui suporte limitado a classes e orientação a objeto.
+# Criamos um tipo composto da seguinte maneira:
+
+tipo Polígono:
+    inteiro x, y
+
+# No caso acima, definimos um tipo (ou classe) chamada Polígono com dois
+# atributos, x e y. Podemos instanciar um objeto desse tipo usando o 
+# construtor padrão, que tem o mesmo nome do tipo:
+
+Polígono P <- Polígono()
+Polígono Q 
+
+# Note que, na ausência do construtor, a instância começa com valor nulo.
+# Podemos, também, definir construtores customizados:
+
+tipo Polígono2:
+    inteiro x, y
+
+    Polígono2(inteiro a, inteiro b):
+        x, y <- a, b
+
+Polígono2 P <- Polígono2(30, 40)
+
+# Para acessar atributos de uma classe, usamos o operador '.' :
+
+escrever(P.x)                               # escreve 30
+
+# Uma classe, além de atributos, pode possuir métodos (funções internas
+# à classe que têm acesso aos atributos). Os definimos da mesma forma 
+# que funções comuns:
+
+tipo Polígono3:
+    inteiro x, y
+
+    Polígono3(inteiro a, inteiro b):
+        x, y <- a, b
+
+    cadeia formatar():
+        retornar "Polígono com X = " + cadeia(x) + " e Y = " + cadeia(y)
+
+Polígono3 P <- Polígono3(50, 60)
+cadeia R <- P.formatar()                    # R = "Polígono com X = 50 e Y = 60"
+
+# Além disso, uma classe pode estender a definição de outra
+# classe anteriormente definida, através de um princípio da
+# orientação a objeto chamado herança. Declaramos uma classe
+# que herda de outra da seguinte forma:
+
+tipo Quadrado(Polígono3):
+    inteiro lado 
+
+    Quadrado(inteiro a, inteiro b, inteiro c):
+        x, y, lado <- a, b, c
+
+    cadeia formatar():
+        retornar "Quadrado com X = " + cadeia(x) + ", Y = " + cadeia(y) + " e LADO = " + cadeia(lado)
+
+Quadrado Q <- Quadrado(10, 20, 5)
+cadeia R <- Q.formatar()                    # Q = Quadrado com X = 10, Y = 20 e LADO = 5
+
+# Perceba que os atributos x e y foram herdados diretamente de
+# Polígono3, sem necessidade de redefinição, e escolheu-se redefinir
+# o método formatar com um novo comportamento. Essa sobrescrita de
+# comportamentos para uma função de mesmo nome constitui outra
+# característica fundamental da orientação a objeto, o Polimorfismo.

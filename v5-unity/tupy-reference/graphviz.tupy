@@ -1,0 +1,92 @@
+### INTEGRAÇÃO COM GRAPHVIZ ###
+
+# Há suporte rudimentar para renderização de grafos,
+# digrafos e árvores usando o motor Graphviz.
+
+# As funções a seguir convertem uma estrutura (podendo
+# ser matriz de adjacência, lista de adjacência ou árvore)
+# para uma cadeia contendo uma definição DOT que é
+# processada automaticamente pelo visualizador e 
+# renderizada como imagem.
+
+# O usuário também pode usar a linguagem DOT para renderizar
+# estruturas arbitrárias em qualquer momento do programa
+# armazenando os comandos em uma cadeia no formato:
+
+# "[[DOT <comandos>]]"
+
+# Lista de funções disponíveis:
+# grafo_MA, grafo_LA, digrafo_MA, digrafo_LA, árvore
+
+# A documentar.
+
+# Exemplo 1 - Grafos e digrafos
+
+inteiro G[5, 5] <- [ [0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0]]
+
+inteiro LA[5, *] <- []
+
+G[1, 2] <- 1
+cadeia R <- digrafo_MA(G, [2])
+
+G[2, 1] <- 1
+cadeia R <- grafo_MA(G, [1])
+
+LA[2] <- inserir(LA[2], 3)
+cadeia R <- digrafo_LA(LA, [2])
+
+LA[3] <- inserir(LA[3], 2)
+cadeia R <- grafo_LA(LA, [2])
+
+# Exemplo 2 - árvores
+
+tipo Árvore:
+    inteiro c
+    Árvore filhos[2] <- [nulo, nulo]
+
+Árvore T <- Árvore()
+T.c <- 3
+
+inteiro L[5] <- [1, 2, 4, 5, 6]
+
+L <- embaralhar(L)
+
+----------------------------------------------------------------
+inserir_BST(ref Árvore raiz, ref Árvore ins):
+    escrever("Comparando",ins.c,"com",raiz.c)
+    se ins.c < raiz.c:
+        se raiz.filhos[0] = nulo:
+            raiz.filhos[0] <- ref ins
+            parar
+        senão:
+            escrever("O filho 0 de",raiz.c,"é",raiz.filhos[0].c)
+            inserir_BST(raiz.filhos[0], ins)
+    senão:
+        se raiz.filhos[1] = nulo:
+            raiz.filhos[1] <- ref ins
+            parar
+        senão:
+            escrever("O filho 1 de",raiz.c,"é",raiz.filhos[1].c)
+            inserir_BST(raiz.filhos[1], ins)
+
+# imprime_BST(ref Árvore atual):
+#    se atual.filhos[0] != nulo:
+#        imprime_BST(atual.filhos[0])
+#    escrever("Estou em", atual.c)
+#    se atual.filhos[1] != nulo:
+#        imprime_BST(atual.filhos[1])
+----------------------------------------------------------------
+
+inteiro i
+para i <- 1..|L|:
+    Árvore nova <- Árvore()
+    nova.c <- L[i-1]
+    inserir_BST(T, nova)
+
+cadeia arv <- árvore(T, "c", "filhos", [T], "node [shape = square]; ")
+
+#imprime_BST(T)

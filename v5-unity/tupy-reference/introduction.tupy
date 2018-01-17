@@ -38,11 +38,11 @@ escrever(S)
 # visualização de partes do código que não estejam
 # necessariamente no começo, como por exemplo:
 
-escrever("Isso será visualizado")
+escrever("O visualizador fará uma parada nesta linha...")
 --------------------
-escrever("Isso não")
+escrever("...mas por esta ele irá passar direto.")
 --------------------
-escrever("Isso também será visualizado")
+escrever("Em seguida, ele passará por esta.")
 
 # Para aprender mais sobre como construir programas TuPy,
 # visite os outros links da referência.

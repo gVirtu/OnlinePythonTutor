@@ -1,5 +1,43 @@
 ### OPERADORES ###
 
+# O operador fundamental de TuPy é o da 
+# atribuição, que pode ser usado na forma:
+
+inteiro a <- 1                 # a = 1
+
+# Ou, ainda, para múltiplos valores paralelamente:
+
+inteiro a, b <- 1, 2           # a = 1, b = 2
+
+# Esta forma também é conveniente para permutar
+# o valor de duas ou mais variáveis:
+
+inteiro c <- 3                 # a = 1, b = 2, c = 3
+a, b, c <- b, c, a             # a = 2, b = 3, c = 1
+
+# Uma atribuição geralmente é feita por VALOR,
+# isto é, a variável (ou literal) da direita é acessada
+# e seu valor é copiado para a variável da esquerda.
+
+inteiro c <- a                 # a = 2, b = 3, c = 2
+
+# No entanto, é possível fazer atribuições por REFERÊNCIA,
+# isto é, a variável da esquerda passa a referenciar
+# o mesmo dado que a variável da direita. Dessa forma,
+# a alteração de uma das variáveis implicará na alteração
+# de outra. Essa propriedade é representada no visualizador
+# como duas variáveis que possuem setas apontando para uma
+# mesma região da memória.
+
+inteiro b <- ref a             # a = 2, b = 2, c = 2
+b <- 5                         # a = 5, b = 5, c = 2
+
+# Em uma atribuição paralela, a palavra-chave 'ref' é usada
+# uma única vez:
+
+inteiro c, d <- ref a, b       # a = 5, b = 5, c = 5, d = 5
+a <- 8                         # a = 8, b = 8, c = 8, d = 8
+
 # Operadores matemáticos tradicionais estão
 # disponíveis em TuPy para manipular valores:
 #   +  -  *  / 
@@ -8,48 +46,52 @@ inteiro a <- 1 + 2 * 3         # a = 7
 
 # Expressões também podem ser parentizadas:
 
-inteiro b <- (1 + 2) * 3       # a = 9
+inteiro a <- (1 + 2) * 3       # a = 9
 
 # Os operadores de soma e multiplicação
 # também funcionam em cadeias:
 
-cadeia c <- "concat" + "enada" # c = "concatenada"
-cadeia d <- "abc" * 3          # d = "abcabcabc"
+cadeia b <- "concat" + "enada" # b = "concatenada"
+cadeia b <- "abc" * 3          # b = "abcabcabc"
 
 # Outros operadores matemáticos estão
 # demonstrados a seguir:
 
 # Exponenciação
-inteiro f <- 2^10              # f = 1024
+inteiro a <- 2^10              # a = 1024
 
 # Divisão inteira
-real g <- 5.0 div 2.0          # g = 2.0
+real c <- 5.0 div 2.0          # c = 2.0
 
 # Resto da divisão
-inteiro h <- 5 mod 3           # h = 2
+inteiro a <- 5 mod 3           # a = 2
 
 # Os seguintes operadores lógicos também
 # podem ser utilizados em TuPy:
 #     e    ou    não
 
-lógico i <- verdadeiro e falso  # i = falso
-lógico j <- verdadeiro ou falso # j = verdadeiro
-lógico k <- não falso           # k = verdadeiro
+lógico d <- verdadeiro e falso  # d = falso
+lógico d <- verdadeiro ou falso # d = verdadeiro
+lógico d <- não verdadeiro      # d = falso
 
 # Para manipulação de bits, existem os
 # operadores abaixo:
 
 # E (AND) bit a bit
-inteiro l <- 3 && 2             # l = 2
+inteiro a <- 3 && 2             # a = 2
 
 # OU (OR) bit a bit
-inteiro m <- 5 || 3             # m = 7
+inteiro a <- 5 || 3             # a = 7
 
 # NÃO (NOT) bit a bit
-inteiro n <- ~5                 # n = -6
+inteiro a <- ~5                 # a = -6
 
 # OU EXCLUSIVO (XOR) bit a bit
-inteiro o <- 6 xor 3            # o = 5
+inteiro a <- 6 xor 3            # a = 5
+
+# DESLOCAMENTO (LEFT/RIGHT SHIFT) bit a bit
+inteiro a <- 4 << 2             # a = 16
+inteiro a <- 64 >> 1            # a = 32
 
 # Existe, ainda, um operador para calcular
 # a cardinalidade:
@@ -61,6 +103,6 @@ cadeia palavra <- "TuPy"
 inteiro lista[*] <- [0, 1, 2, 3, 4, 5]
 --------------------------------------
 
-inteiro p <- |valor|            # p = 1
-inteiro q <- |palavra|          # q = 4
-inteiro r <- |lista|            # r = 6
+inteiro a <- |valor|            # a = 1
+inteiro a <- |palavra|          # a = 4
+inteiro a <- |lista|            # a = 6

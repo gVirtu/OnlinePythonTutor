@@ -7,11 +7,27 @@
 #    cadeia => para cadeias de caracteres (strings)
 #    lógico => para verdadeiro / falso (booleanos)
 
+# OBS: O operador '<-' é o operador de atribuição, com ele
+#      é possível salvar valores na memória em variáveis,
+#      desde que os tipos utilizados estejam corretos.
+#         ex:   a <- 5    # lê-se 'a recebe 5'
+#                         # O valor 5 fica salvo em a e
+#                         # pode ser recuperado no futuro.
+
 inteiro i <- 329
 real r <- 3.29
 caracter c <- 'k'
 cadeia s <- "TuPy"
 lógico L <- verdadeiro
+
+# Para literais do tipo inteiro, podemos usar o prefixo
+# '0b', '0o' ou '0x' para usar representações na base
+# binária, octal ou hexadecimal. Na visualização, eles
+# ainda aparecerão na base decimal.
+
+inteiro i <- 0b110        # i = 6
+inteiro i <- 0o10         # i = 8
+inteiro i <- 0xFF         # i = 255
 
 # Em TuPy, qualquer palavra reservada que possui
 # acentos pode ser digitada sem eles. Portanto,
@@ -29,6 +45,12 @@ cadeia t # t é igual a ""
 # poderá operar com outras variáveis.
 
 inteiro n <- nulo
+
+# Existe uma constante real 'pi' para ser 
+# usada com funções matemáticas. Ela também
+# pode ser usada como 'π'.
+
+real dois_pi <- 2.0 * π
 
 # Para converter o tipo de uma variável, use
 # o nome do tipo desejado como uma função:
