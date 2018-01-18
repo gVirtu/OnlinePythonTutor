@@ -20,7 +20,7 @@ import {eureka_survey,eureka_prompt,eureka_survey_version} from './surveys';
 require('./lib/jquery-3.0.0.min.js');
 require('./lib/jquery.qtip.js');
 require('../css/jquery.qtip.css');
-require('../css/firacode/fira_code.css');
+require('../fonts/firacode/fira_code.css');
 
 // for TypeScript
 declare var initCodeopticon: any; // FIX later when porting Codeopticon
