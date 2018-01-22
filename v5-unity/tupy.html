@@ -25,6 +25,14 @@ window.optOverride.frontendLang = 'tupy'; // hacky override before including vis
     #optionsPane {
         display: none;
     }
+
+    #inputTextArea {
+      width: 100%;
+      margin: 0px;
+      box-sizing: border-box;
+      overflow: hidden;
+      resize: vertical;
+    }
   </style>
 <!-- insert google-analytics.txt contents here -->
 
@@ -51,9 +59,9 @@ Tutor TuPy - Visualização de códigos em Português - Trabalho de Conclusão d
 
 <div id="pyInputPane">
 
-<div id="codeInputWarnings">Escreva código em
+<div id="codeInputWarnings">Escreva seu programa TuPy abaixo:
 
-  <select id="pythonVersionSelector">
+  <select id="pythonVersionSelector" style="display:none">
     <option value="tupy">TuPy 1.0</option>
   </select>
 
@@ -62,6 +70,9 @@ Tutor TuPy - Visualização de códigos em Português - Trabalho de Conclusão d
 <div id="someoneIsTypingDiv" style="color: #e93f34; font-weight: bold; display: none;">Someone is typing ...</div>
 
 <div id="codeInputPane"></div> <!-- populate with Ace code editor instance -->
+<div id="userInputPane">
+  <textarea id="inputTextArea" spellcheck="false" placeholder="Digite a entrada de seu programa aqui..." rows="10"></textarea>
+</div>
 <div id="frontendErrorOutput"></div>
 <div id="surveyPane"></div>
 

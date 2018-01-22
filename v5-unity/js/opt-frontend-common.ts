@@ -286,7 +286,7 @@ export abstract class AbstractBaseFrontend {
   executeCodeAndCreateViz(codeToExec,
                           pyState,
                           backendOptionsObj, frontendOptionsObj,
-                          outputDiv) {
+                          outputDiv, userInput = "") {
     var vizCallback = (dataFromBackend) => {
       var trace = dataFromBackend.trace;
       var killerException = null;
@@ -350,7 +350,7 @@ export abstract class AbstractBaseFrontend {
     this.executeCodeAndRunCallback(codeToExec,
                                    pyState,
                                    backendOptionsObj, frontendOptionsObj,
-                                   vizCallback.bind(this));
+                                   vizCallback.bind(this), userInput);
   }
 
   // execute code and call the execCallback function when the server
@@ -358,7 +358,7 @@ export abstract class AbstractBaseFrontend {
   executeCodeAndRunCallback(codeToExec,
                             pyState,
                             backendOptionsObj, frontendOptionsObj,
-                            execCallback) {
+                            execCallback, userInput = "") {
       var callbackWrapper = (dataFromBackend) => {
         execCallback(dataFromBackend); // call the main event first
 
@@ -439,6 +439,7 @@ export abstract class AbstractBaseFrontend {
         //assert (pyState === '2' || pyState === '3');
         $.get(backendScript,
               {user_script : codeToExec,
+               user_input : userInput, 
                raw_input_json: this.rawInputLst.length > 0 ? JSON.stringify(this.rawInputLst) : '',
                options_json: JSON.stringify(backendOptionsObj),
                user_uuid: this.userUUID,

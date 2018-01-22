@@ -17,10 +17,11 @@ if len(sys.argv) > 1:
 else:
   form = cgi.FieldStorage()
   user_script = form['user_script'].value
+  user_input = form['user_input'].value
   if 'raw_input_json' in form:
     raw_input_json = form['raw_input_json'].value
   if 'options_json' in form:
     options_json = form['options_json'].value
 
 print("Content-type: text/plain; charset=iso-8859-1\n")
-tupy.Interpreter.Interpreter.interpret(user_script, trace=True)
+tupy.Interpreter.Interpreter.interpret(user_script, trace=True, stdin=user_input)

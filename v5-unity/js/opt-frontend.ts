@@ -425,7 +425,8 @@ export class OptFrontend extends AbstractBaseFrontend {
                                  $('#pythonVersionSelector').val(),
                                  backendOptionsObj,
                                  frontendOptionsObj,
-                                 'pyOutputPane');
+                                 'pyOutputPane',
+                                 $('#inputTextArea').val());
 
     this.initDeltaObj(); // clear deltaObj to start counting over again
   }
