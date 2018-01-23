@@ -2662,8 +2662,8 @@ class DataVisualizer {
 
             var resultImg = Viz.svgXmlToPngImageElement(resultSvg, 1, function(err, img) {
               var myElement = tempElement.html( '<img src="' + img.src + 
-                                                '" width="' + img.width/2 +
-                                                '" height="' + img.height/2 + '"/>');
+                                                '" width="' + img.width*0.75 +
+                                                '" height="' + img.height*0.75 + '"/>');
               myViz.redrawConnectors()
             })
           } else {
