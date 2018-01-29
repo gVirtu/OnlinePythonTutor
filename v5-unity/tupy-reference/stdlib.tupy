@@ -5,10 +5,11 @@
 # no programa.
 
 # Lista de funções disponíveis:
-# escrever, binário, octal, hexadecimal,
+# escrever, ler, ler_linha, asserção,
+# binário, octal, hexadecimal,
 # cadeia, caracter, inteiro, real, lógico,
-# lista, embaralhar, inserir, remover, mín, máx, abs,
-# aleatório, inteiro_aleatório
+# lista, juntar, embaralhar, inserir, remover, 
+# mín, máx, abs, aleatório, inteiro_aleatório
 
 #----------------------------------------------------------------------
 ## escrever(x1, x2... xn)
@@ -22,6 +23,52 @@
 #          separados por espaço. 
 
 escrever("Olá", "mundo!", ':', ')')      # escreve "Olá mundo! : )"
+
+#----------------------------------------------------------------------
+## ler(x1, x2... xn)
+
+# Parâmetros:
+#   arbitrários (todos por referência)
+
+# Atribui às variáveis x1 a xn os n primeiros fragmentos de entrada
+# do usuário lidos, em que cada fragmento é delimitado por um ou mais
+# espaços, quebras de linha, ou tabulações.
+
+# Retorna: Um inteiro menor ou igual a n, representando a quantidade
+#          de atribuições feitas com sucesso.
+
+ler(a, b, c)                             # atribui valores às variáveis
+                                         # a, b e c caso não seja atingido
+                                         # o fim de arquivo.
+
+#----------------------------------------------------------------------
+## ler_linha(x)
+
+# Parâmetros:
+#   x (cadeia)
+
+# Atribui à variável x o conteúdo da próxima linha da entrada do usuário.
+
+# Retorna: Verdadeiro caso a leitura tenha sido feita com sucesso,
+#          falso caso contrário.
+
+ler_linha(L)                             # atribui valor à variável L
+                                         # caso não seja atingido o 
+                                         # fim de arquivo.
+
+#----------------------------------------------------------------------
+## asserção(x)
+
+# Parâmetros:
+#   x (lógico)
+
+# Interrompe a execução do programa se a condição definida por x
+# não for atendida.
+
+# Não possui retorno.
+
+asserção(9 < 10)      # prossegue a execução do programa
+asserção((2 + 2) = 5) # interrompe a execução do programa
 
 #----------------------------------------------------------------------
 ## binário(x)
@@ -127,6 +174,19 @@ lógico r <- lógico("")                   # r = falso
 #          separador. 
 
 cadeia r[*] <- lista("1, 2, 3, 4", ", ") # r = ["1", "2", "3", "4"]
+
+#----------------------------------------------------------------------
+## juntar(x, s = ' ')
+
+# Parâmetros:
+#   x (lista)
+#   s (cadeia)
+
+# Retorna: Uma cadeia resultante da concatenação dos elementos contidos
+#          em x usando s como separador. Caso x não contenha cadeias,
+#          os elementos serão convertidos automaticamente.
+
+cadeia r <- juntar([1, 2, 3, 4], ", ")   # r = "1, 2, 3, 4"
 
 #----------------------------------------------------------------------
 ## embaralhar(x)

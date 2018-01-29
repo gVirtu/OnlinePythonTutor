@@ -167,3 +167,16 @@ para i, j <- 1..4, 1..4:            # Escreve 1 1
                                     #         3 1
                                     #         3 2
                                     #         3 3
+
+## Asserções
+
+# A linguagem TuPy também dispõe de uma função
+# interna para garantir que uma condição especificada
+# está sendo satisfeita, interrompendo a execução
+# do programa caso contrário.
+
+inteiro a <- 5
+inteiro b <- 7
+asserção(a < b)
+asserção(verdadeiro)
+asserção(b = a)      # Asserção violada!

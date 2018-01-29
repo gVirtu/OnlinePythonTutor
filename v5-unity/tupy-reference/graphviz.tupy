@@ -1,10 +1,11 @@
 ### INTEGRAÇÃO COM GRAPHVIZ ###
 
-# Há suporte rudimentar para renderização de grafos,
-# digrafos e árvores usando o motor Graphviz.
+# Há suporte rudimentar para renderização de estruturas
+# de dados usando o motor dot da ferramenta Graphviz.
+# Isso foi tornado possível graças à biblioteca Viz.js.
+# (https://github.com/mdaines/viz.js/)
 
-# As funções a seguir convertem uma estrutura (podendo
-# ser matriz de adjacência, lista de adjacência ou árvore)
+# As funções a seguir possibilitam converter uma estrutura 
 # para uma cadeia contendo uma definição DOT que é
 # processada automaticamente pelo visualizador e 
 # renderizada como imagem.
@@ -15,10 +16,230 @@
 
 # "[[DOT <comandos>]]"
 
-# Lista de funções disponíveis:
-# grafo_MA, grafo_LA, digrafo_MA, digrafo_LA, árvore
+# Você pode aprender mais sobre a linguagem DOT com este
+# guia (em inglês): http://www.graphviz.org/pdf/dotguide.pdf
 
-# A documentar.
+# Lista de funções disponíveis:
+
+# vetor, pilha, fila, matriz, árvore,
+# grafo_MA, grafo_LA, digrafo_MA, digrafo_LA,
+# grafo_valorado_MA, grafo_valorado_LA,
+# digrafo_valorado_MA, digrafo_valorado_LA
+
+#----------------------------------------------------------------------
+## vetor(V, d = [], x = "")
+
+# Parâmetros:
+#   V (lista unidimensional)
+#   d (lista de inteiros)
+#   x (cadeia)
+
+# Retorna: Uma cadeia com a descrição da estrutura a ser renderizada.
+
+# Caso a cadeia seja armazenada em uma variável, o vetor V será renderizado. 
+# Opcionalmente, uma ou mais posições do vetor podem ser destacadas em outra
+# cor. Para isso, especifique as posições de destaque na lista d. A cadeia x,
+# também opcional, pode ser usada para inserir comandos adicionais ao 
+# subprograma dot dentro da mesma estrutura 'digraph'.
+
+# Na definição gerada, o vetor inteiro é uma tabela contida no nó 1.
+# Cada posição do vetor pode ser referenciada por '1:vY' em que Y é o
+# índice do elemento. Por exemplo, '2 -> 1:v0' cria um nó 2 que aponta 
+# para o primeiro elemento do vetor.
+
+# Também é possível referenciar os cabeçalhos das colunas que estão 
+# identificados como '1:cY'.
+
+inteiro V[*] <- [1, 5, 100, 7, 9]
+cadeia X <- vetor(V)
+cadeia X <- vetor(V, [1])
+cadeia X <- vetor(V, [1], "2 -> 1:v3:s; 2 [label=\"Veja!\"]; rankdir=\"BT\"")
+
+#----------------------------------------------------------------------
+## pilha(V, d = [], x = "")
+
+# Parâmetros:
+#   V (lista unidimensional)
+#   d (lista de inteiros)
+#   x (cadeia)
+
+# Retorna: Uma cadeia com a descrição da estrutura a ser renderizada.
+
+# Caso a cadeia seja armazenada em uma variável, o vetor V será renderizado
+# no formato de pilha. Os parâmetros d e x funcionam da mesma maneira como
+# na função vetor.
+
+# É importante destacar que, na definição gerada, o nó 0 é reservado e invisível,
+# localizado acima da pilha. Os identificadores de colunas '1:cY' do vetor
+# também são substituídos por identificadores de linhas '1:rY'.
+
+inteiro V[*] <- [1, 5, 100, 7, 9]
+cadeia X <- pilha(V)
+cadeia X <- pilha(V, [1])
+cadeia X <- pilha(V, [1], "2 -> 1:v3:w; 2 [label=\"Veja!\"]; {rank=\"same\"; 1; 2}")
+
+#----------------------------------------------------------------------
+## fila(V, d = [], x = "")
+
+# Parâmetros:
+#   V (lista unidimensional)
+#   d (lista de inteiros)
+#   x (cadeia)
+
+# Retorna: Uma cadeia com a descrição da estrutura a ser renderizada.
+
+# Caso a cadeia seja armazenada em uma variável, o vetor V será renderizado
+# no formato de fila. Os parâmetros d e x funcionam da mesma maneira como
+# na função vetor.
+
+# É importante destacar que, na definição gerada, os nós F e C são reservados 
+# e invisíveis, localizados à esquerda e à direita da fila, respectivamente.
+
+inteiro V[*] <- [1, 5, 100, 7, 9]
+cadeia X <- fila(V)
+cadeia X <- fila(V, [1])
+cadeia X <- fila(V, [1], "2 -> C; 2 [label=\"Começo da fila!\"];"
+                         "3 -> F; 3 [label=\"Fim da fila!\"];")
+
+#----------------------------------------------------------------------
+## matriz(M, d = [], x = "")
+
+# Parâmetros:
+#   M (lista bidimensional)
+#   d (lista de pares [x, y] de inteiros)
+#   x (cadeia)
+
+# Retorna: Uma cadeia com a descrição da estrutura a ser renderizada.
+
+# Caso a cadeia seja armazenada em uma variável, a matriz M será renderizada. 
+# Opcionalmente, uma ou mais posições da matriz podem ser destacadas em outra
+# cor. Para isso, especifique as posições de destaque na lista d. A cadeia x,
+# também opcional, pode ser usada para inserir comandos adicionais ao 
+# subprograma dot dentro da mesma estrutura 'digraph'.
+
+# Na definição gerada, a matriz inteira é uma tabela contida no nó 1.
+# Cada posição da matriz pode ser referenciada por '1:vI_J' em que I é a
+# linha e J a coluna do elemento. Por exemplo, '2 -> 1:v0_1' cria um nó 2 
+# que aponta para o segundo elemento da primeira linha da matriz.
+
+# Também é possível referenciar os cabeçalhos das colunas e prefixos das 
+# linhas, que estão identificados como '1:cJ' e '1:rI' respectivamente.
+# O identificador '1:rc' aponta para a célula vazia à esquerda do primeiro
+# cabeçalho de coluna.
+
+inteiro M[*,*] <- [ [1, 2, 7],
+                    [4, 8, 5],
+                    [9, 3, 6] ]
+cadeia X <- matriz(M)
+cadeia X <- matriz(M, [[1,2], [0,0]])                  
+cadeia X <- matriz(M, [[1,2], [0,0]], "2 -> 1:v2_2:e; 2 [label=\"Veja!\"]; "
+                                      "rankdir=\"BT\"")
+
+#----------------------------------------------------------------------
+## árvore(T, nc, nf, d = [], x = "")
+
+# Parâmetros:
+#   T (estrutura)
+#   nc (cadeia)
+#   nf (cadeia)
+#   d (lista de estruturas)
+#   x (cadeia)
+
+# Retorna: Uma cadeia com a descrição da estrutura a ser renderizada.
+
+# Caso a cadeia seja armazenada em uma variável, a árvore com raiz T será
+# renderizada. As cadeias nc e nf devem fornecer os nomes dos atributos
+# definidos na classe de T que simbolizam, respectivamente, o valor da chave
+# e a lista de filhos de um nó.
+# Opcionalmente, um ou mais nós podem ser destacados em outra
+# cor. Para isso, inclua os nós em destaque na lista d. A cadeia x,
+# também opcional, pode ser usada para inserir comandos adicionais ao 
+# subprograma dot dentro da mesma estrutura 'digraph'.
+
+tipo Nó:
+  inteiro chv
+  Nó fs[*]
+  
+  Nó(inteiro c):
+    chv <- c
+  
+Nó T, A, B, C, D <- Nó(5), Nó(1), Nó(3), Nó(2), Nó(4)
+T.fs <- [ref A, ref B]
+B.fs <- [ref C, ref D]      # ERRORS out
+
+#----------------------------------------------------------------------
+## grafo_MA(M, d = [], da = [], x = "")
+
+# Parâmetros:
+#   M (lista bidimensional)
+#   d (lista de inteiros)
+#   da (lista de pares [u, v] de inteiros)
+#   x (cadeia)
+
+#----------------------------------------------------------------------
+## grafo_LA(L, d = [], da = [], x = "")
+
+# Parâmetros:
+#   L (lista bidimensional)
+#   d (lista de inteiros)
+#   da (lista de pares [u, v] de inteiros)
+#   x (cadeia)
+
+#----------------------------------------------------------------------
+## digrafo_MA(M, d = [], da = [], x = "")
+
+# Parâmetros:
+#   M (lista bidimensional)
+#   d (lista de inteiros)
+#   da (lista de pares [u, v] de inteiros)
+#   x (cadeia)
+
+#----------------------------------------------------------------------
+## digrafo_LA(L, d = [], da = [], x = "")
+
+# Parâmetros:
+#   L (lista bidimensional)
+#   d (lista de inteiros)
+#   da (lista de pares [u, v] de inteiros)
+#   x (cadeia)
+
+#----------------------------------------------------------------------
+## grafo_valorado_MA(M, d = [], da = [], x = "")
+
+# Parâmetros:
+#   M (lista bidimensional)
+#   d (lista de inteiros)
+#   da (lista de pares [u, v] de inteiros)
+#   x (cadeia)
+
+#----------------------------------------------------------------------
+## grafo_valorado_LA(L, d = [], da = [], x = "")
+
+# Parâmetros:
+#   L (lista tridimensional)
+#   d (lista de inteiros)
+#   da (lista de pares [u, v] de inteiros)
+#   x (cadeia)
+
+#----------------------------------------------------------------------
+## digrafo_valorado_MA(M, d = [], da = [], x = "")
+
+# Parâmetros:
+#   M (lista bidimensional)
+#   d (lista de inteiros)
+#   da (lista de pares [u, v] de inteiros)
+#   x (cadeia)
+
+#----------------------------------------------------------------------
+## digrafo_valorado_LA(L, d = [], da = [], x = "")
+
+# Parâmetros:
+#   L (lista tridimensional)
+#   d (lista de inteiros)
+#   da (lista de pares [u, v] de inteiros)
+#   x (cadeia)
+
+#----------------------------------------------------------------------
 
 # Exemplo 1 - Grafos e digrafos
 

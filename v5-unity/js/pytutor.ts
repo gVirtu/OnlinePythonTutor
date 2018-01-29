@@ -2655,17 +2655,21 @@ class DataVisualizer {
           var isGraphviz = (typeName === 'cadeia' && typeof obj[3] === 'string' && dotRegexp.test(obj[3]))
 
           if (isGraphviz) {
-            d3DomElement.append('<div class="cdataHeader">' + leader + 'grafo' + '</div>');
-            var dotSrc = dotRegexp.exec(obj[3])[1]
-            var resultSvg = Viz(dotSrc);
-            var tempElement = d3DomElement.append('<div id="' + cdataId + '" class="cdataElt"></div>')
+            d3DomElement.append('<div class="cdataHeader">' + leader + 'graphViz' + '</div>');
+            try {
+              var dotSrc = dotRegexp.exec(obj[3])[1]
+              var resultSvg = Viz(dotSrc);
+              var tempElement = d3DomElement.append('<div id="' + cdataId + '" class="cdataElt"></div>')
 
-            var resultImg = Viz.svgXmlToPngImageElement(resultSvg, 1, function(err, img) {
-              var myElement = tempElement.html( '<img src="' + img.src + 
-                                                '" width="' + img.width*0.75 +
-                                                '" height="' + img.height*0.75 + '"/>');
-              myViz.redrawConnectors()
-            })
+              var resultImg = Viz.svgXmlToPngImageElement(resultSvg, 1, function(err, img) {
+                var myElement = tempElement.html( '<img src="' + img.src + 
+                                                  '" width="' + img.width*0.75 +
+                                                  '" height="' + img.height*0.75 + '"/>');
+                myViz.redrawConnectors()
+              })
+            } catch(err) {
+              d3DomElement.append('<div id="' + cdataId + '" class="cdataElt">erro de sintaxe!</div>')
+            }
           } else {
             // for non-pointers, put cdataId on the element itself, so that
             // pointers can point directly at the element, not the header
