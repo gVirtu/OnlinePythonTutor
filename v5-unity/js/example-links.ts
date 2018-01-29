@@ -5,11 +5,12 @@ export var exampleHeaderHtml = `<p style="margin-top: 25px; font-weight: bold; f
 <p style="margin-top: 10px;">
 <a class="tupyReference" id="tupyIntroduction" href="#">introdução</a> |
 <a class="tupyReference" id="tupyDatatypes" href="#">tipos de dados</a> |
+<a class="tupyReference" id="tupyIO" href="#">entrada/saída</a> |
 <a class="tupyReference" id="tupyOperators" href="#">operadores</a> |
 <a class="tupyReference" id="tupyArrays" href="#">vetores e matrizes</a> |
 <a class="tupyReference" id="tupyControlFlow" href="#">estruturas de controle</a> |
 <a class="tupyReference" id="tupyFunctions" href="#">funções</a> |
-<a class="tupyReference" id="tupyClasses" href="#">classes</a><br/>
+<a class="tupyReference" id="tupyClasses" href="#">classes</a> |
 <a class="tupyReference" id="tupyStdlib" href="#">funções internas</a> |
 <a class="tupyReference" id="tupyMaths" href="#">funções matemáticas</a> |
 <a class="tupyReference" id="tupyGraphviz" href="#">integração com GraphViz</a>
@@ -22,6 +23,7 @@ export var exampleHeaderHtml = `<p style="margin-top: 25px; font-weight: bold; f
 export var TUPY_CHEATSHEET = {
   tupyIntroduction: "introduction.tupy",
   tupyDatatypes: "datatypes.tupy",
+  tupyIO: "io.tupy",
   tupyOperators: "operators.tupy",
   tupyArrays: "arrays.tupy",
   tupyControlFlow: "controlflow.tupy",

@@ -55,7 +55,7 @@ senão:                              # será executado.
   escrever("Três ou menos!")
   
 # Deve ser destacado que TuPy considera qualquer
-# valor não-zero (ou cadeia vazia) como verdadeiro
+# valor não-zero (e não-cadeia-vazia) como verdadeiro
 # quando utilizado em avaliações. Assim:
 
 inteiro a <- 5
@@ -77,8 +77,8 @@ enquanto(a):                        # Escreve 3
   escrever(a)                       #         2
   a <- a - 1                        #         1
   
-# Certifique-se que o bloco de código que
-# é executado repetidamente pode fazer com que
+# Certifique-se que o bloco de código que é 
+# executado repetidamente será capaz de fazer com que
 # a condição se invalide em algum momento!
 # Caso contrário, seu loop será infinito e
 # sua execução é abortada, como no caso a seguir:
@@ -97,16 +97,29 @@ para i <- 1 até 5:
                                     #         2
                                     #         3
                                     #         4
-                                    #         5
   
 # O exemplo acima irá atribuir, em sequência,
-# os valores 1, 2, 3, 4 e 5 ao inteiro i, e
+# os valores 1, 2, 3 e 4 ao inteiro i, e
 # para cada um desses valores irá executar o
 # bloco indentado de código que se segue.
 # Um jeito equivalente de escrever esse loop:
 
 inteiro i
 para i <- 1..5:
+  escrever(i)
+
+# Pode-se utilizar a palavra-chave 'inclusive'
+# após o intervalo desejado (ou 'incl.') para
+# especificar que o fim do intervalo estará
+# incluso. Nesse exemplo, isto faria com que
+# o inteiro i também recebesse o valor 5:
+
+inteiro i
+para i <- 1..5 incl.:
+  escrever(i)
+
+inteiro i
+para i <- 1 até 5 inclusive:
   escrever(i)
   
 # Caso o intervalo estipulado contenha variáveis,
@@ -117,7 +130,7 @@ para i <- 1..5:
 
 inteiro a, b <- 5, 1
 inteiro i
-para i <- a..b:
+para i <- a..b inclusive:
   escrever(i)                       # Escreve 5
                                     #         4
                                     #         3
@@ -138,14 +151,14 @@ para i <- 1..10 passo 2:            # Escreve 1
 # representados em uma única linha em TuPy:
 
 inteiro i, j
-para i <- 1..3:
-  para j <- 1..3:
+para i <- 1..4:
+  para j <- 1..4:
     escrever(i, j)
     
 # É equivalente a...
 
 inteiro i, j
-para i, j <- 1..3, 1..3:            # Escreve 1 1
+para i, j <- 1..4, 1..4:            # Escreve 1 1
   escrever(i, j)                    #         1 2
                                     #         1 3
                                     #         2 1

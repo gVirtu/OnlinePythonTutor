@@ -11,6 +11,10 @@ inteiro função(inteiro x):
 
 inteiro y <- função(30)       # y = 900
 
+# OBS: Funções definidas pelo usuário devem obedecer a 
+#      acentuação escolhida. e.g.: Não seria possível
+#      invocar 'função' utilizando 'funcao'!
+
 # O tipo que precede o nome da função
 # define qual será o tipo do seu valor
 # de retorno. Porém, funções não precisam
@@ -43,7 +47,7 @@ soma_dois(ref inteiro x):     # 'x' é passado por referência
   x <- x + 2
   
 inteiro a <- 10
-soma_dois(a)                  # toda referência a 'x' será uma
+soma_dois(a)                  # toda ocorrência de 'x' será uma
                               # referência a 'a'
 escrever(a)                   # a = 12
 

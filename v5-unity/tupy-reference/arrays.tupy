@@ -30,6 +30,13 @@ inteiro V[6]                    # V = [0, 0, 0, 0, 0, 0]
 V[*] <- 5                       # V = [5, 5, 5, 5, 5, 5]
 V[2..3] <- 10                   # V = [5, 5, 10, 10, 5, 5]
 
+# Índices negativos também podem ser utilizados.
+# -1 será o último elemento do vetor, -2 será o penúltimo,
+# e assim por diante.
+
+V[-1] <- 9                      # V = [5, 5, 10, 10, 5, 9]
+v[-3..-1] <- 1                  # V = [5, 5, 10, 1, 1, 1]
+
 # Criando vetores de vetores obtemos matrizes,
 # conjuntos ordenados finitos de duas dimensões.
 

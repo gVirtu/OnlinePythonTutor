@@ -413,11 +413,11 @@ export class ExecutionVisualizer {
 
       // add an extra label to link back to the main site, so that viewers
       // on the embedded page know that they're seeing an OPT visualization
-      base.append('<div style="font-size: 8pt; margin-bottom: 10px;">Visualized using <a href="http://pythontutor.com" target="_blank" style="color: #3D58A2;">Python Tutor</a> by <a href="http://www.pgbovine.net/" target="_blank" style="color: #3D58A2;">Philip Guo</a> (<a href="https://twitter.com/pgbovine" target="_blank" style="color: #3D58A2;">@pgbovine</a>)</div>');
+      base.append('<div style="font-size: 8pt; margin-bottom: 10px;">Visualização adaptada de <a href="http://pythontutor.com" target="_blank" style="color: #3D58A2;">Python Tutor</a> por <a href="http://www.pgbovine.net/" target="_blank" style="color: #3D58A2;">Philip Guo</a> (<a href="https://twitter.com/pgbovine" target="_blank" style="color: #3D58A2;">@pgbovine</a>)</div>');
       base.find('#codeFooterDocs').hide(); // cut out extraneous docs
     } else {
       // also display credits:
-      base.append('<div style="font-size: 8pt; margin-bottom: 10px;">Visualized using <a href="http://pythontutor.com" target="_blank" style="color: #3D58A2;">Python Tutor</a> by <a href="http://www.pgbovine.net/" target="_blank" style="color: #3D58A2;">Philip Guo</a> (<a href="https://twitter.com/pgbovine" target="_blank" style="color: #3D58A2;">@pgbovine</a>)</div>');
+      base.append('<div style="font-size: 8pt; margin-bottom: 10px;">Visualização adaptada de <a href="http://pythontutor.com" target="_blank" style="color: #3D58A2;">Python Tutor</a> por <a href="http://www.pgbovine.net/" target="_blank" style="color: #3D58A2;">Philip Guo</a> (<a href="https://twitter.com/pgbovine" target="_blank" style="color: #3D58A2;">@pgbovine</a>)</div>');
     }
 
     // not enough room for these extra buttons ...
@@ -1852,18 +1852,18 @@ class DataVisualizer {
 
     heapRows
       .filter(function(d) {
-        console.log("CHECKING ROW "+this.id)
+        //console.log("CHECKING ROW "+this.id)
         var validChildren = myViz.domRootD3
           .select("#" + this.id)
           .selectAll('td.toplevelHeapObject');
 
-        console.log(validChildren);
+        //console.log(validChildren);
 
         validChildren = validChildren
           .filter(function(d) {
-            console.log(this.id)
-            console.log(d)
-            console.log(curEntry.heap[d])
+            //console.log(this.id)
+            //console.log(d)
+            //console.log(curEntry.heap[d])
             return curEntry.heap[d] !== undefined;
           })
         
@@ -3672,6 +3672,29 @@ class NavigationController {
                    </div>';
 
     this.domRoot.append(navHTML);
+
+    $(document).keydown(function(e) {
+      switch(e.which) {
+          case 35: // end
+          owner.renderStep(nSteps - 1);
+          break;
+
+          case 36: // home
+          owner.renderStep(0);
+          break;
+
+          case 37: // left
+          owner.stepBack();
+          break;
+  
+          case 39: // right
+          owner.stepForward();
+          break;
+  
+          default: return; // exit this handler for other keys
+      }
+      e.preventDefault(); // prevent the default action (scroll / move caret)
+    });
 
     this.domRoot.find("#jmpFirstInstr").click(() => {this.owner.renderStep(0);});
     this.domRoot.find("#jmpLastInstr").click(() => {this.owner.renderStep(this.nSteps - 1);});

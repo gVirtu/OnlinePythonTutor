@@ -808,6 +808,7 @@ $(document).ready(function() {
 
     $.get(exFile, function(dat) {
       optFrontend.cheatSheetEditor.setValue(dat, -1)
+      optFrontend.cheatSheetEditor.scrollToLine(0)
     }, 'text' /* data type - set to text or else jQuery tries to EXECUTE the JS example code, haha, eeek! */);
     return false; // prevent an HTML 'a' element click from going to a link
   });

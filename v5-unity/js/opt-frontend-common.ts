@@ -437,15 +437,21 @@ export abstract class AbstractBaseFrontend {
       } else {
         // for Python 2 or 3, directly execute backendScript
         //assert (pyState === '2' || pyState === '3');
-        $.get(backendScript,
-              {user_script : codeToExec,
-               user_input : userInput, 
-               raw_input_json: this.rawInputLst.length > 0 ? JSON.stringify(this.rawInputLst) : '',
-               options_json: JSON.stringify(backendOptionsObj),
-               user_uuid: this.userUUID,
-               session_uuid: this.sessionUUID,
-               diffs_json: deltaObjStringified},
-               callbackWrapper, "json");
+        var data = {"user_script" : codeToExec,
+                    "user_input" : userInput, 
+                    //raw_input_json: this.rawInputLst.length > 0 ? JSON.stringify(this.rawInputLst) : '',
+                    //options_json: JSON.stringify(backendOptionsObj),
+                    "user_uuid": this.userUUID,
+                    "session_uuid": this.sessionUUID}
+                    //diffs_json: deltaObjStringified}
+        $.ajax({
+          url : backendScript,
+          type: "post",
+          data: JSON.stringify(data),
+          dataType: "json",
+          contentType: "application/json",
+          success: callbackWrapper
+        });
       }
   }
 

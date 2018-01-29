@@ -1,4 +1,7 @@
 export var footerHtml = `
+<!-- 
+--Using POST requests to allow for longer code for now, embeds and permalinks will not currently work--
+
 <p>
   <button id="genUrlBtn" class="smallBtn" type="button">Gerar link permanente</button> <input type="text" id="urlOutput" size="70"/>
 </p>
@@ -20,6 +23,7 @@ descrição e envie um email para giandroberto@yahoo.com.br</p>
 página. Ajuste os parâmetros de largura e altura (width/height) e
 mude o link para <b>https://</b> se necessário.</p>
 </div>
+-->
 
 <p style="margin-top: 25px;">
 <a href="http://pythontutor.com/">Python Tutor</a> (<a href="https://github.com/pgbovine/OnlinePythonTutor">código no GitHub</a>) suporta sete

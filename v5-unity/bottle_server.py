@@ -11,7 +11,7 @@
 # easy_install pip
 # pip install bottle
 
-from bottle import route, get, request, run, template, static_file
+from bottle import route, get, request, run, template, static_file, BaseRequest
 try:
     import StringIO # NB: don't use cStringIO since it doesn't support unicode!!!
 except:
@@ -21,6 +21,7 @@ import pg_logger
 import tupy.Interpreter
 import os
 
+BaseRequest.MEMFILE_MAX = 1024 * 1024
 
 @route('/web_exec_<name:re:.+>.py')
 @route('/LIVE_exec_<name:re:.+>.py')
@@ -37,9 +38,9 @@ def index(filepath):
     response.set_header("Cache-Control", "public, max-age=1")
     return response
 
-@route('/web_exec_tupy.py')
+@route('/web_exec_tupy.py', method='POST')
 def get_tupy_exec():
-    return tupy.Interpreter.Interpreter.interpret(request.query.user_script, trace=True, stdin=request.query.user_input)
+    return tupy.Interpreter.Interpreter.interpret(request.json["user_script"], trace=True, stdin=request.json["user_input"])
 
 # Note that this will run either Python 2 or 3, depending on which
 # version of Python you used to start the server, REGARDLESS of which

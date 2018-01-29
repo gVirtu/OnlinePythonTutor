@@ -7,7 +7,11 @@ tipo Polígono:
     inteiro x, y
 
 # No caso acima, definimos um tipo (ou classe) chamada Polígono com dois
-# atributos, x e y. Podemos instanciar um objeto desse tipo usando o 
+# atributos, x e y. TuPy não implementa modificadores de acesso, portanto
+# todos os dados contidos em um objeto serão acessíveis por qualquer ponto 
+# do programa. Nesse exemplo, portanto, os atributos 'x' e 'y' são PÚBLICOS.
+
+# Podemos instanciar um objeto do tipo Polígono usando o 
 # construtor padrão, que tem o mesmo nome do tipo:
 
 Polígono P <- Polígono()

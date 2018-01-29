@@ -29,6 +29,11 @@ inteiro i <- 0b110        # i = 6
 inteiro i <- 0o10         # i = 8
 inteiro i <- 0xFF         # i = 255
 
+# Podemos concatenar literais do tipo cadeia utilizando-os
+# lado a lado:
+
+cadeia s <- ("isso" "e" "aquilo")   # s = "issoeaquilo"
+
 # Em TuPy, qualquer palavra reservada que possui
 # acentos pode ser digitada sem eles. Portanto,
 # pode-se escrever 'logico' para usar o tipo lógico.

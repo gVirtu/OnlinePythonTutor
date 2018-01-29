@@ -1,0 +1,62 @@
+### ENTRADA E SAÍDA ###
+
+# Um programa TuPy pode escrever dados na saída 
+# padrão (stdout) e ler dados da entrada padrão
+# do usuário (stdin). 
+
+# Através do site, você poderá fornecer dados de entrada 
+# pela caixa de texto abaixo da janela do editor de texto 
+# onde é digitado o programa. Dados de saída poderão ser 
+# visualizados na caixa de texto acima da área de visualização do
+# programa, uma vez que o ele tenha sido executado.
+
+# A função 'escrever' aceita qualquer aridade e qualquer
+# tipo de dado, exceto tipos compostos definidos pelo usuário.
+# Dados consecutivos serão separados por espaço. A função
+# escrever sempre termina inserindo uma quebra de linha, mas
+# quebras adicionais podem ser inseridas utilizando a sequência
+# de escape '\n'.
+
+escrever("Bem-vindo", "ao Tutor TuPy!\nEssa é uma saída com", 2, "linhas!")
+
+# O exemplo acima escreve:
+# 'Bem-vindo ao Tutor TuPy!
+#  Essa é uma saída com 2 linhas!'
+
+# A função 'ler' também aceita qualquer aridade, mas só
+# pode receber variáveis (nunca dados literais ou expressões).
+# Implicitamente, ela separa os dados de entrada do usuário por espaços,
+# tabulações ou quebras de linha. Após separados, esses dados serão 
+# atribuídos às variáveis fornecidas como argumentos para a função.
+
+inteiro a
+real b
+cadeia c
+caracter d
+lógico f
+
+ler(a,b,c,d,f)
+
+# Exemplo de entrada: "123
+#                      4.56
+#                      olá !    mundo"
+
+# O exemplo acima atribui os valores:
+#       a = 123
+#       b = 4.56
+#       c = "olá"
+#       d = '!'
+#       f = verdadeiro (qualquer cadeia não-vazia é um valor verdadeiro)
+
+# Outra forma de receber a entrada do usuário é lendo-a
+# uma linha por vez. A função 'ler_linha' é útil nesse cenário:
+
+cadeia c
+ler_linha(c)
+
+# Exemplo de entrada: "olá mundo!
+#                      essa é uma entrada de exemplo."
+
+# O exemplo acima atribui o valor:
+#       c = "olá mundo!\n"
+
