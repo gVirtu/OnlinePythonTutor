@@ -79,7 +79,7 @@ inteiro elem <- acessar_matriz(A, 1, 2) # elem = 7
 # que serão assumidos caso seja feita uma chamada que não
 # os inclua:
 
-inteiro multiplicar(inteiro a, inteiro b = 2):
+inteiro multiplicar(inteiro a, inteiro b <- 2):
   retornar a*b
 
 inteiro a <- multiplicar(4)             # a = 8
