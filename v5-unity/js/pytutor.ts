@@ -3676,7 +3676,7 @@ class NavigationController {
                        <input type="text" id="raw_input_textbox" size="30"/>\
                        <button id="raw_input_submit_btn">Submeter</button>\
                      </div>\
-                     <div id="errorOutput"/>\
+                     <div id="errorOutput" style="word-wrap: break-word;"/>\
                    </div>';
 
     this.domRoot.append(navHTML);

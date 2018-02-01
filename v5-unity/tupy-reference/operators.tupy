@@ -15,28 +15,38 @@ inteiro a, b <- 1, 2           # a = 1, b = 2
 inteiro c <- 3                 # a = 1, b = 2, c = 3
 a, b, c <- b, c, a             # a = 2, b = 3, c = 1
 
-# Uma atribuição geralmente é feita por VALOR,
+# Uma atribuição de tipos primitivos é feita por VALOR,
 # isto é, a variável (ou literal) da direita é acessada
 # e seu valor é copiado para a variável da esquerda.
 
 inteiro c <- a                 # a = 2, b = 3, c = 2
 
-# No entanto, é possível fazer atribuições por REFERÊNCIA,
-# isto é, a variável da esquerda passa a referenciar
-# o mesmo dado que a variável da direita. Dessa forma,
+# No entanto, quando lidamos com tipos compostos,
+# as atribuições são todas por REFERÊNCIA, isto é, 
+# a variável da esquerda passa a referenciar o mesmo dado
+# em memória que a variável da direita. Dessa forma,
 # a alteração de uma das variáveis implicará na alteração
-# de outra. Essa propriedade é representada no visualizador
+# da outra. Essa propriedade é representada no visualizador
 # como duas variáveis que possuem setas apontando para uma
 # mesma região da memória.
 
-inteiro b <- ref a             # a = 2, b = 2, c = 2
-b <- 5                         # a = 5, b = 5, c = 2
+tipo Registro:
+    inteiro id
+    cadeia dado
 
-# Em uma atribuição paralela, a palavra-chave 'ref' é usada
-# uma única vez:
+Registro r <- Registro()        # r.id = 0
+r.id <- 2                       # r.id = 2
+Registro s <- r                 # r.id = 2, s.id = 2
+s.id <- 3                       # r.id = 3, s.id = 3
 
-inteiro c, d <- ref a, b       # a = 5, b = 5, c = 5, d = 5
-a <- 8                         # a = 8, b = 8, c = 8, d = 8
+# Para os casos em que for necessário copiar uma estrutura
+# de tipo composto, a função copiar está disponível:
+
+r.dado <- "Olá mundo!"
+Registro t <- copiar(r)
+t.id <- 4                       # r.id = 3, t.id = 4
+                                # r.dado = "Olá mundo!"
+                                # t.dado = "Olá mundo!"
 
 # Operadores matemáticos tradicionais estão
 # disponíveis em TuPy para manipular valores:

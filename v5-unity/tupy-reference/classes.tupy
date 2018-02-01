@@ -60,10 +60,11 @@ tipo Quadrado(Polígono3):
         x, y, lado <- a, b, c
 
     cadeia formatar():
-        retornar "Quadrado com X = " + cadeia(x) + ", Y = " + cadeia(y) + " e LADO = " + cadeia(lado)
+        retornar "Quadrado com X = " + cadeia(x) + \
+                 ", Y = " + cadeia(y) + " e LADO = " + cadeia(lado)
 
 Quadrado Q <- Quadrado(10, 20, 5)
-cadeia R <- Q.formatar()                    # Q = Quadrado com X = 10, Y = 20 e LADO = 5
+cadeia R <- Q.formatar()            # Q = Quadrado com X = 10, Y = 20 e LADO = 5
 
 # Perceba que os atributos x e y foram herdados diretamente de
 # Polígono3, sem necessidade de redefinição, e escolheu-se redefinir

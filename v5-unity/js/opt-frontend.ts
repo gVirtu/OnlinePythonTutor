@@ -271,6 +271,7 @@ export class OptFrontend extends AbstractBaseFrontend {
     this.cheatSheetEditor.setReadOnly(true);
     this.cheatSheetEditor.setShowPrintMargin(false);
     this.cheatSheetEditor.setOptions({minLines: 36, maxLines: 36, fontSize: "12pt"});
+    this.cheatSheetEditor.renderer.setShowGutter(false);
     this.cheatSheetEditor.$blockScrolling = Infinity; // kludgy to shut up weird warnings
 
     $('#cheatSheet').css('width', '100%');

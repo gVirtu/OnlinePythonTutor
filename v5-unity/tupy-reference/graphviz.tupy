@@ -69,14 +69,15 @@ cadeia X <- vetor(V, [1], "2 -> 1:v3:s; 2 [label=\"Veja!\"]; rankdir=\"BT\"")
 # no formato de pilha. Os parâmetros d e x funcionam da mesma maneira como
 # na função vetor.
 
-# É importante destacar que, na definição gerada, o nó 0 é reservado e invisível,
-# localizado acima da pilha. Os identificadores de colunas '1:cY' do vetor
-# também são substituídos por identificadores de linhas '1:rY'.
+# É importante destacar que, na definição gerada, o nó 0 é reservado e 
+# invisível, localizado acima da pilha. Os identificadores de colunas '1:cY' 
+# do vetor também são substituídos por identificadores de linhas '1:rY'.
 
 inteiro V[*] <- [1, 5, 100, 7, 9]
 cadeia X <- pilha(V)
 cadeia X <- pilha(V, [1])
-cadeia X <- pilha(V, [1], "2 -> 1:v3:w; 2 [label=\"Veja!\"]; {rank=\"same\"; 1; 2}")
+cadeia X <- pilha(V, [1], "2 -> 1:v3:w; 2 [label=\"Veja!\"];"
+                          " {rank=\"same\"; 1; 2}")
 
 #----------------------------------------------------------------------
 ## fila(V, d = [], x = "")
@@ -151,10 +152,12 @@ cadeia X <- matriz(M, [[1,2], [0,0]], "2 -> 1:v2_2:e; 2 [label=\"Veja!\"]; "
 # renderizada. As cadeias nc e nf devem fornecer os nomes dos atributos
 # definidos na classe de T que simbolizam, respectivamente, o valor da chave
 # e a lista de filhos de um nó.
+
 # Opcionalmente, um ou mais nós podem ser destacados em outra
 # cor. Para isso, inclua os nós em destaque na lista d. A cadeia x,
-# também opcional, pode ser usada para inserir comandos adicionais ao 
-# subprograma dot dentro da mesma estrutura 'digraph'.
+# também opcional, pode ser usada para inserir comandos adicionais que
+# estarão presentes no começo e no fim do subprograma dot, 
+# dentro da estrutura principal 'digraph'.
 
 tipo Nó:
   inteiro chv
@@ -164,150 +167,242 @@ tipo Nó:
     chv <- c
   
 Nó T, A, B, C, D <- Nó(5), Nó(1), Nó(3), Nó(2), Nó(4)
-T.fs <- [ref A, ref B]
-B.fs <- [ref C, ref D]      # ERRORS out
+T.fs <- [A, B]
+B.fs <- [C, D]
+
+cadeia X <- árvore(T, "chv", "fs")
+cadeia X <- árvore(T, "chv", "fs", [B])
+cadeia X <- árvore(T, "chv", "fs", [B], "node [shape=doubleoctagon]")
 
 #----------------------------------------------------------------------
 ## grafo_MA(M, d = [], da = [], x = "")
 
 # Parâmetros:
-#   M (lista bidimensional)
+#   M (lista bidimensional de inteiros)
 #   d (lista de inteiros)
 #   da (lista de pares [u, v] de inteiros)
 #   x (cadeia)
+
+# Retorna: Uma cadeia com a descrição da estrutura a ser renderizada.
+
+# Caso a cadeia seja armazenada em uma variável, o grafo descrito pela
+# matriz de adjacência M será renderizado. Uma aresta do grafo existe
+# se M[i,j] != 0 e M[j,i] != 0.
+
+# Opcionalmente, vértices e arestas podem ser destacados com cores.
+# Para destacar vértices, preencha a lista 'd' com os índices dos vértices
+# a serem destacados. Para destacar arestas, preencha a lista 'da' com 
+# listas da forma [u, v] para representar uma aresta entre os vértices u e v.
+
+# A cadeia x, também opcional, pode ser usada para inserir comandos 
+# adicionais que estarão presentes no começo e no fim do subprograma dot, 
+# dentro da estrutura principal 'graph'.
+
+inteiro G[5, 5] <- [ [ 0, 1, 0, 0, 1],
+                     [ 1, 0, 1, 0, 0],
+                     [ 0, 1, 0, 0, 0],
+                     [ 0, 0, 0, 0, 0],
+                     [ 1, 0, 0, 0, 1] ]
+
+cadeia X <- grafo_MA(G)
+cadeia X <- grafo_MA(G, [4])
+cadeia X <- grafo_MA(G, [4], [[1, 2]])
+cadeia X <- grafo_MA(G, [4], [[1, 2]], "3 [style=invis]")
 
 #----------------------------------------------------------------------
 ## grafo_LA(L, d = [], da = [], x = "")
 
 # Parâmetros:
-#   L (lista bidimensional)
+#   L (lista bidimensional de inteiros)
 #   d (lista de inteiros)
 #   da (lista de pares [u, v] de inteiros)
 #   x (cadeia)
+
+# Retorna: Uma cadeia com a descrição da estrutura a ser renderizada.
+
+# Caso a cadeia seja armazenada em uma variável, o grafo descrito pela
+# lista de adjacência L será renderizado. Uma aresta do grafo existe
+# se j ∈ L[i] e i ∈ L[j].
+
+# Os parâmetros opcionais são equivalentes aos da função grafo_MA.
+
+inteiro L[5, *] <- [ [1, 4],
+                     [0, 2],
+                     [1],
+                     [],
+                     [0, 4] ]
+
+cadeia X <- grafo_LA(L)
+cadeia X <- grafo_LA(L, [4])
+cadeia X <- grafo_LA(L, [4], [[1, 2]])
+cadeia X <- grafo_LA(L, [4], [[1, 2]], "3 [style=invis]")
 
 #----------------------------------------------------------------------
 ## digrafo_MA(M, d = [], da = [], x = "")
 
 # Parâmetros:
-#   M (lista bidimensional)
+#   M (lista bidimensional de inteiros)
 #   d (lista de inteiros)
 #   da (lista de pares [u, v] de inteiros)
 #   x (cadeia)
+
+# Retorna: Uma cadeia com a descrição da estrutura a ser renderizada.
+
+# Caso a cadeia seja armazenada em uma variável, o grafo direcionado 
+# descrito pela matriz de adjacência M será renderizado. Uma aresta 
+# do grafo de i para j existe se M[i,j] != 0.
+
+# Os parâmetros opcionais são equivalentes aos da função grafo_MA.
+
+inteiro D[5, 5] <- [ [0, 1, 0, 0, 0],
+                     [1, 0, 0, 0, 0],
+                     [0, 1, 0, 0, 1],
+                     [0, 0, 0, 0, 0],
+                     [1, 0, 0, 0, 1] ]
+
+cadeia X <- digrafo_MA(D)
+cadeia X <- digrafo_MA(D, [4])
+cadeia X <- digrafo_MA(D, [4], [[2, 1]])
+cadeia X <- digrafo_MA(D, [4], [[2, 1]], "3 [style=invis]")
 
 #----------------------------------------------------------------------
 ## digrafo_LA(L, d = [], da = [], x = "")
 
 # Parâmetros:
-#   L (lista bidimensional)
+#   L (lista bidimensional de inteiros)
 #   d (lista de inteiros)
 #   da (lista de pares [u, v] de inteiros)
 #   x (cadeia)
+
+# Retorna: Uma cadeia com a descrição da estrutura a ser renderizada.
+
+# Caso a cadeia seja armazenada em uma variável, o grafo direcionado 
+# descrito pela lista de adjacência L será renderizado. Uma aresta 
+# do grafo de i para j existe se j ∈ L[i].
+
+# Os parâmetros opcionais são equivalentes aos da função grafo_MA.
+
+inteiro L[5, *] <- [ [1],
+                     [0],
+                     [1, 4],
+                     [],
+                     [0, 4] ]
+
+cadeia X <- digrafo_LA(L)
+cadeia X <- digrafo_LA(L, [4])
+cadeia X <- digrafo_LA(L, [4], [[2, 1]])
+cadeia X <- digrafo_LA(L, [4], [[2, 1]], "3 [style=invis]")
 
 #----------------------------------------------------------------------
 ## grafo_valorado_MA(M, d = [], da = [], x = "")
 
 # Parâmetros:
-#   M (lista bidimensional)
+#   M (lista bidimensional de inteiros)
 #   d (lista de inteiros)
 #   da (lista de pares [u, v] de inteiros)
 #   x (cadeia)
+
+# Retorna: Uma cadeia com a descrição da estrutura a ser renderizada.
+
+# Caso a cadeia seja armazenada em uma variável, o grafo valorado
+# descrito pela matriz de adjacência M será renderizado. Uma aresta do 
+# grafo existe com peso M[i,j] se M[i,j] != 0 e M[j,i] != 0.
+
+# Os parâmetros opcionais são equivalentes aos da função grafo_MA.
+
+inteiro G[5, 5] <- [ [ 0, 4, 0, 0, 8],
+                     [ 4, 0, 7, 0, 0],
+                     [ 0, 7, 0, 0, 0],
+                     [ 0, 0, 0, 0, 0],
+                     [ 8, 0, 0, 0, 10] ]
+
+cadeia X <- grafo_valorado_MA(G)
+cadeia X <- grafo_valorado_MA(G, [4])
+cadeia X <- grafo_valorado_MA(G, [4], [[1, 2]])
+cadeia X <- grafo_valorado_MA(G, [4], [[1, 2]], "3 [style=invis]")
 
 #----------------------------------------------------------------------
 ## grafo_valorado_LA(L, d = [], da = [], x = "")
 
 # Parâmetros:
-#   L (lista tridimensional)
+#   L (lista tridimensional de inteiros)
 #   d (lista de inteiros)
 #   da (lista de pares [u, v] de inteiros)
 #   x (cadeia)
+
+# Retorna: Uma cadeia com a descrição da estrutura a ser renderizada.
+
+# Caso a cadeia seja armazenada em uma variável, o grafo valorado 
+# descrito pela lista de adjacência L será renderizado. Uma aresta do
+# grafo existe com peso w se [j, w] ∈ L[i] e [i, _] ∈ L[j].
+
+# Os parâmetros opcionais são equivalentes aos da função grafo_MA.
+
+inteiro L[5, *, 2] <- [ [[1, 4], [4, 8]],
+                        [[0, 4], [2, 7]],
+                        [[1, 7]],
+                        [],
+                        [[0, 8], [4, 10]] ]
+
+cadeia X <- grafo_valorado_LA(L)
+cadeia X <- grafo_valorado_LA(L, [4])
+cadeia X <- grafo_valorado_LA(L, [4], [[1, 2]])
+cadeia X <- grafo_valorado_LA(L, [4], [[1, 2]], "3 [style=invis]")
 
 #----------------------------------------------------------------------
 ## digrafo_valorado_MA(M, d = [], da = [], x = "")
 
 # Parâmetros:
-#   M (lista bidimensional)
+#   M (lista bidimensional de inteiros)
 #   d (lista de inteiros)
 #   da (lista de pares [u, v] de inteiros)
 #   x (cadeia)
+
+# Retorna: Uma cadeia com a descrição da estrutura a ser renderizada.
+
+# Caso a cadeia seja armazenada em uma variável, o grafo valorado e
+# direcionado descrito pela matriz de adjacência M será renderizado. 
+# Uma aresta do grafo de i para j existe com peso M[i,j] se M[i,j] != 0.
+
+# Os parâmetros opcionais são equivalentes aos da função grafo_MA.
+
+inteiro D[5, 5] <- [ [0, 4, 0, 0, 0],
+                     [5, 0, 0, 0, 0],
+                     [0, 8, 0, 0, 9],
+                     [0, 0, 0, 0, 0],
+                     [-1, 0, 0, 0, 7] ]
+
+cadeia X <- digrafo_valorado_MA(D)
+cadeia X <- digrafo_valorado_MA(D, [4])
+cadeia X <- digrafo_valorado_MA(D, [4], [[2, 1]])
+cadeia X <- digrafo_valorado_MA(D, [4], [[2, 1]], "3 [style=invis]")
 
 #----------------------------------------------------------------------
 ## digrafo_valorado_LA(L, d = [], da = [], x = "")
 
 # Parâmetros:
-#   L (lista tridimensional)
+#   L (lista tridimensional de inteiros)
 #   d (lista de inteiros)
 #   da (lista de pares [u, v] de inteiros)
 #   x (cadeia)
 
+# Retorna: Uma cadeia com a descrição da estrutura a ser renderizada.
+
+# Caso a cadeia seja armazenada em uma variável, o grafo valorado e
+# direcionado descrito pela lista de adjacência L será renderizado. 
+# Uma aresta do grafo existe com peso w se [j, w] ∈ L[i] e [i, _] ∈ L[j].
+
+# Os parâmetros opcionais são equivalentes aos da função grafo_MA.
+
+inteiro L[5, *, 2] <- [ [[1, 4]],
+                        [[0, 5]],
+                        [[1, 8], [4, 9]],
+                        [],
+                        [[0, -1], [4, 7]] ]
+
+cadeia X <- digrafo_valorado_LA(L)
+cadeia X <- digrafo_valorado_LA(L, [4])
+cadeia X <- digrafo_valorado_LA(L, [4], [[2, 1]])
+cadeia X <- digrafo_valorado_LA(L, [4], [[2, 1]], "3 [style=invis]")
+
 #----------------------------------------------------------------------
-
-# Exemplo 1 - Grafos e digrafos
-
-inteiro G[5, 5] <- [ [0, 0, 0, 0, 0],
-                     [0, 0, 0, 0, 0],
-                     [0, 0, 0, 0, 0],
-                     [0, 0, 0, 0, 0],
-                     [0, 0, 0, 0, 0]]
-
-inteiro LA[5, *] <- []
-
-G[1, 2] <- 1
-cadeia R <- digrafo_MA(G, [2])
-
-G[2, 1] <- 1
-cadeia R <- grafo_MA(G, [1])
-
-LA[2] <- inserir(LA[2], 3)
-cadeia R <- digrafo_LA(LA, [2])
-
-LA[3] <- inserir(LA[3], 2)
-cadeia R <- grafo_LA(LA, [2])
-
-# Exemplo 2 - árvores
-
-tipo Árvore:
-    inteiro c
-    Árvore filhos[2] <- [nulo, nulo]
-
-Árvore T <- Árvore()
-T.c <- 3
-
-inteiro L[5] <- [1, 2, 4, 5, 6]
-
-L <- embaralhar(L)
-
-----------------------------------------------------------------
-inserir_BST(ref Árvore raiz, ref Árvore ins):
-    escrever("Comparando",ins.c,"com",raiz.c)
-    se ins.c < raiz.c:
-        se raiz.filhos[0] = nulo:
-            raiz.filhos[0] <- ref ins
-            parar
-        senão:
-            escrever("O filho 0 de",raiz.c,"é",raiz.filhos[0].c)
-            inserir_BST(raiz.filhos[0], ins)
-    senão:
-        se raiz.filhos[1] = nulo:
-            raiz.filhos[1] <- ref ins
-            parar
-        senão:
-            escrever("O filho 1 de",raiz.c,"é",raiz.filhos[1].c)
-            inserir_BST(raiz.filhos[1], ins)
-
-# imprime_BST(ref Árvore atual):
-#    se atual.filhos[0] != nulo:
-#        imprime_BST(atual.filhos[0])
-#    escrever("Estou em", atual.c)
-#    se atual.filhos[1] != nulo:
-#        imprime_BST(atual.filhos[1])
-----------------------------------------------------------------
-
-inteiro i
-para i <- 1..|L|:
-    Árvore nova <- Árvore()
-    nova.c <- L[i-1]
-    inserir_BST(T, nova)
-
-cadeia arv <- árvore(T, "c", "filhos", [T], "node [shape = square]; ")
-
-#imprime_BST(T)

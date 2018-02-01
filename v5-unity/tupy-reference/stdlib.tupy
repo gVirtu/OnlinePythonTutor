@@ -6,7 +6,7 @@
 
 # Lista de funções disponíveis:
 # escrever, ler, ler_linha, asserção,
-# binário, octal, hexadecimal,
+# copiar, binário, octal, hexadecimal,
 # cadeia, caracter, inteiro, real, lógico,
 # lista, juntar, embaralhar, inserir, remover, 
 # mín, máx, abs, aleatório, inteiro_aleatório
@@ -71,6 +71,25 @@ asserção(9 < 10)      # prossegue a execução do programa
 asserção((2 + 2) = 5) # interrompe a execução do programa
 
 #----------------------------------------------------------------------
+## copiar(x)
+
+# Parâmetros:
+#   x (estrutura)
+
+# Retorna: Uma nova estrutura da mesma classe de x, contendo cópias dos
+#          atributos contidos em x.
+
+tipo Teste:
+    inteiro x
+
+Teste A <- Teste()                  # Instanciação
+Teste B <- A                        # B é uma referência a A 
+Teste C <- copiar(A)                # C é uma cópia de A
+A.x <- 1                            # A.x = 1, B.x = 1, C.x = 0
+B.x <- 2                            # A.x = 2, B.x = 2, C.x = 0
+C.x <- 3                            # A.x = 2, B.x = 2, C.x = 3
+
+#----------------------------------------------------------------------
 ## binário(x)
 
 # Parâmetros:
@@ -114,7 +133,7 @@ cadeia r <- cadeia([1, 2, 3, 5])         # r = "[1, 2, 3, 5]"
 ## caracter(x)
 
 # Parâmetros:
-#   x (inteiro)
+#   x (inteiro|cadeia)
 
 # Retorna: O caracter cujo código ASCII/Unicode é x.
 
@@ -201,13 +220,15 @@ inteiro r[3] <- embaralhar([1, 2, 3])    # r = [1, 2, 3] ou [1, 3, 2] ou
                                          #     [2, 3, 1] ou [3, 2, 1]
 
 #----------------------------------------------------------------------
-## inserir(L, x)
+## inserir(L, x, pos = |L|)
 
 # Parâmetros:
 #   L (lista)
 #   x (tipo contido na lista)
+#   pos (inteiro)
 
-# Retorna: Uma cópia da lista L com o elemento x inserido ao final.
+# Retorna: Uma cópia da lista L com o elemento x inserido na posição pos.
+#          Caso não seja fornecido o parâmetro 'pos', insere ao final da lista.
 
 inteiro r[4] <- inserir([1, 2, 3], 4)    # r = [1, 2, 3, 4]
 
