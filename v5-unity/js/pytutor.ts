@@ -3549,7 +3549,14 @@ class CodeDisplay {
 
     if (myViz.prevLineNumber) {
       var pla = this.domRootD3.select('#prevLineArrow');
-      var translatePrevCmd = 'translate(0, ' + (((myViz.prevLineNumber - 1) * this.codeRowHeight) + this.arrowOffsetY + prevVerticalNudge) + ')';
+      var baseY = this.domRoot.find('#lineNo1')[0].getBoundingClientRect().top;
+      var targetY = this.domRoot.find('#lineNo' + String(myViz.prevLineNumber))[0].getBoundingClientRect().top - baseY;
+      // console.log("Line: " + myViz.prevLineNumber);
+      // console.log("Intended: " + (((myViz.prevLineNumber - 1) * this.codeRowHeight) + this.arrowOffsetY + prevVerticalNudge) );
+      // console.log("Target Y: "+ targetY);
+      // console.log("Got: " + (targetY + this.arrowOffsetY + prevVerticalNudge));
+      var translatePrevCmd = 'translate(0, ' + (targetY + this.arrowOffsetY + prevVerticalNudge) + ')';
+      // var translatePrevCmd = 'translate(0, ' + (((myViz.prevLineNumber - 1) * this.codeRowHeight) + this.arrowOffsetY + prevVerticalNudge) + ')';
       if (smoothTransition) {
         pla
           .transition()
@@ -3572,7 +3579,14 @@ class CodeDisplay {
 
     if (myViz.curLineNumber) {
       var cla = this.domRootD3.select('#curLineArrow');
-      var translateCurCmd = 'translate(0, ' + (((myViz.curLineNumber - 1) * this.codeRowHeight) + this.arrowOffsetY + curVerticalNudge) + ')';
+      var baseY = this.domRoot.find('#lineNo1')[0].getBoundingClientRect().top;
+      var targetY = this.domRoot.find('#lineNo' + String(myViz.curLineNumber))[0].getBoundingClientRect().top - baseY;
+      // console.log("Line: " + myViz.prevLineNumber);
+      // console.log("Intended: " + (((myViz.prevLineNumber - 1) * this.codeRowHeight) + this.arrowOffsetY + prevVerticalNudge) );
+      // console.log("Target Y: "+ targetY);
+      // console.log("Got: " + (targetY + this.arrowOffsetY + prevVerticalNudge));
+      var translateCurCmd = 'translate(0, ' + (targetY + this.arrowOffsetY + curVerticalNudge) + ')';
+      //var translateCurCmd = 'translate(0, ' + (((myViz.curLineNumber - 1) * this.codeRowHeight) + this.arrowOffsetY + curVerticalNudge) + ')';
       if (smoothTransition) {
         cla
           .transition()
@@ -3702,6 +3716,25 @@ class NavigationController {
           default: return; // exit this handler for other keys
       }
       e.preventDefault(); // prevent the default action (scroll / move caret)
+    });
+
+    var element = $('#codAndNav'),
+        originalY = element.offset().top;
+    
+    // Space between element and top of screen (when scrolling)
+    var topMargin = 40;
+    
+    // Should probably be set in CSS; but here just for emphasis
+    element.css('position', 'relative');
+    
+    $(window).on('scroll', function(event) {
+        var scrollTop = $(window).scrollTop();
+        
+        element.stop(false, false).animate({
+            top: scrollTop < originalY
+                    ? 0
+                    : scrollTop - originalY + topMargin
+        }, 200);
     });
 
     this.domRoot.find("#jmpFirstInstr").click(() => {this.owner.renderStep(0);});

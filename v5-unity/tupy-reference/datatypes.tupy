@@ -34,6 +34,12 @@ inteiro i <- 0xFF         # i = 255
 
 cadeia s <- ("isso" "e" "aquilo")   # s = "issoeaquilo"
 
+# Para inserir o caracter de aspas (") em uma cadeia, é 
+# necessário usar o caracter de escape '\'.
+
+cadeia s <- "isso ou \"aquilo\"?"     
+escrever(s)                           # escreve isso ou "aquilo"?
+
 # Em TuPy, qualquer palavra reservada que possui
 # acentos pode ser digitada sem eles. Portanto,
 # pode-se escrever 'logico' para usar o tipo lógico.
