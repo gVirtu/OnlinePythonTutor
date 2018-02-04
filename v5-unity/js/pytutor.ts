@@ -3580,7 +3580,10 @@ class CodeDisplay {
     if (myViz.curLineNumber) {
       var cla = this.domRootD3.select('#curLineArrow');
       var baseY = this.domRoot.find('#lineNo1')[0].getBoundingClientRect().top;
-      var targetY = this.domRoot.find('#lineNo' + String(myViz.curLineNumber))[0].getBoundingClientRect().top - baseY;
+      if (isTerminated)
+        var targetY = this.domRoot.find('#editBtn')[0].getBoundingClientRect().top - baseY;
+      else
+        var targetY = this.domRoot.find('#lineNo' + String(myViz.curLineNumber))[0].getBoundingClientRect().top - baseY;
       // console.log("Line: " + myViz.prevLineNumber);
       // console.log("Intended: " + (((myViz.prevLineNumber - 1) * this.codeRowHeight) + this.arrowOffsetY + prevVerticalNudge) );
       // console.log("Target Y: "+ targetY);

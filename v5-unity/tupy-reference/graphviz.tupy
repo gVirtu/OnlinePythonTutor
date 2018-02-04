@@ -19,6 +19,10 @@
 # Você pode aprender mais sobre a linguagem DOT com este
 # guia (em inglês): http://www.graphviz.org/pdf/dotguide.pdf
 
+# Para tornar a visualização mais idiomática, a palavra-chave
+# 'visual' pode ser usada com a mesma semântica de 'cadeia' como
+# especificador de tipo de dados.
+
 # Lista de funções disponíveis:
 
 # vetor, pilha, fila, matriz, árvore,
@@ -51,9 +55,31 @@
 # identificados como '1:cY'.
 
 inteiro V[*] <- [1, 5, 100, 7, 9]
-cadeia X <- vetor(V)
-cadeia X <- vetor(V, [1])
-cadeia X <- vetor(V, [1], "2 -> 1:v3:s; 2 [label=\"Veja!\"]; rankdir=\"BT\"")
+visual X <- vetor(V)
+visual X <- vetor(V, [1])
+visual X <- vetor(V, [1], "2 -> 1:v3:s; 2 [label=\"Veja!\"]; rankdir=\"BT\"")
+
+#----------------------------------------------------------------------
+## vetor(V, d, i, x = "")
+
+# Parâmetros:
+#   V (lista unidimensional)
+#   d (lista de inteiros)
+#   i (inteiro)
+#   x (cadeia)
+
+# Retorna: Uma cadeia com a descrição da estrutura a ser renderizada.
+
+# Caso a cadeia seja armazenada em uma variável, o vetor V será renderizado,
+# sendo que o cabeçalho dos índices será exibido começando a contar de 'i'.
+# Os índices dos elementos nas referências 1:vY do programa GraphViz também
+# são afetados pelo deslocamento de 'i'.
+
+# A cadeia x é interpretada da mesma maneira da função vetor acima.
+
+inteiro V[*] <- [1, 5, 100, 7, 9]
+visual X <- vetor(V[2..3], [], 2)
+visual X <- vetor(V[2..3], [], 2, "2 -> 1:v3:s; 2 [label=\"Veja!\"]; rankdir=\"BT\"")
 
 #----------------------------------------------------------------------
 ## pilha(V, d = [], x = "")
@@ -74,9 +100,9 @@ cadeia X <- vetor(V, [1], "2 -> 1:v3:s; 2 [label=\"Veja!\"]; rankdir=\"BT\"")
 # do vetor também são substituídos por identificadores de linhas '1:rY'.
 
 inteiro V[*] <- [1, 5, 100, 7, 9]
-cadeia X <- pilha(V)
-cadeia X <- pilha(V, [1])
-cadeia X <- pilha(V, [1], "2 -> 1:v3:w; 2 [label=\"Veja!\"];"
+visual X <- pilha(V)
+visual X <- pilha(V, [1])
+visual X <- pilha(V, [1], "2 -> 1:v3:w; 2 [label=\"Veja!\"];"
                           " {rank=\"same\"; 1; 2}")
 
 #----------------------------------------------------------------------
@@ -97,9 +123,9 @@ cadeia X <- pilha(V, [1], "2 -> 1:v3:w; 2 [label=\"Veja!\"];"
 # e invisíveis, localizados à esquerda e à direita da fila, respectivamente.
 
 inteiro V[*] <- [1, 5, 100, 7, 9]
-cadeia X <- fila(V)
-cadeia X <- fila(V, [1])
-cadeia X <- fila(V, [1], "2 -> C; 2 [label=\"Começo da fila!\"];"
+visual X <- fila(V)
+visual X <- fila(V, [1])
+visual X <- fila(V, [1], "2 -> C; 2 [label=\"Começo da fila!\"];"
                          "3 -> F; 3 [label=\"Fim da fila!\"];")
 
 #----------------------------------------------------------------------
@@ -131,10 +157,36 @@ cadeia X <- fila(V, [1], "2 -> C; 2 [label=\"Começo da fila!\"];"
 inteiro M[*,*] <- [ [1, 2, 7],
                     [4, 8, 5],
                     [9, 3, 6] ]
-cadeia X <- matriz(M)
-cadeia X <- matriz(M, [[1,2], [0,0]])                  
-cadeia X <- matriz(M, [[1,2], [0,0]], "2 -> 1:v2_2:e; 2 [label=\"Veja!\"]; "
+visual X <- matriz(M)
+visual X <- matriz(M, [[1,2], [0,0]])                  
+visual X <- matriz(M, [[1,2], [0,0]], "2 -> 1:v2_2:e; 2 [label=\"Veja!\"]; "
                                       "rankdir=\"BT\"")
+
+#----------------------------------------------------------------------
+## matriz(M, d, i, j, x = "")
+
+# Parâmetros:
+#   M (lista bidimensional)
+#   d (lista de pares [x, y] de inteiros)
+#   i (inteiro)
+#   j (inteiro)
+#   x (cadeia)
+
+# Retorna: Uma cadeia com a descrição da estrutura a ser renderizada.
+
+# Caso a cadeia seja armazenada em uma variável, a matriz M será renderizado,
+# sendo que os índices das linhas serão exibidos começando a contar de 'i', e os
+# índices das colunas serão exibidos começando a contar de 'j'.
+# Os índices dos elementos nas referências 1:vI_J do programa GraphViz também
+# são afetados pelos deslocamentos de 'i' e de 'j'.
+
+# A cadeia x é interpretada da mesma maneira da função vetor acima.
+
+inteiro M[*,*] <- [ [1, 2, 7],
+                    [4, 8, 5],
+                    [9, 3, 6] ]
+visual X <- matriz(M[1..2, 0..1], [], 1, 0)
+visual X <- matriz(M[1..2, 0..1], [], 1, 0, "2 -> 1:v1_1:nw; 2 [label=\"Veja!\"];")
 
 #----------------------------------------------------------------------
 ## árvore(T, nc, nf, d = [], x = "")
@@ -170,9 +222,9 @@ Nó T, A, B, C, D <- Nó(5), Nó(1), Nó(3), Nó(2), Nó(4)
 T.fs <- [A, B]
 B.fs <- [C, D]
 
-cadeia X <- árvore(T, "chv", "fs")
-cadeia X <- árvore(T, "chv", "fs", [B])
-cadeia X <- árvore(T, "chv", "fs", [B], "node [shape=doubleoctagon]")
+visual X <- árvore(T, "chv", "fs")
+visual X <- árvore(T, "chv", "fs", [B])
+visual X <- árvore(T, "chv", "fs", [B], "node [shape=doubleoctagon]")
 
 #----------------------------------------------------------------------
 ## grafo_MA(M, d = [], da = [], x = "")
@@ -204,10 +256,10 @@ inteiro G[5, 5] <- [ [ 0, 1, 0, 0, 1],
                      [ 0, 0, 0, 0, 0],
                      [ 1, 0, 0, 0, 1] ]
 
-cadeia X <- grafo_MA(G)
-cadeia X <- grafo_MA(G, [4])
-cadeia X <- grafo_MA(G, [4], [[1, 2]])
-cadeia X <- grafo_MA(G, [4], [[1, 2]], "3 [style=invis]")
+visual X <- grafo_MA(G)
+visual X <- grafo_MA(G, [4])
+visual X <- grafo_MA(G, [4], [[1, 2]])
+visual X <- grafo_MA(G, [4], [[1, 2]], "3 [style=invis]")
 
 #----------------------------------------------------------------------
 ## grafo_LA(L, d = [], da = [], x = "")
@@ -232,10 +284,10 @@ inteiro L[5, *] <- [ [1, 4],
                      [],
                      [0, 4] ]
 
-cadeia X <- grafo_LA(L)
-cadeia X <- grafo_LA(L, [4])
-cadeia X <- grafo_LA(L, [4], [[1, 2]])
-cadeia X <- grafo_LA(L, [4], [[1, 2]], "3 [style=invis]")
+visual X <- grafo_LA(L)
+visual X <- grafo_LA(L, [4])
+visual X <- grafo_LA(L, [4], [[1, 2]])
+visual X <- grafo_LA(L, [4], [[1, 2]], "3 [style=invis]")
 
 #----------------------------------------------------------------------
 ## digrafo_MA(M, d = [], da = [], x = "")
@@ -260,10 +312,10 @@ inteiro D[5, 5] <- [ [0, 1, 0, 0, 0],
                      [0, 0, 0, 0, 0],
                      [1, 0, 0, 0, 1] ]
 
-cadeia X <- digrafo_MA(D)
-cadeia X <- digrafo_MA(D, [4])
-cadeia X <- digrafo_MA(D, [4], [[2, 1]])
-cadeia X <- digrafo_MA(D, [4], [[2, 1]], "3 [style=invis]")
+visual X <- digrafo_MA(D)
+visual X <- digrafo_MA(D, [4])
+visual X <- digrafo_MA(D, [4], [[2, 1]])
+visual X <- digrafo_MA(D, [4], [[2, 1]], "3 [style=invis]")
 
 #----------------------------------------------------------------------
 ## digrafo_LA(L, d = [], da = [], x = "")
@@ -288,10 +340,10 @@ inteiro L[5, *] <- [ [1],
                      [],
                      [0, 4] ]
 
-cadeia X <- digrafo_LA(L)
-cadeia X <- digrafo_LA(L, [4])
-cadeia X <- digrafo_LA(L, [4], [[2, 1]])
-cadeia X <- digrafo_LA(L, [4], [[2, 1]], "3 [style=invis]")
+visual X <- digrafo_LA(L)
+visual X <- digrafo_LA(L, [4])
+visual X <- digrafo_LA(L, [4], [[2, 1]])
+visual X <- digrafo_LA(L, [4], [[2, 1]], "3 [style=invis]")
 
 #----------------------------------------------------------------------
 ## grafo_valorado_MA(M, d = [], da = [], x = "")
@@ -316,10 +368,10 @@ inteiro G[5, 5] <- [ [ 0, 4, 0, 0, 8],
                      [ 0, 0, 0, 0, 0],
                      [ 8, 0, 0, 0, 10] ]
 
-cadeia X <- grafo_valorado_MA(G)
-cadeia X <- grafo_valorado_MA(G, [4])
-cadeia X <- grafo_valorado_MA(G, [4], [[1, 2]])
-cadeia X <- grafo_valorado_MA(G, [4], [[1, 2]], "3 [style=invis]")
+visual X <- grafo_valorado_MA(G)
+visual X <- grafo_valorado_MA(G, [4])
+visual X <- grafo_valorado_MA(G, [4], [[1, 2]])
+visual X <- grafo_valorado_MA(G, [4], [[1, 2]], "3 [style=invis]")
 
 #----------------------------------------------------------------------
 ## grafo_valorado_LA(L, d = [], da = [], x = "")
@@ -344,10 +396,10 @@ inteiro L[5, *, 2] <- [ [[1, 4], [4, 8]],
                         [],
                         [[0, 8], [4, 10]] ]
 
-cadeia X <- grafo_valorado_LA(L)
-cadeia X <- grafo_valorado_LA(L, [4])
-cadeia X <- grafo_valorado_LA(L, [4], [[1, 2]])
-cadeia X <- grafo_valorado_LA(L, [4], [[1, 2]], "3 [style=invis]")
+visual X <- grafo_valorado_LA(L)
+visual X <- grafo_valorado_LA(L, [4])
+visual X <- grafo_valorado_LA(L, [4], [[1, 2]])
+visual X <- grafo_valorado_LA(L, [4], [[1, 2]], "3 [style=invis]")
 
 #----------------------------------------------------------------------
 ## digrafo_valorado_MA(M, d = [], da = [], x = "")
@@ -372,10 +424,10 @@ inteiro D[5, 5] <- [ [0, 4, 0, 0, 0],
                      [0, 0, 0, 0, 0],
                      [-1, 0, 0, 0, 7] ]
 
-cadeia X <- digrafo_valorado_MA(D)
-cadeia X <- digrafo_valorado_MA(D, [4])
-cadeia X <- digrafo_valorado_MA(D, [4], [[2, 1]])
-cadeia X <- digrafo_valorado_MA(D, [4], [[2, 1]], "3 [style=invis]")
+visual X <- digrafo_valorado_MA(D)
+visual X <- digrafo_valorado_MA(D, [4])
+visual X <- digrafo_valorado_MA(D, [4], [[2, 1]])
+visual X <- digrafo_valorado_MA(D, [4], [[2, 1]], "3 [style=invis]")
 
 #----------------------------------------------------------------------
 ## digrafo_valorado_LA(L, d = [], da = [], x = "")
@@ -400,9 +452,9 @@ inteiro L[5, *, 2] <- [ [[1, 4]],
                         [],
                         [[0, -1], [4, 7]] ]
 
-cadeia X <- digrafo_valorado_LA(L)
-cadeia X <- digrafo_valorado_LA(L, [4])
-cadeia X <- digrafo_valorado_LA(L, [4], [[2, 1]])
-cadeia X <- digrafo_valorado_LA(L, [4], [[2, 1]], "3 [style=invis]")
+visual X <- digrafo_valorado_LA(L)
+visual X <- digrafo_valorado_LA(L, [4])
+visual X <- digrafo_valorado_LA(L, [4], [[2, 1]])
+visual X <- digrafo_valorado_LA(L, [4], [[2, 1]], "3 [style=invis]")
 
 #----------------------------------------------------------------------

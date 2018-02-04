@@ -19,11 +19,16 @@ escrever(S)
 # Você também pode omitir certas linhas da visualização
 # do programa: essas linhas ainda serão executadas, mas os
 # passos resultantes dos comandos contidos nessa parte do
-# programa não serão exibidos.
+# programa não serão listados.
 
-# Utilize um delimitador feito por pelo menos três hífens '-'
-# em qualquer parte do programa para sinalizar que nenhuma
-# linha antes dele deverá ser visualizada no resultado:
+# O visualizador irá pular qualquer linha iniciada por '~~':
+
+~~ cadeia S <- "Olá mundo!"
+
+# Alternativamente, utilize um delimitador feito por pelo 
+# menos três hífens '-' em qualquer parte do programa para 
+# sinalizar que nenhuma linha antes dele deverá ser um
+# ponto de parada do visualizador:
 
 cadeia S <- "Olá mundo!"
 ------
