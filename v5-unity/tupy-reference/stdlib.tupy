@@ -5,8 +5,9 @@
 # no programa.
 
 # Lista de funções disponíveis:
-# escrever, ler, ler_linha, asserção,
-# copiar, binário, octal, hexadecimal,
+# escrever, ler, ler_linha, 
+# binário, octal, hexadecimal,
+# copiar, comprimento, asserção,
 # cadeia, caracter, inteiro, real, lógico,
 # lista, juntar, embaralhar, inserir, remover, 
 # mín, máx, abs, aleatório, inteiro_aleatório
@@ -57,20 +58,6 @@ ler_linha(L)                             # atribui valor à variável L
                                          # fim de arquivo.
 
 #----------------------------------------------------------------------
-## asserção(x)
-
-# Parâmetros:
-#   x (lógico)
-
-# Interrompe a execução do programa se a condição definida por x
-# não for atendida.
-
-# Não possui retorno.
-
-asserção(9 < 10)      # prossegue a execução do programa
-asserção((2 + 2) = 5) # interrompe a execução do programa
-
-#----------------------------------------------------------------------
 ## copiar(x)
 
 # Parâmetros:
@@ -88,6 +75,39 @@ Teste C <- copiar(A)                # C é uma cópia de A
 A.x <- 1                            # A.x = 1, B.x = 1, C.x = 0
 B.x <- 2                            # A.x = 2, B.x = 2, C.x = 0
 C.x <- 3                            # A.x = 2, B.x = 2, C.x = 3
+
+#----------------------------------------------------------------------
+## comprimento(x)
+
+# Parâmetros:
+#   x (lista)
+
+# Retorna: Um inteiro contendo o comprimento da lista x.
+#          Difere do operador de cardinalidade |x| especialmente quando
+#          usado em listas de duas ou mais dimensões. Dada uma lista L:
+#           - |L| = quantos elementos primitivos existem em L
+#           - comprimento(L) = quantos elementos existem em L
+
+inteiro V[*] <- [1, 2, 3, 4]
+inteiro M[*,*] <- [ [1, 2], [3, 4, 5] ]
+inteiro x <- |V|                         # x = 4
+inteiro x <- comprimento(V)              # x = 4
+inteiro x <- |M|                         # x = 5
+inteiro x <- comprimento(M)              # x = 2
+
+#----------------------------------------------------------------------
+## asserção(x)
+
+# Parâmetros:
+#   x (lógico)
+
+# Interrompe a execução do programa se a condição definida por x
+# não for atendida.
+
+# Não possui retorno.
+
+asserção(9 < 10)      # prossegue a execução do programa
+asserção((2 + 2) = 5) # interrompe a execução do programa
 
 #----------------------------------------------------------------------
 ## binário(x)

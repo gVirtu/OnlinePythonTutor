@@ -270,7 +270,7 @@ export abstract class AbstractBaseFrontend {
   }
 
   startExecutingCode(startingInstruction=0) {
-    $('#executeBtn').html("Por favor aguarde... executando (pode levar até 10 segundos)");
+    $('#executeBtn').html("<i class=\"fas fa-cog fa-2x fa-spin\"></i> Executando, aguarde...");
     $('#executeBtn').attr('disabled', true);
     this.isExecutingCode = true;
   }
