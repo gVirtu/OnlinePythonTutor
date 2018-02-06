@@ -1,0 +1,64 @@
+~~ visual VH <- heap([])
+~~ visual VV <- vetor([])
+
+tipo Heap: 
+  inteiro V[*]
+  
+  Insere(inteiro p):
+    V <- inserir(V, p)
+    Sobe()
+    
+  Sobe():
+    ~~ VH <- heap(V)
+    inteiro i <- |V|-1; inteiro p <- (i-1) div 2
+    enquanto i != 0 e V[p] > V[i]:
+      ~~ VH <- heap(V, [i, p], [i])
+      V[p], V[i], i <- V[i], V[p], p
+      ~~ VH <- heap(V)
+      p <- (i-1) div 2
+      
+  inteiro Remove():
+    inteiro ret <- V[0]
+    ~~ VH <- heap(V, [0])
+    V[0] <- V[|V|-1]
+    V <- remover(V, |V|-1)
+    Desce()
+    ~~ VH <- heap(V, [0], [], "", 
+              juntar(("removido [label=\"", ret, "\"; " \
+                     "style=filled; fillcolor=green];")))
+    retornar ret
+    
+  Desce():
+    ~~ VH <- heap(V)
+    inteiro i <- 0; inteiro f <- (i*2)+1
+    enquanto f < |V|:
+      ~~ VH <- heap(V, [f], [f])
+      se f < |V|-1 e V[f] > V[f+1]:
+        f <- f + 1
+        ~~ VH <- heap(V, [f], [f])
+      se V[f] >= V[i]: 
+        parar
+      ~~ VH <- heap(V, [i, f])
+      V[f], V[i], i <- V[i], V[f], f
+      ~~ VH <- heap(V)
+      f <- (i*2)+1
+      
+  ------------------
+  lógico Vazio():
+    retornar |V| = 0
+  ------------------
+  
+inteiro[] HeapSort(Heap H, ref inteiro[] S):
+  H.V <- []; inteiro ret[*], i
+  para i <- 0..|S|:
+    H.Insere(S[i])
+  para i <- 0..|S|:
+    ret <- inserir(ret, H.Remove())
+    ~~ visual VV <- vetor(ret)
+  retornar ret
+
+      
+Heap H <- Heap()
+inteiro oculto V[8] <- [5, 1, 7, 6, 4, 2, 10, 3]
+~~ visual VV <- vetor(V)
+V <- HeapSort(H, V)
