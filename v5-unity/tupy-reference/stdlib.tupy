@@ -305,7 +305,7 @@ real r <- abs(4.7)                       # r = 4.7
 # Parâmetros:
 #   nenhum
 
-# Retorna: Um número real pseudo-aleatório entre 0 e 1.
+# Retorna: Um número real pseudo-aleatório entre 0 e 1 inclusive.
 
 real r <- aleatório()                    # r = ?
 
@@ -315,7 +315,7 @@ real r <- aleatório()                    # r = ?
 # Parâmetros:
 #   x (real)
 
-# Retorna: Um número real pseudo-aleatório entre 0 e x.
+# Retorna: Um número real pseudo-aleatório entre 0 e x inclusive.
 
 real r <- aleatório(5.0)                 # r = ?
 
@@ -325,7 +325,7 @@ real r <- aleatório(5.0)                 # r = ?
 # Parâmetros:
 #   x, y (real)
 
-# Retorna: Um número real pseudo-aleatório entre x e y.
+# Retorna: Um número real pseudo-aleatório entre x e y inclusive.
 
 real r <- aleatório(-5.0, 5.0)           # r = ?
 
@@ -335,7 +335,7 @@ real r <- aleatório(-5.0, 5.0)           # r = ?
 # Parâmetros:
 #   x (inteiro)
 
-# Retorna: Um número inteiro pseudo-aleatório entre 0 e x.
+# Retorna: Um número inteiro pseudo-aleatório entre 0 e x inclusive.
 
 inteiro r <- inteiro_aleatório(50)       # r = ?
 
@@ -345,7 +345,7 @@ inteiro r <- inteiro_aleatório(50)       # r = ?
 # Parâmetros:
 #   x, y (inteiro)
 
-# Retorna: Um número inteiro pseudo-aleatório entre x e y.
+# Retorna: Um número inteiro pseudo-aleatório entre x e y inclusive.
 
 inteiro r <- inteiro_aleatório(-50, 50)           # r = ?
 

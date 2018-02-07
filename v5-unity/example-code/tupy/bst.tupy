@@ -1,0 +1,43 @@
+~~ visual VA <- árvore(nulo, "chave", "filhos")
+
+tipo Árvore:
+    inteiro chave
+    Árvore oculta filhos[2]
+    Árvore oculta raiz
+    
+    ------------------
+    Árvore(inteiro c):
+      chave <- c
+      raiz <- esta
+      
+    Árvore(inteiro c, Árvore r):
+      chave <- c
+      raiz <- r
+    ------------------
+    
+    Inserir_ABB(inteiro nova_chave):
+      ~~ VA <- árvore(raiz, "chave", "filhos", [esta])
+      se nova_chave < chave:
+        se filhos[0] = nulo:
+          filhos[0] <- Árvore(nova_chave, raiz)
+          ~~ VA <- árvore(raiz, "chave", "filhos")
+          retornar
+        senão:
+          filhos[0].Inserir_ABB(nova_chave)
+      senão:
+        se filhos[1] = nulo:
+          filhos[1] <- Árvore(nova_chave, raiz)
+          ~~ VA <- árvore(raiz, "chave", "filhos")
+          retornar
+        senão:
+          filhos[1].Inserir_ABB(nova_chave)
+
+Árvore oculta T <- Árvore(3)
+~~ VA <- árvore(T, "chave", "filhos")
+
+inteiro L[5] <- [1, 2, 4, 5, 6]
+L <- embaralhar(L)
+
+inteiro i
+para i <- 0..|L|:
+    T.Inserir_ABB(L[i])
