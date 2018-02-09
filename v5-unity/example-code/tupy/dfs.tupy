@@ -1,0 +1,39 @@
+inteiro oculto TAM <- 12
+inteiro oculto ARESTAS <- TAM-1
+inteiro oculto MA[TAM, TAM]
+lógico oculto V[TAM]
+
+visual VG <- grafo_MA(MA)
+inteiro oculto DFSe[*,2]
+
+AdicionarAresta():
+  inteiro i, j
+  enquanto i = j:
+    i, j <- inteiro_aleatório(TAM-1), inteiro_aleatório(TAM-1)
+  MA[i,j] <- MA[j,i] <- 1
+  ~~ VG <- grafo_MA(MA)
+--------------------------
+  
+inteiro i
+para i <- 0..ARESTAS:
+  AdicionarAresta()
+~~ VG <- grafo_MA(MA)
+
+BuscaEmProfundidade(inteiro v):
+  V[v] <- verdadeiro
+  inteiro i
+  para i <- 0..TAM:
+    ----------------------
+    se MA[v,i] e não V[i]:
+      ~~ DFSe <- inserir(DFSe, [v, i])
+      ~~ VG <- grafo_MA(MA, [i], DFSe)
+      --------------------
+      BuscaEmProfundidade(i)
+      
+inteiro componentes <- 0
+  
+para i <- 0..TAM:
+  ~~ VG <- grafo_MA(MA, [i], DFSe)
+  se não V[i]:
+    BuscaEmProfundidade(i)
+    componentes <- componentes + 1

@@ -40,7 +40,7 @@ def index(filepath):
 
 @route('/web_exec_tupy.py', method='POST')
 def get_tupy_exec():
-    return tupy.Interpreter.Interpreter.interpret(request.json["user_script"], trace=True, stdin=request.json["user_input"])
+    return tupy.Interpreter.Interpreter.interpret(request.json["user_script"], trace=True, quiet=True, stdin=request.json["user_input"])
 
 # Note that this will run either Python 2 or 3, depending on which
 # version of Python you used to start the server, REGARDLESS of which
