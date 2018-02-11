@@ -1,3 +1,12 @@
+#--------------------------------------------------------------------
+# Árvore B em TuPy
+# Implementação por Giancarlo França
+#
+# Este programa não lê a entrada do usuário. 
+# A árvore será construída a partir de uma permutação 
+# pseudoaleatória da lista ins definida abaixo. (caracteres de A a M)
+#--------------------------------------------------------------------
+
 ~~ visual ARV
 
 tipo Nó:

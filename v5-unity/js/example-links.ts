@@ -18,7 +18,25 @@ export var exampleHeaderHtml = `<p style="margin-top: 25px; font-weight: bold; f
 
 <div id="cheatSheet"></div>
 
-<p>Os exemplos abaixo demonstram algumas funcionalidades da linguagem TuPy e suas visualizações. Cada um também conta com uma tradução equivalente em Python para visualização no <a href="https://www.pythontutor.com">Online Python Tutor</a>.</p>`
+<p>Abaixo se encontram implementações em TuPy de alguns algoritmos e operações com estruturas de dados.</p>
+
+<p style="margin-top: 10px;">
+<a class="exampleLink" id="tupyInsertionSort" href="#">insertionSort</a> |
+<a class="exampleLink" id="tupyShellSort" href="#">shellSort</a> |
+<a class="exampleLink" id="tupyMergeSort" href="#">mergeSort</a> |
+<a class="exampleLink" id="tupyHeapSort" href="#">heapSort</a> |
+<a class="exampleLink" id="tupyLinkedList1" href="#">inserção&nbsp;em&nbsp;lista&nbsp;encadeada</a> |
+<a class="exampleLink" id="tupyLinkedList2" href="#">merge&nbsp;em&nbsp;lista&nbsp;encadeada</a> |
+<a class="exampleLink" id="tupyMatrixTranspose" href="#">transposição&nbsp;de&nbsp;matriz</a> |
+<a class="exampleLink" id="tupyMatrixMultiply" href="#">multiplicação&nbsp;de&nbsp;matrizes</a> |
+<a class="exampleLink" id="tupyHashing" href="#">hashing&nbsp;(encadeamento&nbsp;exterior)</a> |
+<a class="exampleLink" id="tupyBST" href="#">árvore&nbsp;binária&nbsp;de&nbsp;busca</a> |
+<a class="exampleLink" id="tupyTreeCenter" href="#">centro&nbsp;de&nbsp;árvore&nbsp;(desfolhamento)</a> |
+<a class="exampleLink" id="tupyDFS" href="#">busca&nbsp;em&nbsp;profundidade</a> |
+<a class="exampleLink" id="tupyDFS" href="#">busca&nbsp;em&nbsp;largura</a> |
+<a class="exampleLink" id="tupyCoinChange" href="#">problema&nbsp;do&nbsp;troco</a> |
+<a class="exampleLink" id="tupyChessQueens" href="#">damas&nbsp;pacíficas</a> |
+</p>`
 
 export var TUPY_CHEATSHEET = {
   tupyIntroduction: "introduction.tupy",
@@ -360,15 +378,22 @@ export var tupyExamplesHtml = `<p style="margin-top: 25px; font-weight: bold; fo
 </p>`*/;
 
 export var TUPY_EXAMPLES = {
-  tupyHelloWorldLink: 'helloWorld.tupy',
-  tupyMathsLink: 'maths.tupy',
-  tupyLoopsLink: 'loops.tupy',
-  tupyVectorsLink: 'vectors.tupy',
-  tupyMatricesLink: 'matrices.tupy',
-  tupyLinkedListsLink: 'linkedlists.tupy',
-  tupyFunctionsLink: 'functions.tupy',
-  tupyClassesLink: 'classes.tupy',
-  tupyAdvClassesLink: 'advclasses.tupy',
+  tupyInsertionSort: 'insertionsort.tupy',
+  tupyShellSort: 'shellsort.tupy',
+  tupyMergeSort: 'mergesort.tupy',
+  tupyHeapSort: 'heapsort.tupy',
+  tupyLinkedList1: 'linkedlists.tupy',
+  tupyLinkedList2: 'linkedlistmerge.tupy',
+  tupyMatrixTranspose: 'matrixtransposition.tupy',
+  tupyMatrixMultiply: 'matrixmultiplication.tupy',
+  tupyHashing: 'hashing.tupy',
+  tupyBST: 'bst.tupy',
+  tupyBTree: 'btree.tupy',
+  tupyTreeCenter: 'treecenter.tupy',
+  tupyDFS: 'dfs.tupy',
+  tupyBFS: 'bfs.tupy',
+  tupyCoinChange: 'coinchange.tupy',
+  tupyChessQueens: 'chessqueens.tupy'
 };
 
 export var cExamplesHtml = `<p style="margin-top: 25px; font-weight: bold;">C Examples</p>

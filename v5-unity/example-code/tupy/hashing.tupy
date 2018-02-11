@@ -1,3 +1,11 @@
+#--------------------------------------------------------------------
+# Hashing com Encadeamento Exterior em TuPy
+# Implementação por Giancarlo França
+#
+# Este programa não lê a entrada do usuário. 
+# Na tabela são inseridos os elementos predefinidos abaixo.
+#--------------------------------------------------------------------
+
 tipo Nó:
   cadeia chave
   inteiro elemento

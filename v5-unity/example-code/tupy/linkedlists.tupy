@@ -1,3 +1,14 @@
+#--------------------------------------------------------------------
+# Inserção em Lista Encadeada em TuPy
+# Implementação por Giancarlo França
+#
+# Este programa não lê a entrada do usuário. 
+# São demonstradas as funções Insere (insere ao começo da lista),
+# InsereEm (insere em uma posição escolhida), e InsereOrdenado 
+# (insere de forma a manter a lista ordenada), com elementos
+# predefinidos.
+#--------------------------------------------------------------------
+
 tipo Nó:
   inteiro chave
   Nó próx

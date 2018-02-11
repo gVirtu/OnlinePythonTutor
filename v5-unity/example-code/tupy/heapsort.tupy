@@ -1,3 +1,11 @@
+#--------------------------------------------------------------------
+# HeapSort em TuPy
+# Implementação por Giancarlo França
+#
+# Este programa não lê a entrada do usuário. 
+# A lista V a ser ordenada está definida abaixo.
+#--------------------------------------------------------------------
+
 ~~ visual VH <- heap([])
 ~~ visual VV <- vetor([])
 

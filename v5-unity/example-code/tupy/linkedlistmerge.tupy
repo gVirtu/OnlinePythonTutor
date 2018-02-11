@@ -1,3 +1,12 @@
+#--------------------------------------------------------------------
+# Merge em Lista Encadeada em TuPy
+# Implementação por Giancarlo França
+#
+# Este programa não lê a entrada do usuário. 
+# As listas X e Y são inicializadas com elementos predefinidos,
+# e em seguida faz-se o merge (mescla) de ambas para a lista Z.
+#--------------------------------------------------------------------
+
 tipo Nó:
   inteiro chave
   Nó próx

@@ -1,3 +1,12 @@
+#--------------------------------------------------------------------
+# Árvore Binária de Busca em TuPy
+# Implementação por Giancarlo França
+#
+# Este programa não lê a entrada do usuário. 
+# A árvore será construída a partir de uma permutação 
+# pseudoaleatória da lista L definida abaixo.
+#--------------------------------------------------------------------
+
 ~~ visual VA <- árvore(nulo, "chave", "filhos")
 
 tipo Árvore:

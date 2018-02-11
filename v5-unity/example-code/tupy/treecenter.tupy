@@ -1,3 +1,13 @@
+#--------------------------------------------------------------------
+# Centro de Árvore em TuPy
+# Implementação por Giancarlo França
+#
+# Este programa não lê a entrada do usuário. 
+# A árvore T é gerada pseudoaleatoriamente com um número predefinido
+# de filhos. O centro da árvore é determinado pelo algoritmo de 
+# desfolhamento.
+#--------------------------------------------------------------------
+
 ~~ visual VA <- árvore(nulo, "chave", "filhos")
 ~~ visual VF <- fila([])
 
