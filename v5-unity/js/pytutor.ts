@@ -256,7 +256,11 @@ export class ExecutionVisualizer {
 
     var lines = this.curInputCode.split('\n');
     for (var i = 0; i < lines.length; i++) {
-      var cod = highlight.render(lines[i], "ace/mode/tupy", "ace/theme/textmate", 1, true).html;
+      var cod
+      if (lines[i] == "<INVISIBLE>")
+        cod = lines[i]
+      else
+        cod = highlight.render(lines[i], "ace/mode/tupy", "ace/theme/textmate", 1, true).html;
       var n: {text: string, lineNumber: number, executionPoints: number[], breakpointHere: boolean} = {
         text: cod,
         lineNumber: i + 1,
@@ -3422,6 +3426,14 @@ class CodeDisplay {
           return this.owner.generateID('cod' + d.lineNumber); // make globally unique (within the page)
         }
       })
+      .attr('style', (d, i) => {
+        if (d.text == "<INVISIBLE>") {
+          return "display: none";
+        } 
+        else {
+          return "";
+        }
+      })
       .html(function(d, i) {
         if (i == 0) {
           return d.lineNumber;
@@ -3550,12 +3562,15 @@ class CodeDisplay {
     if (myViz.prevLineNumber) {
       var pla = this.domRootD3.select('#prevLineArrow');
       var baseY = this.domRoot.find('#lineNo1')[0].getBoundingClientRect().top;
-      var targetY = this.domRoot.find('#lineNo' + String(myViz.prevLineNumber))[0].getBoundingClientRect().top - baseY;
+      var targetRect = this.domRoot.find('#lineNo' + String(myViz.prevLineNumber))[0].getBoundingClientRect()
+      var targetY = targetRect.top - baseY;
+      var magicNumber = 2;
+      var offsetY = (targetRect.height >> 1) - (SVG_ARROW_HEIGHT >> 1) - magicNumber;
       // console.log("Line: " + myViz.prevLineNumber);
       // console.log("Intended: " + (((myViz.prevLineNumber - 1) * this.codeRowHeight) + this.arrowOffsetY + prevVerticalNudge) );
       // console.log("Target Y: "+ targetY);
       // console.log("Got: " + (targetY + this.arrowOffsetY + prevVerticalNudge));
-      var translatePrevCmd = 'translate(0, ' + (targetY + this.arrowOffsetY + prevVerticalNudge) + ')';
+      var translatePrevCmd = 'translate(0, ' + (targetY + offsetY + prevVerticalNudge) + ')';
       // var translatePrevCmd = 'translate(0, ' + (((myViz.prevLineNumber - 1) * this.codeRowHeight) + this.arrowOffsetY + prevVerticalNudge) + ')';
       if (smoothTransition) {
         pla
@@ -3580,15 +3595,21 @@ class CodeDisplay {
     if (myViz.curLineNumber) {
       var cla = this.domRootD3.select('#curLineArrow');
       var baseY = this.domRoot.find('#lineNo1')[0].getBoundingClientRect().top;
-      if (isTerminated)
-        var targetY = this.domRoot.find('#editBtn')[0].getBoundingClientRect().top - baseY;
+      var magicNumber = 2;
+      if (isTerminated) {
+        var targetRect = this.domRoot.find('#lineNo' + String(this.owner.codeOutputLines.length))[0].getBoundingClientRect();
+        magicNumber = -30;
+      }
       else
-        var targetY = this.domRoot.find('#lineNo' + String(myViz.curLineNumber))[0].getBoundingClientRect().top - baseY;
+        var targetRect = this.domRoot.find('#lineNo' + String(myViz.curLineNumber))[0].getBoundingClientRect();
+      var targetY = targetRect.top - baseY;
+      var offsetY = (targetRect.height >> 1) - (SVG_ARROW_HEIGHT >> 1) - magicNumber;
       // console.log("Line: " + myViz.prevLineNumber);
       // console.log("Intended: " + (((myViz.prevLineNumber - 1) * this.codeRowHeight) + this.arrowOffsetY + prevVerticalNudge) );
       // console.log("Target Y: "+ targetY);
+      // console.log("Offset Y: "+ offsetY);
       // console.log("Got: " + (targetY + this.arrowOffsetY + prevVerticalNudge));
-      var translateCurCmd = 'translate(0, ' + (targetY + this.arrowOffsetY + curVerticalNudge) + ')';
+      var translateCurCmd = 'translate(0, ' + (targetY + offsetY + curVerticalNudge) + ')';
       //var translateCurCmd = 'translate(0, ' + (((myViz.curLineNumber - 1) * this.codeRowHeight) + this.arrowOffsetY + curVerticalNudge) + ')';
       if (smoothTransition) {
         cla

@@ -16,27 +16,7 @@ export var exampleHeaderHtml = `<p style="margin-top: 25px; font-weight: bold; f
 <a class="tupyReference" id="tupyGraphviz" href="#">integração com GraphViz</a>
 </p>
 
-<div id="cheatSheet"></div>
-
-<p>Abaixo se encontram implementações em TuPy de alguns algoritmos e operações com estruturas de dados.</p>
-
-<p style="margin-top: 10px;">
-<a class="exampleLink" id="tupyInsertionSort" href="#">insertionSort</a> |
-<a class="exampleLink" id="tupyShellSort" href="#">shellSort</a> |
-<a class="exampleLink" id="tupyMergeSort" href="#">mergeSort</a> |
-<a class="exampleLink" id="tupyHeapSort" href="#">heapSort</a> |
-<a class="exampleLink" id="tupyLinkedList1" href="#">inserção&nbsp;em&nbsp;lista&nbsp;encadeada</a> |
-<a class="exampleLink" id="tupyLinkedList2" href="#">merge&nbsp;em&nbsp;lista&nbsp;encadeada</a> |
-<a class="exampleLink" id="tupyMatrixTranspose" href="#">transposição&nbsp;de&nbsp;matriz</a> |
-<a class="exampleLink" id="tupyMatrixMultiply" href="#">multiplicação&nbsp;de&nbsp;matrizes</a> |
-<a class="exampleLink" id="tupyHashing" href="#">hashing&nbsp;(encadeamento&nbsp;exterior)</a> |
-<a class="exampleLink" id="tupyBST" href="#">árvore&nbsp;binária&nbsp;de&nbsp;busca</a> |
-<a class="exampleLink" id="tupyTreeCenter" href="#">centro&nbsp;de&nbsp;árvore&nbsp;(desfolhamento)</a> |
-<a class="exampleLink" id="tupyDFS" href="#">busca&nbsp;em&nbsp;profundidade</a> |
-<a class="exampleLink" id="tupyDFS" href="#">busca&nbsp;em&nbsp;largura</a> |
-<a class="exampleLink" id="tupyCoinChange" href="#">problema&nbsp;do&nbsp;troco</a> |
-<a class="exampleLink" id="tupyChessQueens" href="#">damas&nbsp;pacíficas</a> |
-</p>`
+<div id="cheatSheet"></div>`
 
 export var TUPY_CHEATSHEET = {
   tupyIntroduction: "introduction.tupy",
@@ -362,7 +342,26 @@ export var RUBY_EXAMPLES = {
 };
 
 export var tupyExamplesHtml = `<p style="margin-top: 25px; font-weight: bold; font-size: 13pt;">Exemplos de TuPy</p>
-<p style="margin-top: 5px;">a fazer</p>
+
+<p style="margin-top: 10px;">Abaixo se encontram implementações em TuPy de alguns algoritmos e operações com estruturas de dados.</p>
+
+<p style="margin-top: 10px;">
+<a class="exampleLink" id="tupyInsertionSort" href="#">insertionSort</a> |
+<a class="exampleLink" id="tupyShellSort" href="#">shellSort</a> |
+<a class="exampleLink" id="tupyMergeSort" href="#">mergeSort</a> |
+<a class="exampleLink" id="tupyHeapSort" href="#">heapSort</a> |
+<a class="exampleLink" id="tupyLinkedList1" href="#">inserção&nbsp;em&nbsp;lista&nbsp;encadeada</a> |
+<a class="exampleLink" id="tupyLinkedList2" href="#">merge&nbsp;em&nbsp;lista&nbsp;encadeada</a> |
+<a class="exampleLink" id="tupyMatrixTranspose" href="#">transposição&nbsp;de&nbsp;matriz</a> |
+<a class="exampleLink" id="tupyMatrixMultiply" href="#">multiplicação&nbsp;de&nbsp;matrizes</a> |
+<a class="exampleLink" id="tupyHashing" href="#">hashing&nbsp;(encadeamento&nbsp;exterior)</a> |
+<a class="exampleLink" id="tupyBST" href="#">árvore&nbsp;binária&nbsp;de&nbsp;busca</a> |
+<a class="exampleLink" id="tupyTreeCenter" href="#">centro&nbsp;de&nbsp;árvore&nbsp;(desfolhamento)</a> |
+<a class="exampleLink" id="tupyDFS" href="#">busca&nbsp;em&nbsp;profundidade</a> |
+<a class="exampleLink" id="tupyDFS" href="#">busca&nbsp;em&nbsp;largura</a> |
+<a class="exampleLink" id="tupyCoinChange" href="#">problema&nbsp;do&nbsp;troco</a> |
+<a class="exampleLink" id="tupyChessQueens" href="#">damas&nbsp;pacíficas</a> |
+</p>
 `
 /*<p style="margin-top: 5px;">
   <a class="exampleLink" id="tupyHelloWorldLink" href="#">Olá Mundo</a> |

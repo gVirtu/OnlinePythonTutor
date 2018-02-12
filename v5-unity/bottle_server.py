@@ -20,8 +20,10 @@ import json
 import pg_logger
 import tupy.Interpreter
 import os
+import sys
 
 BaseRequest.MEMFILE_MAX = 1024 * 1024
+sys.setrecursionlimit(2000) # !!
 
 @route('/web_exec_<name:re:.+>.py')
 @route('/LIVE_exec_<name:re:.+>.py')

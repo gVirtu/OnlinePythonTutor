@@ -1,0 +1,81 @@
+#--------------------------------------------------------------------
+# Busca em Largura (Lista de Adjacência) em TuPy
+# Implementação por Giancarlo França
+#
+# Este programa não lê a entrada do usuário. 
+# O grafo é gerado com número de arestas definido pela constante
+# chamada ARESTAS. A constante TAM denota o número de vértices.
+#--------------------------------------------------------------------
+
+inteiro oculto TAM <- 12
+inteiro oculto ARESTAS <- TAM-1
+inteiro oculto LA[TAM, *]
+lógico oculto V[TAM]
+
+visual VG <- grafo_LA(LA)
+~~ inteiro oculto DFSe[*,2]
+
+AdicionarAresta():
+  inteiro i, j
+  enquanto i = j:
+    i, j <- inteiro_aleatório(TAM-1), inteiro_aleatório(TAM-1)
+  LA[i] <- inserir(LA[i], j)
+  LA[j] <- inserir(LA[j], i)
+  ~~ VG <- grafo_LA(LA)
+--------------------------
+  
+inteiro i
+para i <- 0..ARESTAS:
+  AdicionarAresta()
+
+--------------------------------------------------------
+tipo Par:
+  inteiro primeiro, segundo
+  
+  Par(inteiro x, inteiro y):
+    primeiro, segundo <- x, y
+    
+  cadeia escrita():
+    retornar juntar(("{", primeiro, ", ", segundo, "}"))
+--------------------------------------------------------
+
+BuscaEmLargura(inteiro v):
+  Par oculto F[*]
+  ~~ visual VF <- fila(F)
+  
+  ------------------------
+  Enfileirar(inteiro x, inteiro pai):
+    F <- inserir(F, Par(x, pai))
+    
+  Par Desenfileirar():
+    Par ret <- F[0]
+    F <- remover(F, 0)
+    retornar ret
+  ------------------------
+    
+  Enfileirar(v, v)
+  V[v] <- verdadeiro
+  
+  enquanto |F|:
+    ~~ VF <- fila(F, [0])
+    Par P <- Desenfileirar()
+    inteiro atual, anterior, próximo, i <- P.primeiro, P.segundo, 0, 0
+    ~~ VF <- fila(F)
+    ~~ DFSe <- inserir(DFSe, [anterior, atual])
+    ~~ VG <- grafo_LA(LA, [atual], DFSe)
+    para i <- 0..|LA[atual]|:
+      próximo <- LA[atual, i]
+      
+      ----------------------------
+      se não V[próximo]:
+        V[próximo] <- verdadeiro
+        --------------------------
+        Enfileirar(próximo, atual)
+      
+inteiro componentes <- 0
+  
+para i <- 0..TAM:
+  ~~ VG <- grafo_LA(LA, [i], DFSe)
+  se não V[i]:
+    BuscaEmLargura(i)
+    componentes <- componentes + 1
