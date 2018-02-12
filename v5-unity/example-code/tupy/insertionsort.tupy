@@ -14,28 +14,28 @@
 
 visual oculto _indicador <- "rankdir=\"BT\"; j -> 1:v"
 visual exibir(ref inteiro[] A, inteiro i, inteiro j):
-  retornar vetor(A, [i], juntar([_indicador, cadeia(j), ":s"]))
+    retornar vetor(A, [i], juntar([_indicador, cadeia(j), ":s"]))
 -----------------------
 
 InsertionSort(ref inteiro[] B, inteiro N):
-  asserção(N > 0)
-  asserção(|B| >= N)
-  inteiro i, j
-  para i <- 1 até N:
-    j <- i - 1
-    enquanto j >= 0 e B[j] > B[j+1]:
-      ~~ V <- exibir(B, i, j)
-      B[j], B[j+1], j <- B[j+1], B[j], j-1
-    ~~ V <- vetor(A, [i])
-                
+    asserção(N > 0)
+    asserção(|B| >= N)
+    inteiro i, j
+    para i <- 1 até N:
+        j <- i - 1
+        enquanto j >= 0 e B[j] > B[j+1]:
+            ~~ V <- exibir(B, i, j)
+            B[j], B[j+1], j <- B[j+1], B[j], j-1
+        ~~ V <- vetor(A, [i])
+
 -----------------------
 inteiro oculto A[*], elem
 visual V
 
 enquanto ler(elem):
-  A <- inserir(A, elem)
+    A <- inserir(A, elem)
 -----------------------
-  
+
 ~~ V <- vetor(A)
 InsertionSort(A, |A|)
 escrever(A)

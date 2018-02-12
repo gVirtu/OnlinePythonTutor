@@ -1,0 +1,80 @@
+### MANIPULAÇÃO DA VISUALIZAÇÃO ###
+
+# Usando o botão 'Visualizar Execução', o interpretador
+# irá processar os comandos e mostrar uma visualização
+# da sequência de passos efetuados para executar o
+# programa, comando a comando.
+
+# Algumas vezes, no entanto, a lista de passos gerados
+# para a sequência de execução pode ficar muito extensa ou
+# muito carregada de informações. Visto que TuPy foi projetada
+# para auxiliar a visualização, existem funcionalidades que
+# permitem manipulá-la.
+
+# Por padrão, toda variável declarada é apresentada no contexto
+# em que ela foi criada.
+
+inteiro X <- 12345
+
+# É possível escondê-la acrescentando o modificador 'oculto' ou
+# 'oculta' no momento da declaração da variável, após o tipo de
+# dado escolhido. A variável ainda existirá e poderá ser usada
+# no programa, ela só não será exibida.
+
+inteiro oculto X <- 54321
+inteiro Y <- X + 2
+
+# Você também pode omitir certas linhas da visualização
+# do programa: essas linhas ainda serão executadas, mas os
+# passos resultantes dos comandos contidos nessa parte do
+# programa não serão listados.
+
+# O visualizador irá ocultar qualquer linha iniciada por '~~':
+
+~~ cadeia S <- "Olá mundo!"
+
+# Note que caso a linha faça parte de um bloco, o prefixo '~~'
+# deve estar alinhado à indentação do bloco para que o código
+# seja executado corretamente. Todos os espaços entre o '~~' e
+# o primeiro caracter válido da linha são ignorados.
+
+~~  se verdadeiro:                  # Não há problema em espaçar o 'se'!
+    cadeia S <- "Olá"
+    ~~ cadeia T <- S + " mundo!"    # Observe o alinhamento desta linha!
+
+# É possível fazer com que o visualizador nunca faça uma
+# parada em uma linha específica, mas a mesma ainda seja
+# mostrada no painel de exibição do programa. Para isso,
+# utilize o marcador '~>' de forma análoga ao '~~'.
+
+~> cadeia S <- "Olá mundo!"         # O marcador não será exibido, mas
+                                    # a linha será. A sequência de
+                                    # execução passará direto por ela.
+
+# Alternativamente, utilize um delimitador feito por pelo
+# menos três hífens '-' em qualquer parte do programa para
+# sinalizar que nenhuma linha antes dele deverá ser um
+# ponto de parada do visualizador:
+
+cadeia S <- "Olá mundo!"
+------
+escrever(S)
+
+# No exemplo acima, como a linha 'cadeia S <- "Olá mundo!"'
+# está antes do delimitador, ela será executada mas seu
+# comando não estará presente na lista de passos da
+# visualização, assim como nenhuma das linhas anteriores.
+
+# Se usarmos pares de delimitadores, podemos pular a
+# visualização de partes do código que não estejam
+# necessariamente no começo, como por exemplo:
+
+escrever("O visualizador fará uma parada nesta linha...")
+--------------------
+escrever("...mas por esta ele irá passar direto.")
+--------------------
+escrever("Em seguida, ele passará por esta.")
+
+# Ao contrário dos marcadores '~~' e '~>', o delimitador acima
+# não precisa obedecer quaisquer regras de indentação, e as linhas
+# que o contiverem não serão exibidas no painel de execução.

@@ -26,21 +26,33 @@ res <- 9 != 2      # Diferente
 # será executada caso a expressão seja avaliada
 # e retorne 'falso'.
 
+# O bloco de código em TuPy segue o modelo Python,
+# isto é, o aninhamento é definido pela indentação:
+
+# {bloco1}
+#     {bloco1.1}
+#     {bloco1.2}
+#         {bloco1.2.1}
+# {bloco2}
+#     {bloco2.1}
+#         {bloco2.1.1}
+#         {bloco2.1.2}
+
 # Usando um 'se':
 
 se verdadeiro:
-  escrever("Verdadeiro!")
-  # mais comandos poderiam estar aqui!
+    escrever("Verdadeiro!")
+    # mais comandos poderiam estar aqui!
 
 # Usando um 'se/senão':
 
 se verdadeiro:
-  escrever("Verdadeiro!")         # Apenas este bloco de código
-  #...                            # será executado.
+    escrever("Verdadeiro!")         # Apenas este bloco de código
+    #...                            # será executado.
 senão:
-  escrever("Falso!")
-  #...
-  
+    escrever("Falso!")
+    #...
+
 # É possível encadear uma sequência de condicionais
 # que serão avaliados em ordem até que um deles
 # seja satisfeito:
@@ -48,23 +60,23 @@ senão:
 inteiro a <- 5
 
 se a > 5:
-  escrever("Maior que cinco!")
+    escrever("Maior que cinco!")
 senão se a > 3:
-  escrever("Entre quatro e cinco!") # Apenas este bloco de código
-senão:                              # será executado.
-  escrever("Três ou menos!")
-  
+    escrever("Entre quatro e cinco!") # Apenas este bloco de código
+senão:                                # será executado.
+    escrever("Três ou menos!")
+
 # Deve ser destacado que TuPy considera qualquer
 # valor não-zero (e não-cadeia-vazia) como verdadeiro
 # quando utilizado em avaliações. Assim:
 
 inteiro a <- 5
 se a:
-  escrever("Verdadeiro!")           # 'Verdadeiro' é impresso.
-  
+    escrever("Verdadeiro!")         # 'Verdadeiro' é impresso.
+
 inteiro b <- 0
 se b:
-  escrever("Falso!")                # Este bloco não é executado.
+    escrever("Falso!")              # Este bloco não é executado.
 
 ## Estruturas de repetição (loops)
 
@@ -74,10 +86,10 @@ se b:
 
 inteiro a <- 3
 enquanto(a):                        # Escreve 3
-  escrever(a)                       #         2
-  a <- a - 1                        #         1
-  
-# Certifique-se que o bloco de código que é 
+    escrever(a)                     #         2
+    a <- a - 1                      #         1
+
+# Certifique-se que o bloco de código que é
 # executado repetidamente será capaz de fazer com que
 # a condição se invalide em algum momento!
 # Caso contrário, seu loop será infinito e
@@ -85,7 +97,7 @@ enquanto(a):                        # Escreve 3
 
 inteiro a <- 0
 enquanto(verdadeiro):
-  a <- a + 1
+    a <- a + 1
 
 # Os loops 'para' permitem executar
 # instruções um número predeterminado
@@ -93,11 +105,11 @@ enquanto(verdadeiro):
 
 inteiro i
 para i <- 1 até 5:
-  escrever(i)                       # Escreve 1
+    escrever(i)                     # Escreve 1
                                     #         2
                                     #         3
                                     #         4
-  
+
 # O exemplo acima irá atribuir, em sequência,
 # os valores 1, 2, 3 e 4 ao inteiro i, e
 # para cada um desses valores irá executar o
@@ -106,7 +118,7 @@ para i <- 1 até 5:
 
 inteiro i
 para i <- 1..5:
-  escrever(i)
+    escrever(i)
 
 # Pode-se utilizar a palavra-chave 'inclusive'
 # após o intervalo desejado (ou 'incl.') para
@@ -116,12 +128,12 @@ para i <- 1..5:
 
 inteiro i
 para i <- 1..5 incl.:
-  escrever(i)
+    escrever(i)
 
 inteiro i
 para i <- 1 até 5 inclusive:
-  escrever(i)
-  
+    escrever(i)
+
 # Caso o intervalo estipulado contenha variáveis,
 # elas são avaliadas uma única vez, no começo do
 # loop. Isso ocorre para que, em casos de intervalo
@@ -131,35 +143,35 @@ para i <- 1 até 5 inclusive:
 inteiro a, b <- 5, 1
 inteiro i
 para i <- a..b inclusive:
-  escrever(i)                       # Escreve 5
+    escrever(i)                     # Escreve 5
                                     #         4
                                     #         3
                                     #         2
                                     #         1
-                                    
+
 # Também é possível especificar um passo customizado
 # para o loop:
 
 inteiro i
 para i <- 1..10 passo 2:            # Escreve 1
-  escrever(i)                       #         3
+    escrever(i)                     #         3
                                     #         5
                                     #         7
                                     #         9
-                                    
+
 # Além disso, dois loops aninhados podem ser
 # representados em uma única linha em TuPy:
 
 inteiro i, j
 para i <- 1..4:
-  para j <- 1..4:
-    escrever(i, j)
-    
+    para j <- 1..4:
+        escrever(i, j)
+
 # É equivalente a...
 
 inteiro i, j
 para i, j <- 1..4, 1..4:            # Escreve 1 1
-  escrever(i, j)                    #         1 2
+    escrever(i, j)                  #         1 2
                                     #         1 3
                                     #         2 1
                                     #         2 2

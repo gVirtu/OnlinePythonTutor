@@ -16,30 +16,30 @@ tipo Árvore:
     
     ------------------
     Árvore(inteiro c):
-      chave <- c
-      raiz <- esta
+        chave <- c
+        raiz <- esta
       
     Árvore(inteiro c, Árvore r):
-      chave <- c
-      raiz <- r
+        chave <- c
+        raiz <- r
     ------------------
     
     Inserir_ABB(inteiro nova_chave):
-      ~~ VA <- árvore(raiz, "chave", "filhos", [esta])
-      se nova_chave < chave:
-        se filhos[0] = nulo:
-          filhos[0] <- Árvore(nova_chave, raiz)
-          ~~ VA <- árvore(raiz, "chave", "filhos")
-          retornar
+        ~~ VA <- árvore(raiz, "chave", "filhos", [esta])
+        se nova_chave < chave:
+            se filhos[0] = nulo:
+                filhos[0] <- Árvore(nova_chave, raiz)
+                ~~ VA <- árvore(raiz, "chave", "filhos")
+                retornar
+            senão:
+                filhos[0].Inserir_ABB(nova_chave)
         senão:
-          filhos[0].Inserir_ABB(nova_chave)
-      senão:
-        se filhos[1] = nulo:
-          filhos[1] <- Árvore(nova_chave, raiz)
-          ~~ VA <- árvore(raiz, "chave", "filhos")
-          retornar
-        senão:
-          filhos[1].Inserir_ABB(nova_chave)
+            se filhos[1] = nulo:
+                filhos[1] <- Árvore(nova_chave, raiz)
+                ~~ VA <- árvore(raiz, "chave", "filhos")
+                retornar
+            senão:
+                filhos[1].Inserir_ABB(nova_chave)
 
 Árvore oculta T <- Árvore(3)
 ~~ VA <- árvore(T, "chave", "filhos")

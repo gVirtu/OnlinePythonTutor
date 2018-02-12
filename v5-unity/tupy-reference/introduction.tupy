@@ -5,49 +5,10 @@
 # dessa linha é ignorado pelo interpretador.
 
 # Um programa TuPy é composto de comandos baseados
-# na língua portuguesa. Abaixo você encontra um
-# programa muito simples:
+# na língua portuguesa.
 
 cadeia S <- "Olá mundo!"
 escrever(S)
-
-# Usando o botão 'Visualizar Execução', o interpretador
-# irá processar os comandos e mostrar uma visualização
-# da sequência de passos efetuados para executar o
-# programa, linha por linha.
-
-# Você também pode omitir certas linhas da visualização
-# do programa: essas linhas ainda serão executadas, mas os
-# passos resultantes dos comandos contidos nessa parte do
-# programa não serão listados.
-
-# O visualizador irá pular qualquer linha iniciada por '~~':
-
-~~ cadeia S <- "Olá mundo!"
-
-# Alternativamente, utilize um delimitador feito por pelo 
-# menos três hífens '-' em qualquer parte do programa para 
-# sinalizar que nenhuma linha antes dele deverá ser um
-# ponto de parada do visualizador:
-
-cadeia S <- "Olá mundo!"
-------
-escrever(S)
-
-# No exemplo acima, como a linha 'cadeia S <- "Olá mundo!"'
-# está antes do delimitador, ela será executada mas seu
-# comando não estará presente na lista de passos da
-# visualização.
-
-# Se usarmos pares de delimitadores, podemos pular a
-# visualização de partes do código que não estejam
-# necessariamente no começo, como por exemplo:
-
-escrever("O visualizador fará uma parada nesta linha...")
---------------------
-escrever("...mas por esta ele irá passar direto.")
---------------------
-escrever("Em seguida, ele passará por esta.")
 
 # Para aprender mais sobre como construir programas TuPy,
 # visite os outros links da referência.

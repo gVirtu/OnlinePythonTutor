@@ -2,9 +2,9 @@
 # Centro de Árvore em TuPy
 # Implementação por Giancarlo França
 #
-# Este programa não lê a entrada do usuário. 
+# Este programa não lê a entrada do usuário.
 # A árvore T é gerada pseudoaleatoriamente com um número predefinido
-# de filhos. O centro da árvore é determinado pelo algoritmo de 
+# de filhos. O centro da árvore é determinado pelo algoritmo de
 # desfolhamento.
 #--------------------------------------------------------------------
 
@@ -12,88 +12,88 @@
 ~~ visual VF <- fila([])
 
 tipo Árvore:
-    ------------------
-    inteiro chave
-    Árvore oculta filhos[*]
-    Árvore oculta pai
-    
-    Árvore(inteiro c):
-      chave <- c
-      
-    Árvore(inteiro c, Árvore p):
-      chave <- c
-      pai <- p
-    
-    Inserir(inteiro nova_chave):
-      filhos <- inserir(filhos, Árvore(nova_chave, esta))
+        ------------------
+        inteiro chave
+        Árvore oculta filhos[*]
+        Árvore oculta pai
 
-    RemoverFolha():
-      inteiro i
-      para i <- 0..|pai.filhos|:
-        se pai.filhos[i] = esta:
-          pai.filhos <- remover(pai.filhos, i)
-          retornar
-      
-    cadeia escrita():
-      retornar cadeia(chave)
-      
-    lógico ÉFolha():
-      inteiro num_adj
-      se pai = nulo: num_adj <- |filhos|
-      senão:         num_adj <- |filhos|+1
-      
-      retornar num_adj = 1
-    ------------------
-      
-    EnfileirarFolhas(ref Árvore[] F):
-      ~~ VA <- árvore(T, "chave", "filhos", [esta])
-      se ÉFolha():
-        F <- inserir(F, esta)
-        ~~ VF <- fila(F)
-        
-      inteiro i
-      para i <- 0..|filhos|:
-        filhos[i].EnfileirarFolhas(F)        
-        
+        Árvore(inteiro c):
+            chave <- c
+
+        Árvore(inteiro c, Árvore p):
+            chave <- c
+            pai <- p
+
+        Inserir(inteiro nova_chave):
+            filhos <- inserir(filhos, Árvore(nova_chave, esta))
+
+        RemoverFolha():
+            inteiro i
+            para i <- 0..|pai.filhos|:
+                se pai.filhos[i] = esta:
+                    pai.filhos <- remover(pai.filhos, i)
+                    retornar
+
+        cadeia escrita():
+            retornar cadeia(chave)
+
+        lógico ÉFolha():
+            inteiro num_adj
+            se pai = nulo: num_adj <- |filhos|
+            senão:         num_adj <- |filhos|+1
+
+            retornar num_adj = 1
+        ------------------
+
+        EnfileirarFolhas(ref Árvore[] F):
+            ~~ VA <- árvore(T, "chave", "filhos", [esta])
+            se ÉFolha():
+                F <- inserir(F, esta)
+                ~~ VF <- fila(F)
+
+            inteiro i
+            para i <- 0..|filhos|:
+                filhos[i].EnfileirarFolhas(F)
+
 ------------------------------------------------------
 GeraFilhos(Árvore T):
-  se |T.filhos| > 1 e aleatório() < 0.9:
-    inteiro próximo <- inteiro_aleatório((|T.filhos|-1) div 2)
-    GeraFilhos(T.filhos[próximo])
-  senão se |T.filhos| e aleatório() < 0.8:
-    inteiro próximo <- inteiro_aleatório(|T.filhos|-1)
-    GeraFilhos(T.filhos[próximo])
-  senão:
-    T.Inserir(inteiro_aleatório(100))
+    se |T.filhos| > 1 e aleatório() < 0.9:
+        inteiro próximo <- inteiro_aleatório((|T.filhos|-1) div 2)
+        GeraFilhos(T.filhos[próximo])
+    senão se |T.filhos| e aleatório() < 0.8:
+        inteiro próximo <- inteiro_aleatório(|T.filhos|-1)
+        GeraFilhos(T.filhos[próximo])
+    senão:
+        T.Inserir(inteiro_aleatório(100))
 
 Árvore GeraÁrvore(inteiro N):
-  inteiro i
-  Árvore T <- Árvore(inteiro_aleatório(100))
-  para i <- 0..N:
-    GeraFilhos(T)
-  retornar T
+    inteiro i
+    Árvore T <- Árvore(inteiro_aleatório(100))
+    para i <- 0..N:
+        GeraFilhos(T)
+    retornar T
 ------------------------------------------------------
 
 RemoverFolhas(ref Árvore[] F):
-  enquanto(|F| > 1):
-    Árvore removida <- F[0]
-    ~~ VF <- fila(F, [0])
-    ~~ VA <- árvore(T, "chave", "filhos", [removida])
-    F <- remover(F, 0)
-    ~~ VF <- fila(F)
-    se removida.pai = nulo:
-      T <- removida.filhos[0]; T.pai <- nulo
-      ~~ VA <- árvore(T, "chave", "filhos")
-      se |T.filhos| = 1:
-        F <- inserir(F, T)
-        ~~ VF <- fila(F, [-1])
-    senão:
-      removida.RemoverFolha()
-      ~~ VA <- árvore(T, "chave", "filhos")
-      se removida.pai.ÉFolha():
-        F <- inserir(F, removida.pai)
-        ~~ VF <- fila(F, [-1])
-    
+    enquanto(|F| > 1):
+        Árvore removida <- F[0]
+        ~~ VF <- fila(F, [0])
+        ~~ VA <- árvore(T, "chave", "filhos", [removida])
+        F <- remover(F, 0)
+        ~~ VF <- fila(F)
+        se removida.pai = nulo:
+            T <- removida.filhos[0]; T.pai <- nulo
+            ~~ VA <- árvore(T, "chave", "filhos")
+            se |T.filhos| = 1:
+                F <- inserir(F, T)
+                ~~ VF <- fila(F, [-1])
+        senão:
+            removida.RemoverFolha()
+            ~~ VA <- árvore(T, "chave", "filhos")
+            se removida.pai.ÉFolha():
+                F <- inserir(F, removida.pai)
+                ~~ VF <- fila(F, [-1])
+
 Árvore oculta T <- GeraÁrvore(15)
 Árvore oculta F[*]
 ~~ VA <- árvore(T, "chave", "filhos")

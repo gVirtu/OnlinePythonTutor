@@ -2,39 +2,39 @@
 # Multiplicação de Matrizes em TuPy
 # Implementação por Giancarlo França
 #
-# Este programa não lê a entrada do usuário. 
+# Este programa não lê a entrada do usuário.
 # É computado o resultado de M x N, matrizes as quais estão
 # predefinidas abaixo.
 #--------------------------------------------------------------------
 
 inteiro oculto M[2,3] <- [ [1, 2, 3],
                            [5, 6, 7] ]
-                           
+
 inteiro oculto N[3,2] <- [ [2, 0],
                            [0, 2],
                            [3, 1] ]
-               
+
 ~~ visual V1 <- matriz(M)
 ~~ visual V2 <- matriz(N)
 ~~ visual VR <- matriz([])
 
 inteiro[][] Multiplicação(ref inteiro[][] oculto A, ref inteiro[][] oculto B):
-  -------------------------------------------------------------------
-  inteiro oculto linhas_A, linhas_B <- comprimento(A), comprimento(B)
-  inteiro oculto colunas_A, colunas_B <- |A[0]|, |B[0]|
-  asserção(colunas_A = linhas_B)
-  inteiro oculto RES[linhas_A, colunas_B]
-  inteiro i, j, k
-  -------------------------------------------------------------------
-  para i <- 0..linhas_A:
-    para j <- 0..colunas_B:
-      para k <- 0..colunas_A:
-        RES[i,j] <- RES[i,j] + A[i,k] * B[k,j]
-        ~~ V1 <- matriz(A, [[i,k]])
-        ~~ V2 <- matriz(B, [[k,j]])
-        ~~ VR <- matriz(RES, [[i,j]])
-      ~~ VR <- matriz(RES)
-  retornar RES
+    -------------------------------------------------------------------
+    inteiro oculto linhas_A, linhas_B <- comprimento(A), comprimento(B)
+    inteiro oculto colunas_A, colunas_B <- |A[0]|, |B[0]|
+    asserção(colunas_A = linhas_B)
+    inteiro oculto RES[linhas_A, colunas_B]
+    inteiro i, j, k
+    -------------------------------------------------------------------
+    para i <- 0..linhas_A:
+        para j <- 0..colunas_B:
+            para k <- 0..colunas_A:
+                RES[i,j] <- RES[i,j] + A[i,k] * B[k,j]
+                ~~ V1 <- matriz(A, [[i,k]])
+                ~~ V2 <- matriz(B, [[k,j]])
+                ~~ VR <- matriz(RES, [[i,j]])
+            ~~ VR <- matriz(RES)
+    retornar RES
 
 inteiro oculto R[*,*] <- Multiplicação(M, N)
 VR <- matriz(R)

@@ -333,6 +333,7 @@ export class OptFrontend extends AbstractBaseFrontend {
       mod = 'ruby';
     } else if (selectorVal === 'tupy') {
       mod = 'tupy';
+      tabSize = 4;
     } else if (selectorVal === 'c' || selectorVal == 'cpp') {
       mod = 'c_cpp';
       if (editorVal === '') {

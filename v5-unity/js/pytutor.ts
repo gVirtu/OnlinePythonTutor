@@ -2660,12 +2660,13 @@ class DataVisualizer {
           }
         } else {
           var dotRegexp = /\[\[DOT\s+(.*)\]\]/i;
-          var isGraphviz = (typeName === 'cadeia' && typeof obj[3] === 'string' && dotRegexp.test(obj[3]))
+          var isGraphviz = (typeName === 'cadeia' && typeof obj[3] === 'string' 
+                            && dotRegexp.test(obj[3].replace(new RegExp("\n", 'g'), '\\n')))
 
           if (isGraphviz) {
             d3DomElement.append('<div class="cdataHeader">' + leader + 'graphViz' + '</div>');
             try {
-              var dotSrc = dotRegexp.exec(obj[3])[1]
+              var dotSrc = dotRegexp.exec(obj[3].replace(new RegExp("\n", 'g'), '\\n'))[1]
               var resultSvg = Viz(dotSrc);
               var tempElement = d3DomElement.append('<div id="' + cdataId + '" class="cdataElt"></div>')
 

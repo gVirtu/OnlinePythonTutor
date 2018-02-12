@@ -2,73 +2,73 @@
 # Merge em Lista Encadeada em TuPy
 # Implementação por Giancarlo França
 #
-# Este programa não lê a entrada do usuário. 
+# Este programa não lê a entrada do usuário.
 # As listas X e Y são inicializadas com elementos predefinidos,
 # e em seguida faz-se o merge (mescla) de ambas para a lista Z.
 #--------------------------------------------------------------------
 
 tipo Nó:
-  inteiro chave
-  Nó próx
-  
-  Nó(inteiro c):
-    chave <- c
+    inteiro chave
+    Nó próx
+
+    Nó(inteiro c):
+        chave <- c
 
 tipo Lista:
-  Nó início
+    Nó início
 
 Insere(Lista L, inteiro chave):
-  Nó novo <- Nó(chave)
-  L.início, novo.próx <- novo, L.início
-  V <- lista_encadeada(L.início, "chave", "próx")
+    Nó novo <- Nó(chave)
+    L.início, novo.próx <- novo, L.início
+    V <- lista_encadeada(L.início, "chave", "próx")
 
 InsereOrdenado(Lista L, inteiro chave):
-  Nó p <- L.início
-  se p = nulo ou chave < p.chave:
-    Insere(L, chave)
-  senão:
-    enquanto(p.próx != nulo e p.próx.chave < chave):
-      p <- p.próx
-    Nó novo <- Nó(chave)
-    p.próx, novo.próx <- novo, p.próx
-  V <- lista_encadeada(L.início, "chave", "próx")
-  
-ExibirMerge(Nó m, Nó p, Nó q):
-  V <- lista_encadeada(m, "chave", "próx")
-  V2 <- lista_encadeada(X.início, "chave", "próx", falso, [p])
-  V3 <- lista_encadeada(Y.início, "chave", "próx", falso, [q])
-----------------
-  
-Lista Merge(Lista oculta A, Lista oculta B):
-  Lista oculta R <- Lista()
-  Nó cab <- Nó(); R.início <- cab
-  Nó p, q <- A.início, B.início
-  Nó oculto atual <- cab
-  ~~ ExibirMerge(cab.próx, p, q)
-  enquanto(p != nulo e q != nulo):
-    se p.chave < q.chave:
-      atual.próx, p <- Nó(p.chave), p.próx
+    Nó p <- L.início
+    se p = nulo ou chave < p.chave:
+        Insere(L, chave)
     senão:
-      atual.próx, q <- Nó(q.chave), q.próx
+        enquanto(p.próx != nulo e p.próx.chave < chave):
+            p <- p.próx
+        Nó novo <- Nó(chave)
+        p.próx, novo.próx <- novo, p.próx
+    V <- lista_encadeada(L.início, "chave", "próx")
+
+ExibirMerge(Nó m, Nó p, Nó q):
+    V <- lista_encadeada(m, "chave", "próx")
+    V2 <- lista_encadeada(X.início, "chave", "próx", falso, [p])
+    V3 <- lista_encadeada(Y.início, "chave", "próx", falso, [q])
+----------------
+
+Lista Merge(Lista oculta A, Lista oculta B):
+    Lista oculta R <- Lista()
+    Nó cab <- Nó(); R.início <- cab
+    Nó p, q <- A.início, B.início
+    Nó oculto atual <- cab
     ~~ ExibirMerge(cab.próx, p, q)
-    atual <- atual.próx
-    
-  enquanto(p != nulo):
-    atual.próx, p <- Nó(p.chave), p.próx
-    ~~ ExibirMerge(cab.próx, p, q)
-    atual <- atual.próx
-    
-  enquanto(q != nulo):
-    atual.próx, q <- Nó(q.chave), q.próx
-    ~~ ExibirMerge(cab.próx, p, q)
-    atual <- atual.próx
-    
-  R.início <- cab.próx
-  retornar R
+    enquanto(p != nulo e q != nulo):
+        se p.chave < q.chave:
+            atual.próx, p <- Nó(p.chave), p.próx
+        senão:
+            atual.próx, q <- Nó(q.chave), q.próx
+        ~~ ExibirMerge(cab.próx, p, q)
+        atual <- atual.próx
+
+    enquanto(p != nulo):
+        atual.próx, p <- Nó(p.chave), p.próx
+        ~~ ExibirMerge(cab.próx, p, q)
+        atual <- atual.próx
+
+    enquanto(q != nulo):
+        atual.próx, q <- Nó(q.chave), q.próx
+        ~~ ExibirMerge(cab.próx, p, q)
+        atual <- atual.próx
+
+    R.início <- cab.próx
+    retornar R
 
 Lista oculta X <- Lista()
 ~~visual V <- lista_encadeada(X.início, "chave", "próx")
-  
+
 InsereOrdenado(X, 5)
 InsereOrdenado(X, 7)
 InsereOrdenado(X, 1)

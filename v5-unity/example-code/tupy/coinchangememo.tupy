@@ -1,0 +1,61 @@
+#--------------------------------------------------------------------
+# Problema das Moedas utilizando recursão COM memorização em TuPy
+# Implementação por Giancarlo França
+#
+# Dado um conjunto V de moedas, cada uma com seu valor, determinar o
+# número de maneiras distintas que podemos compor uma quantia n 
+# utilizando essas moedas. É permitida a repetição de moedas.
+#
+# Ex: Para n = 20, temos 9 maneiras:
+#       1. 10 + 10
+#       2. 10 + 5 + 5
+#       3. 10 + 5 + 1...1
+#       4. 10 + 1...1
+#       5. 5 + 5 + 5 + 5
+#       6. 5 + 5 + 5 + 1...1
+#       7. 5 + 5 + 1...1
+#       8. 5 + 1...1
+#       9. 1...1
+#
+# <ATENÇÃO!> O limite de recursão em TuPy é consideravelmente menor 
+# do que o encontrado em linguagens convencionais. 
+#--------------------------------------------------------------------
+
+inteiro oculto V[*] <- [1, 5, 10, 25, 50, 100]
+inteiro oculto M[|V|+1, 20+1] <- -1
+~~ visual VV <- vetor(V, [], 1)
+~~ visual VM <- matriz(M)
+
+~~ exibirVetor(inteiro p):
+    ~~ se p > 0: VV <- vetor(V, [p-1], 1, juntar(("desc [fontsize=20.0; label=\"n=", n, "\n p=", p, "\"]")))
+    ~~ senão: VV <- vetor(V, [], 1, juntar(("desc [fontsize=20.0; label=\"n=", n, "\np=", p, "\"]")))
+
+inteiro Moedas(inteiro oculto p, inteiro oculto n):
+    ~~ exibirVetor(p)
+    ~> inteiro oculto retorno
+    ~> se n < 0:
+        retornar 0
+    ~> se p = 0:
+        retorno <- 0
+    ~> senão se n = 0:
+        retorno <- 1
+    ~> senão:
+        inteiro próx <- n - V[p-1]
+        -----------------------------------
+        
+        se (próx > 0) e (M[p, próx] != -1):
+            retorno <- retorno + M[p, próx]
+        senão:
+            retorno <- retorno + Moedas(p, próx)
+            
+        se M[p-1, n] != -1:
+            retorno <- retorno + M[p-1, n]
+        senão:
+            retorno <- retorno + Moedas(p-1, n)
+        -----------------------------------
+    ~> M[p, n] <- retorno
+    ~~ exibirVetor(p)
+    ~~ VM <- matriz(M, [[p, n]])
+    retornar retorno
+  
+Moedas(|V|, 20)

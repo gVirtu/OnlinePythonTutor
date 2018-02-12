@@ -2,7 +2,7 @@
 
 # A partir de um tipo de dado, podemos criar
 # uma coleção homogênea. Um vetor é um conjunto
-# ordenado finito, de uma dimensão, em que todos 
+# ordenado finito, de uma dimensão, em que todos
 # os elementos possuem o mesmo tipo:
 
 # Vetor de tamanho estático 5
@@ -22,6 +22,12 @@ V[0] <- 15                      # V = [15, 20, 30, 40, 50]
 V[2..4] <- [33, 44, 55]         # V = [15, 20, 33, 44, 55]
 V[*] <- [1, 2, 3]               # V = [1, 2, 3, 0, 0]
 V <- [1, 2, 3]                  # é equivalente à linha anterior
+
+# IMPORTANTE: Os intervalos usados no acesso a listas INCLUEM
+#             o último elemento, ao contrário dos intervalos
+#             utilizados em laços 'para'.
+#               V[2..4]        => V[2], V[3], V[4]
+#               para i <- 2..4 => i <- 2, i <- 3
 
 # TuPy permite que elementos sejam replicados para
 # preencher um intervalo arbitrário:
@@ -44,37 +50,37 @@ V[-3..-1] <- 1                  # V = [5, 5, 10, 1, 1, 1]
 inteiro M[3, 3] <- [ [1, 2, 3],
                      [4, 5, 6],
                      [7, 8, 9] ]
-                     
+
 # Matriz de tamanho dinâmico
-inteiro M[*, *] <- [ [1, 2, 3, 4], 
-                     [5, 6, 7], 
-                     [8, 9], 
+inteiro M[*, *] <- [ [1, 2, 3, 4],
+                     [5, 6, 7],
+                     [8, 9],
                      [10] ]
-                     
+
 # É possível acessar um elemento da matriz de
 # duas formas diferentes:
 
 inteiro M[3, 3] <- [ [1, 2, 3],
                      [4, 5, 6],
                      [7, 8, 9] ]
-                     
+
 M[1, 2] <- 0  # Linha 1, coluna 2 -> elemento 6
               # (indexadas a partir do 0)
-              
+
 M[2][1] <- 0  # Linha 2, coluna 1 -> elemento 8
               # (indexadas a partir do 0)
-              
+
 # Também podemos extrair e modificar submatrizes:
 
 inteiro M[3, 3] <- [ [1, 2, 3],
                      [4, 5, 6],
                      [7, 8, 9] ]
-                     
+
 M[1..2, 1..2] <- 0    # Submatriz 2x2 inferior direita
                       # M = [ [1, 2, 3],
                       #       [4, 0, 0],
                       #       [7, 0, 0] ]
-                      
+
 # Quando acessamos submatrizes ao invés de elementos
 # individuais, é importante destacar a diferença entre
 # os modos de empregar o operador de acesso:
