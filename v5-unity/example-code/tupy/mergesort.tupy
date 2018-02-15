@@ -42,7 +42,7 @@ Merge(ref inteiro[] B, inteiro oculto inicio, inteiro oculto limite, \
 
 -----------------------
 inteiro oculto A[*], elem
-cadeia V
+~~ visual V
 
 enquanto ler(elem):
     A <- inserir(A, elem)

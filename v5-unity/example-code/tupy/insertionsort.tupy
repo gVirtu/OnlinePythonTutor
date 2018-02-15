@@ -12,10 +12,9 @@
 #         1 3 3 5 7 9 10
 #--------------------------------------------------------------------
 
-visual oculto _indicador <- "rankdir=\"BT\"; j -> 1:v"
-visual exibir(ref inteiro[] A, inteiro i, inteiro j):
-    retornar vetor(A, [i], juntar([_indicador, cadeia(j), ":s"]))
------------------------
+~~ visual oculto _indicador <- "rankdir=\"BT\"; j -> 1:v"
+~~ visual exibir(ref inteiro[] A, inteiro i, inteiro j):
+    ~~ retornar vetor(A, [i], juntar([_indicador, cadeia(j), ":s"]))
 
 InsertionSort(ref inteiro[] B, inteiro N):
     asserção(N > 0)
@@ -30,7 +29,7 @@ InsertionSort(ref inteiro[] B, inteiro N):
 
 -----------------------
 inteiro oculto A[*], elem
-visual V
+~~ visual V
 
 enquanto ler(elem):
     A <- inserir(A, elem)

@@ -2,7 +2,8 @@
 // Copyright (C) Philip Guo (philip@pgbovine.net)
 // LICENSE: https://github.com/pgbovine/OnlinePythonTutor/blob/master/LICENSE.txt
 
-import {OptFrontendSharedSessions,TogetherJS} from './opt-shared-sessions';
+// import {OptFrontendSharedSessions,TogetherJS} from './opt-shared-sessions';
+import {OptFrontend} from './opt-frontend';
 import {assert,htmlspecialchars} from './pytutor';
 import {OptTestcases,redSadFace,yellowHappyFace} from './opt-testcases';
 import {pythonExamplesHtml,PY2_EXAMPLES,PY3_EXAMPLES,
@@ -72,7 +73,7 @@ SyntaxErrorSurveyBubble.prototype.qTipID = function() {
 
 
 // augment with a "Create test cases" pane
-export class OptFrontendWithTestcases extends OptFrontendSharedSessions {
+export class OptFrontendWithTestcases extends OptFrontend {
   optTests: OptTestcases;
 
   prevExecutionExceptionObjLst = []; // previous consecutive executions with "compile"-time exceptions
@@ -786,6 +787,8 @@ $(document).ready(function() {
 
       // very subtle! for TogetherJS to sync #pythonVersionSelector
       // properly, we must manually send a sync request event:
+
+      /*
       if (TogetherJS && TogetherJS.running) {
         var myVisualizer = optFrontend.myVisualizer;
         TogetherJS.send({type: "syncAppState",
@@ -795,6 +798,7 @@ $(document).ready(function() {
                                                    myVisualizer.domRoot.find('#pyCodeOutputDiv').scrollTop() :
                                                    undefined});
       }
+      */
     }, 'text' /* data type - set to text or else jQuery tries to EXECUTE the JS example code, haha, eeek! */);
     return false; // prevent an HTML 'a' element click from going to a link
   });

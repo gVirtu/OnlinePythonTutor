@@ -363,7 +363,7 @@ export var tupyExamplesHtml = `<p style="margin-top: 25px; font-weight: bold; fo
 <a class="exampleLink" id="tupyBFS" href="#">busca&nbsp;em&nbsp;largura</a> |
 moedas&nbsp;(<a class="exampleLink" id="tupyCoinChange" href="#">sem&nbsp;memorização</a> |
 <a class="exampleLink" id="tupyCoinChange2" href="#">com&nbsp;memorização</a>) |
-<a class="exampleLink" id="tupyChessQueens" href="#">damas&nbsp;pacíficas</a> |
+<a class="exampleLink" id="tupyChessQueens" href="#">damas&nbsp;pacíficas</a>
 </p>
 `
 /*<p style="margin-top: 5px;">

@@ -19,7 +19,7 @@ tipo Nó:
 tipo Lista:
     Nó início
 
-visual V <- ""
+~~ visual V <- ""
 ----------------
 
 Lista X <- Lista()

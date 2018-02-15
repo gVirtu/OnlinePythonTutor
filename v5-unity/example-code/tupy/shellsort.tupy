@@ -1,0 +1,54 @@
+#--------------------------------------------------------------------
+# ShellSort com sequência de Donald L. Shell em TuPy
+# Implementação por Raquel Marcolino
+#
+# <ATENÇÃO!> - Este programa espera receber uma entrada contendo
+#              inteiros separados por espaço, que constituirão a
+#              lista a ser ordenada.
+#
+# Exemplo de entrada:
+#         8 4 6 2 7 3 5 1
+# Saída:
+#         1 2 3 4 5 6 7 8
+#--------------------------------------------------------------------
+
+~~ visual oculto _indicador <- "rankdir=\"BT\"; j -> 1:v"
+~~ visual exibir(ref inteiro[] A, inteiro i, inteiro j):
+    ~~ se j < 0:
+        ~~ retornar vetor(A, [i])
+    ~~ retornar vetor(A, [i], juntar([_indicador, cadeia(j), ":s"]))
+
+Shell(ref inteiro[] P):
+    inteiro k <- |A|
+    enquanto (k div 2 != 0):
+        P <- inserir(P, k/2)
+        k <- k div 2
+
+ShellSort(ref inteiro[] A):
+    inteiro i, j, k, gap
+    para k <- 0 até |P|:
+        inteiro gap <- P[k]
+        para i <- gap até |A|:
+            j <- i - gap
+            ~~ V <- exibir(A, i, j)
+            enquanto j >= 0 e A[j] > A[j+gap]:
+                ~~ V <- exibir(A, j+gap, j)
+                A[j], A[j+gap], j <- A[j+gap], A[j], j-gap
+                ~~ V <- exibir(A, j+gap, j)
+
+-----------------------
+inteiro oculto elem
+inteiro oculto i
+inteiro P[*], A[*]
+~~ visual V
+
+enquanto ler(elem):
+    A <- inserir(A, elem)
+
+Shell(P)
+
+-----------------------
+
+~~ V <- vetor(A)
+ShellSort(A)
+escrever(A)

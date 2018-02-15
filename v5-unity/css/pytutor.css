@@ -841,4 +841,10 @@ div.ExecutionVisualizer td.queueFElt table.dictTbl {
   height: 48px;
 }
 
+#codAndNav {
+  background-color: white;
+  border: 1px solid lightgray;
+  padding: 1em;
+}
+
 /* END Java frontend by David Pritchard and Will Gwozdz */

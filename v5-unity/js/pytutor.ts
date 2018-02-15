@@ -29,7 +29,7 @@
 require('./lib/d3.v2.min.js');
 require('script-loader!./lib/viz.js');
 require('./lib/jquery-3.0.0.min.js');
-require('./lib/jquery.jsPlumb-1.3.10-all-min.js'); // DO NOT UPGRADE ABOVE 1.3.10 OR ELSE BREAKAGE WILL OCCUR 
+require('./lib/jquery.jsPlumb-1.3.10-all-min.js'); // DO NOT UPGRADE ABOVE 1.3.10 OR ELSE BREAKAGE WILL OCCUR
 require('./lib/jquery-ui-1.11.4/jquery-ui.js');
 require('./lib/jquery-ui-1.11.4/jquery-ui.css');
 require('./lib/jquery.ba-bbq.js'); // contains slight pgbovine modifications
@@ -787,12 +787,12 @@ export class ExecutionVisualizer {
         else if (obj instanceof Array && obj[0] == "CHAR-LITERAL") {
           var asc = obj[1].charCodeAt(0);
           var ch = obj[1];
-          
+
           // default
           var show = asc.toString(16);
           while (show.length < 4) show = "0" + show;
           show = "\\u" + show;
-          
+
           if (ch == "\n") show = "\\n";
           else if (ch == "\r") show = "\\r";
           else if (ch == "\t") show = "\\t";
@@ -802,7 +802,7 @@ export class ExecutionVisualizer {
           else if (ch == "\"") show = "\\\"";
           else if (ch == "\\") show = "\\\\";
           else if (asc >= 32) show = ch;
-          
+
           // stringObj to make monospace
           d3DomElement.append('<span class="stringObj">\'' + show + '\'</span>');
         }
@@ -812,7 +812,7 @@ export class ExecutionVisualizer {
       });
 
     this.add_pytutor_hook(
-      "isPrimitiveType", 
+      "isPrimitiveType",
       function(args) {
         var obj = args.obj;
         if ((obj instanceof Array && obj[0] == "VOID")
@@ -837,14 +837,14 @@ export class ExecutionVisualizer {
             escapeHtml(myViz.params.stdin.substr(stdinPosition));
           myViz.domRoot.find('#stdinShow').html(stdinContent);
         }
-        return [false]; 
+        return [false];
       });
 
     this.add_pytutor_hook(
       "end_render",
       function(args) {
         var myViz = args.myViz;
-        
+
         if (myViz.params.stdin && myViz.params.stdin != "") {
           var stdinHTML = '<div id="stdinWrap">stdin:<pre id="stdinShow" style="border:1px solid gray"></pre></div>';
           myViz.domRoot.find('#dataViz').append(stdinHTML); // TODO: leaky abstraction with #dataViz
@@ -872,12 +872,12 @@ export class ExecutionVisualizer {
         var myViz = args.myViz;
         var stepNum = args.stepNum;
 
-        if (!(obj[0] == 'LIST' || obj[0] == 'QUEUE' || obj[0] == 'STACK')) 
+        if (!(obj[0] == 'LIST' || obj[0] == 'QUEUE' || obj[0] == 'STACK'))
           return [false]; // didn't handle
 
         var label = obj[0].toLowerCase();
         var visibleLabel = {list:'array', queue:'queue', stack:'stack'}[label];
-        
+
         if (obj.length == 1) {
           d3DomElement.append('<div class="typeLabel">' + typeLabelPrefix + 'empty ' + visibleLabel + '</div>');
           return [true]; //handled
@@ -886,22 +886,22 @@ export class ExecutionVisualizer {
         d3DomElement.append('<div class="typeLabel">' + typeLabelPrefix + visibleLabel + '</div>');
         d3DomElement.append('<table class="' + label + 'Tbl"></table>');
         var tbl = d3DomElement.children('table');
-        
+
         if (obj[0] == 'LIST') {
           tbl.append('<tr></tr><tr></tr>');
           var headerTr = tbl.find('tr:first');
           var contentTr = tbl.find('tr:last');
-          
+
           // i: actual index in json object; ind: apparent index
           for (var i=1, ind=0; i<obj.length; i++) {
             var val = obj[i];
             var elide = val instanceof Array && val[0] == 'ELIDE';
-            
+
             // add a new column and then pass in that newly-added column
             // as d3DomElement to the recursive call to child:
             headerTr.append('<td class="' + label + 'Header"></td>');
             headerTr.find('td:last').append(elide ? "&hellip;" : ind);
-            
+
             contentTr.append('<td class="'+ label + 'Elt"></td>');
             if (!elide) {
               myViz.renderNestedObject(val, stepNum, contentTr.find('td:last'));
@@ -917,7 +917,7 @@ export class ExecutionVisualizer {
        // Stack and Queue handling code by Will Gwozdz
         /* The table produced for stacks and queues is formed slightly differently than the others,
        missing the header row. Two rows made the dashed border not line up properly */
-        if (obj[0] == 'STACK') { 
+        if (obj[0] == 'STACK') {
           tbl.append('<tr></tr><tr></tr>');
           var contentTr = tbl.find('tr:last');
           contentTr.append('<td class="'+ label + 'FElt">'+'<span class="stringObj symbolic">&#8596;</span>'+'</td>');
@@ -928,18 +928,18 @@ export class ExecutionVisualizer {
           });
           contentTr.append('<td class="'+ label + 'LElt">'+'</td>');
         }
-        
-        if (obj[0] == 'QUEUE') { 
+
+        if (obj[0] == 'QUEUE') {
           tbl.append('<tr></tr><tr></tr>');
-          var contentTr = tbl.find('tr:last');    
+          var contentTr = tbl.find('tr:last');
           // Add arrows showing in/out direction
-          contentTr.append('<td class="'+ label + 'FElt">'+'<span class="stringObj symbolic">&#8592;</span></td>');    
+          contentTr.append('<td class="'+ label + 'FElt">'+'<span class="stringObj symbolic">&#8592;</span></td>');
           $.each(obj, function(ind, val) {
             if (ind < 1) return; // skip type tag and ID entry
             contentTr.append('<td class="'+ label + 'Elt"></td>');
             myViz.renderNestedObject(val, stepNum, contentTr.find('td:last'));
           });
-          contentTr.append('<td class="'+ label + 'LElt">'+'<span class="stringObj symbolic">&#8592;</span></td>');    
+          contentTr.append('<td class="'+ label + 'LElt">'+'<span class="stringObj symbolic">&#8592;</span></td>');
         }
 
         return [true]; // did handle
@@ -986,6 +986,11 @@ export class ExecutionVisualizer {
           return entityMap[s];
         });
     };
+  }
+
+  hasException() {
+    var myViz = this;
+    return myViz.curTrace[myViz.curInstr].event == 'exception';
   }
 
   // update fields corresponding to the current and previously executed lines
@@ -1874,7 +1879,7 @@ class DataVisualizer {
             //console.log(curEntry.heap[d])
             return curEntry.heap[d] !== undefined;
           })
-        
+
         return validChildren.empty();
       })
       .attr('style', 'display:none;');
@@ -2660,7 +2665,7 @@ class DataVisualizer {
           }
         } else {
           var dotRegexp = /\[\[DOT\s+(.*)\]\]/i;
-          var isGraphviz = (typeName === 'cadeia' && typeof obj[3] === 'string' 
+          var isGraphviz = (typeName === 'cadeia' && typeof obj[3] === 'string'
                             && dotRegexp.test(obj[3].replace(new RegExp("\n", 'g'), '\\n')))
 
           if (isGraphviz) {
@@ -2671,7 +2676,7 @@ class DataVisualizer {
               var tempElement = d3DomElement.append('<div id="' + cdataId + '" class="cdataElt"></div>')
 
               var resultImg = Viz.svgXmlToPngImageElement(resultSvg, 1, function(err, img) {
-                var myElement = tempElement.html( '<img src="' + img.src + 
+                var myElement = tempElement.html( '<img src="' + img.src +
                                                   '" width="' + img.width*0.75 +
                                                   '" height="' + img.height*0.75 + '"/>');
                 myViz.redrawConnectors()
@@ -2807,8 +2812,8 @@ class DataVisualizer {
     }
 
     var hook_result = myViz.owner.try_hook("renderCompoundObject",
-                               {objID:objID, d3DomElement:d3DomElement, 
-                                isTopLevel:isTopLevel, obj:obj, 
+                               {objID:objID, d3DomElement:d3DomElement,
+                                isTopLevel:isTopLevel, obj:obj,
                                 typeLabelPrefix:typeLabelPrefix,
                                 stepNum:stepNum,
                                 myViz:myViz});
@@ -3311,7 +3316,7 @@ class CodeDisplay {
          <span id="liveModeSpan" style="display: none;">| <a id="editLiveModeBtn" href="#">Live programming</a></a>\
          </div>\
          <div id="legendDiv"/>\
-         <div id="codeFooterDocs">Clique em uma linha de código para colocar um breakpoint; use os botões Próximo/Anterior para se deslocar entre eles.</div>\
+         <div id="codeFooterDocs"><p>Você pode usar as setas direcionais, HOME e END ao invés dos botões de navegação.</p><p>Clique em uma linha de código para colocar um breakpoint; use os botões Próximo/Anterior para se deslocar entre eles.</p></div>\
        </div>';
 
     this.domRoot.append(codeDisplayHTML);
@@ -3430,7 +3435,7 @@ class CodeDisplay {
       .attr('style', (d, i) => {
         if (d.text == "<INVISIBLE>") {
           return "display: none";
-        } 
+        }
         else {
           return "";
         }
@@ -3733,11 +3738,11 @@ class NavigationController {
           case 37: // left
           owner.stepBack();
           break;
-  
+
           case 39: // right
           owner.stepForward();
           break;
-  
+
           default: return; // exit this handler for other keys
       }
       e.preventDefault(); // prevent the default action (scroll / move caret)
@@ -3745,21 +3750,24 @@ class NavigationController {
 
     var element = $('#codAndNav'),
         originalY = element.offset().top;
-    
+
     // Space between element and top of screen (when scrolling)
     var topMargin = 40;
-    
+
     // Should probably be set in CSS; but here just for emphasis
     element.css('position', 'relative');
-    
+
+    var windowViz = owner
     $(window).on('scroll', function(event) {
-        var scrollTop = $(window).scrollTop();
-        
-        element.stop(false, false).animate({
-            top: scrollTop < originalY
-                    ? 0
-                    : scrollTop - originalY + topMargin
-        }, 200);
+        if (!windowViz.hasException()) {
+          var scrollTop = $(window).scrollTop();
+
+          element.stop(false, false).animate({
+              top: scrollTop < originalY
+                      ? 0
+                      : scrollTop - originalY + topMargin
+          }, 200);
+        }
     });
 
     this.domRoot.find("#jmpFirstInstr").click(() => {this.owner.renderStep(0);});
