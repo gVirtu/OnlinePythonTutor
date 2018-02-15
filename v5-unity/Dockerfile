@@ -21,4 +21,4 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 
 EXPOSE 8003
 
-CMD ["python3", "bottle_server.py"]
+CMD ["python3", "-O", "bottle_server.py"]
