@@ -3709,11 +3709,12 @@ class NavigationController {
                      <div id="executionSlider"/>\
                      <div id="executionSliderFooter"/>\
                      <div id="vcrControls">\
-                       <button id="jmpFirstInstr", type="button">&lt;&lt; Primeiro</button>\
-                       <button id="jmpStepBack", type="button">&lt; Anterior</button>\
+                       <button id="jmpFirstInstr", type="button"><i class=\"fas fa-angle-double-left\"></i> Primeiro</button>\
+                       <button id="jmpStepBack", type="button"><i class=\"fas fa-angle-left\"></i> Anterior</button>\
                        <span id="curInstr">Passo ? de ?</span>\
-                       <button id="jmpStepFwd", type="button">Próximo &gt;</button>\
-                       <button id="jmpLastInstr", type="button">Último &gt;&gt;</button>\
+                       <button id="jmpStepFwd", type="button">Próximo <i class=\"fas fa-angle-right\"></i>\
+                       </button>\
+                       <button id="jmpLastInstr", type="button">Último <i class=\"fas fa-angle-double-right\"></i></button>\
                      </div>\
                      <div id="rawUserInputDiv">\
                        <span id="userInputPromptStr"/>\

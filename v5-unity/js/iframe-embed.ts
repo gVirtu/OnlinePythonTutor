@@ -82,6 +82,14 @@ class IframeEmbedFrontend extends AbstractBaseFrontend {
                                  'vizDiv');
   }
 
+  saveCode() {
+    console.log("Not implemented")
+  }
+
+  loadCode() {
+    console.log("Not implemented")
+  }
+
   finishSuccessfulExecution() {
     if (this.resizeContainer) {
       this.resizeContainerNow();

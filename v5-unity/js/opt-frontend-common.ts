@@ -97,6 +97,8 @@ export abstract class AbstractBaseFrontend {
   };
 
   abstract executeCode(forceStartingInstr?: number, forceRawInputLst?: string[]) : any;
+  abstract saveCode() : any;
+  abstract loadCode() : any;
   abstract finishSuccessfulExecution() : any; // called by executeCodeAndCreateViz
   abstract handleUncaughtException(trace: any[]) : any; // called by executeCodeAndCreateViz
 
@@ -184,6 +186,10 @@ export abstract class AbstractBaseFrontend {
     $("#executeBtn")
       .attr('disabled', false)
       .click(this.executeCodeFromScratch.bind(this));
+
+    $("#saveBtn").click(this.saveCode.bind(this));
+    $("#fileLoader").change(this.loadCode.bind(this))
+    $("#loadBtn").click(function() {$("#fileLoader").click()});
   }
 
   ignoreAjaxError(settings) {return false;} // subclasses should override
@@ -276,7 +282,7 @@ export abstract class AbstractBaseFrontend {
   }
 
   doneExecutingCode() {
-    $('#executeBtn').html("Visualizar Execução");
+    $('#executeBtn').html("<i class=\"fas fa-play fa-2x\"></i> Visualizar Execução");
     $('#executeBtn').attr('disabled', false);
     this.isExecutingCode = false;
   }
@@ -438,7 +444,7 @@ export abstract class AbstractBaseFrontend {
         // for Python 2 or 3, directly execute backendScript
         //assert (pyState === '2' || pyState === '3');
         var data = {"user_script" : codeToExec,
-                    "user_input" : userInput, 
+                    "user_input" : userInput,
                     //raw_input_json: this.rawInputLst.length > 0 ? JSON.stringify(this.rawInputLst) : '',
                     //options_json: JSON.stringify(backendOptionsObj),
                     "user_uuid": this.userUUID,

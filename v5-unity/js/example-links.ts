@@ -345,7 +345,7 @@ export var RUBY_EXAMPLES = {
 
 export var tupyExamplesHtml = `<p style="margin-top: 25px; font-weight: bold; font-size: 13pt;">Exemplos de TuPy</p>
 
-<p style="margin-top: 10px;">Abaixo se encontram implementações em TuPy de alguns algoritmos e operações com estruturas de dados.</p>
+<p style="margin-top: 10px;">Abaixo se encontram implementações em TuPy de alguns algoritmos e operações com estruturas de dados. Clique para abrir o código no editor. <b>Atenção:</b> Certifique-se de ter salvo seu programa antes de clicar nos exemplos abaixo!</p>
 
 <p style="margin-top: 10px;">
 <a class="exampleLink" id="tupyInsertionSort" href="#">insertionSort</a> |

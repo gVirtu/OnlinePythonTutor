@@ -245,6 +245,76 @@ export class OptFrontend extends AbstractBaseFrontend {
     }
   }
 
+  saveCode() {
+    if (this.pyInputAceEditor) {
+      var textToWrite = this.pyInputAceEditor.getValue();
+
+      //  create a new Blob (html5 magic) that conatins the data from your form feild
+      var textFileAsBlob = new Blob([textToWrite], { type: 'text/plain' });
+      // Specify the name of the file to be saved
+      var dateNow = new Date();
+
+      var pad = function(n) { return ("0" + n).slice(-2); };
+
+      var fileNameToSaveAs = dateNow.getFullYear() + "-" + pad(dateNow.getMonth()+1) + "-" + pad(dateNow.getDate()) + "_" +
+                            pad(dateNow.getHours()) + pad(dateNow.getMinutes()) + pad(dateNow.getSeconds()) + ".tupy";
+
+      // create a link for our script to 'click'
+      var downloadLink = document.createElement("a");
+      //  supply the name of the file (from the var above).
+      // you could create the name here but using a var
+      // allows more flexability later.
+      downloadLink.download = fileNameToSaveAs;
+      // provide text for the link. This will be hidden so you
+      // can actually use anything you want.
+      downloadLink.innerHTML = "Download!";
+
+      // allow our code to work in webkit & Gecko based browsers
+      // without the need for a if / else block.
+      window.URL = window.URL || (window as any).webkitURL;
+
+      // Create the link Object.
+      downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+      // when link is clicked call a function to remove it from
+      // the DOM in case user wants to save a second file.
+      downloadLink.onclick = this.destroyClickedElement;
+      // make sure the link is hidden.
+      downloadLink.style.display = "none";
+      // add the link to the DOM
+      document.body.appendChild(downloadLink);
+
+      // click the new link
+      downloadLink.click();
+    }
+  }
+
+  loadCode() {
+    if (this.pyInputAceEditor) {
+      var file = (document.getElementById("fileLoader") as any).files[0];
+      var textType = /text.*/;
+
+      if (!file) {
+        alert("Não foi possível ler o arquivo!");
+      } else if (file.type.match(textType) || file.type == "") {
+        var reader = new FileReader();
+        var editor = this.pyInputAceEditor;
+        reader.onload = function (e) {
+            editor.setValue((e.target as any).result);
+        };
+        reader.readAsText(file);
+      } else {
+        alert("Arquivo não suportado!");
+      }
+    }
+
+    (document.getElementById("fileLoaderForm") as any).reset();
+  }
+
+  destroyClickedElement(event) {
+      // remove the link from the DOM
+      document.body.removeChild(event.target);
+  }
+
   initAceEditor(height: number) {
     assert(!this.pyInputAceEditor);
     this.pyInputAceEditor = ace.edit('codeInputPane');
@@ -395,7 +465,7 @@ export class OptFrontend extends AbstractBaseFrontend {
   executeCodeFromScratch() {
     // don't execute empty string:
     if (this.pyInputAceEditor && $.trim(this.pyInputGetValue()) == '') {
-      this.setFronendError(["Type in some code to visualize."]);
+      this.setFronendError(["Primeiro, digite o código de seu programa acima!"]);
       return;
     }
     super.executeCodeFromScratch();

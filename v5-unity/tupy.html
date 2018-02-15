@@ -21,6 +21,7 @@ window.optOverride.frontendLang = 'tupy'; // hacky override before including vis
        create unique filenames for releases:
        https://webpack.github.io/docs/long-term-caching.html -->
   <script type="text/javascript" src="build/visualize.bundle.js?699971165c" charset="utf-8"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.6/js/regular.js"></script>
   <script src="https://use.fontawesome.com/releases/v5.0.6/js/solid.js"></script>
   <script src="https://use.fontawesome.com/releases/v5.0.6/js/fontawesome.js"></script>
   <style type="text/css">
@@ -79,7 +80,10 @@ Tutor TuPy - Visualização de códigos em Português - Trabalho de Conclusão d
 <div id="surveyPane"></div>
 
 <p>
-<button id="executeBtn" class="bigBtn" type="button">Visualizar Execução</button>
+<button id="executeBtn" class="bigBtn" type="button"><i class="fas fa-play fa-2x"></i> Visualizar Execução</button>
+<button id="saveBtn" class="bigBtn" type="button"><i class="far fa-save fa-2x"></i> Salvar programa</button>
+<button id="loadBtn" class="bigBtn" type="button"><i class="far fa-folder-open fa-2x"></i> Carregar programa</button>
+<form id="fileLoaderForm" style="display:none"><input id="fileLoader" type="file"/></form>
 </p>
 
 <div id="instructionsPane"></div>
