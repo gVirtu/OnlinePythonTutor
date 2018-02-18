@@ -1,5 +1,5 @@
 export var footerHtml = `
-<!-- 
+<!--
 --Using POST requests to allow for longer code for now, embeds and permalinks will not currently work--
 
 <p>
@@ -26,13 +26,14 @@ mude o link para <b>https://</b> se necessário.</p>
 -->
 
 <p style="margin-top: 25px;">
+<p>O Tutor TuPy é um <i>fork</i> do Online Python Tutor. O interpretador da linguagem TuPy também foi desenvolvido em Python para este projeto.</p>
 <a href="http://pythontutor.com/">Python Tutor</a> (<a href="https://github.com/pgbovine/OnlinePythonTutor">código no GitHub</a>) suporta sete
 linguagens (apesar do nome):</p>
 
 <p>1. Python <a href="https://docs.python.org/2.7/">2.7</a> e <a
 href="https://docs.python.org/3.6/">3.6</a> com imports de módulos
 limitados e sem suporte a entrada do usuário.
-Os módulos a seguir podem ser importados: 
+Os módulos a seguir podem ser importados:
 bisect,
 collections,
 copy,
@@ -58,8 +59,8 @@ href="https://github.com/pgbovine/OnlinePythonTutor/tree/master/v3">Código do b
 href="http://cscircles.cemc.uwaterloo.ca/java_visualize/">
 visualizador Java</a> original foi criado por <a href="https://github.com/daveagp">David Pritchard</a> e Will Gwozdz.
 Ele suporta
-<code><a href="http://introcs.cs.princeton.edu/java/stdlib/javadoc/StdIn.html">StdIn</a></code>, 
-<code><a href="http://introcs.cs.princeton.edu/java/stdlib/javadoc/StdOut.html">StdOut</a></code>, 
+<code><a href="http://introcs.cs.princeton.edu/java/stdlib/javadoc/StdIn.html">StdIn</a></code>,
+<code><a href="http://introcs.cs.princeton.edu/java/stdlib/javadoc/StdOut.html">StdOut</a></code>,
 a maioria das outras <a href="http://introcs.cs.princeton.edu/java/stdlib">bibliotecas <tt>stdlib</tt></a>,
 <a href="http://introcs.cs.princeton.edu/java/43stack/Stack.java.html"><tt>Stack</tt></a>,
 <a href="http://introcs.cs.princeton.edu/java/43stack/Queue.java.html"><tt>Queue</tt></a>,
