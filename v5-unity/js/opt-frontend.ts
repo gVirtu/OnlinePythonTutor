@@ -26,6 +26,7 @@ require('./lib/jquery-3.0.0.min.js');
 
 // just punt and use global script dependencies
 require("script-loader!./lib/ace/src-min-noconflict/ace.js");
+require("script-loader!./lib/ace/src-min-noconflict/ext-language_tools.js");
 require('script-loader!./lib/ace/src-min-noconflict/mode-python.js');
 require('script-loader!./lib/ace/src-min-noconflict/mode-javascript.js');
 require('script-loader!./lib/ace/src-min-noconflict/mode-typescript.js');
@@ -324,7 +325,7 @@ export class OptFrontend extends AbstractBaseFrontend {
     s.setTabSize(4);
     s.setUseSoftTabs(true);
     // disable extraneous indicators:
-    s.setFoldStyle('manual'); // no code folding indicators
+    // s.setFoldStyle('manual'); // no code folding indicators
     s.getDocument().setNewLineMode('unix'); // canonicalize all newlines to unix format
     this.pyInputAceEditor.setHighlightActiveLine(false);
     this.pyInputAceEditor.setShowPrintMargin(false);
@@ -348,7 +349,10 @@ export class OptFrontend extends AbstractBaseFrontend {
     $('#cheatSheet').css('height', '820px'); // VERY IMPORTANT so that it works on I.E., ugh!
 
     // auto-grow height as fit
-    this.pyInputAceEditor.setOptions({minLines: 18, maxLines: 1000, fontFamily: "Fira Code", fontSize: "10pt"});
+    this.pyInputAceEditor.setOptions({minLines: 18, maxLines: 1000,
+                                      fontFamily: "Fira Code", fontSize: "10pt",
+                                      enableBasicAutocompletion: true,
+                                      enableLiveAutocompletion: true});
 
     $('#codeInputPane').css('width', '700px');
     $('#codeInputPane').css('height', height + 'px'); // VERY IMPORTANT so that it works on I.E., ugh!

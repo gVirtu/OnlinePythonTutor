@@ -29,32 +29,45 @@ inteiro Y <- X + 2
 # passos resultantes dos comandos contidos nessa parte do
 # programa não serão listados.
 
-# O visualizador irá ocultar qualquer linha iniciada por '~~':
+# O visualizador irá ocultar qualquer linha terminada por '~~':
 
-~~ cadeia S <- "Olá mundo!"
+cadeia S <- "Olá mundo!" ~~
 
-# Note que caso a linha faça parte de um bloco, o prefixo '~~'
-# deve estar alinhado à indentação do bloco para que o código
-# seja executado corretamente. Todos os espaços entre o '~~' e
-# o primeiro caracter válido da linha são ignorados.
+# Note que o '~~' deve estar separado do último caracter válido
+# da linha por pelo menos um espaço.
 
-~~  se verdadeiro:                  # Não há problema em espaçar o 'se'!
-    cadeia S <- "Olá"
-    ~~ cadeia T <- S + " mundo!"    # Observe o alinhamento desta linha!
+cadeia S <- "Olá mundo!"~~      # ERRO!
 
 # É possível fazer com que o visualizador nunca faça uma
 # parada em uma linha específica, mas a mesma ainda seja
 # mostrada no painel de exibição do programa. Para isso,
-# utilize o marcador '~>' de forma análoga ao '~~'.
+# utilize o marcador '--' de forma análoga ao '~~'.
 
-~> cadeia S <- "Olá mundo!"         # O marcador não será exibido, mas
+cadeia S <- "Olá mundo!" --         # O marcador não será exibido, mas
                                     # a linha será. A sequência de
                                     # execução passará direto por ela.
 
-# Alternativamente, utilize um delimitador feito por pelo
-# menos três hífens '-' em qualquer parte do programa para
-# sinalizar que nenhuma linha antes dele deverá ser um
-# ponto de parada do visualizador:
+# Para aplicar essas alterações a um conjunto de linhas
+# consecutivas, utilize um delimitador feito por pelo
+# menos três '~' ou '-' em qualquer parte do programa para
+# ocultar ou pular a visualização do conjunto de linhas,
+# respectivamente.
+
+~~~~~
+escrever("Esta linha estará oculta do painel de código.")
+escrever("E esta também. Mas o comando será executado.")
+~~~~~
+cadeia S <- "Olá mundo!"
+----------------------------
+escrever("O visualizador passará direto por esta linha")
+escrever("E por esta também")
+escrever("Inclusive esta")
+----------------------------
+escrever("O próximo ponto de parada será esta linha.")
+
+# Caso seja usado um número ÍMPAR de delimitadores, todas as
+# linhas entre o PRIMEIRO delimitador e o começo do programa
+# serão afetadas:
 
 cadeia S <- "Olá mundo!"
 ------
@@ -64,17 +77,3 @@ escrever(S)
 # está antes do delimitador, ela será executada mas seu
 # comando não estará presente na lista de passos da
 # visualização, assim como nenhuma das linhas anteriores.
-
-# Se usarmos pares de delimitadores, podemos pular a
-# visualização de partes do código que não estejam
-# necessariamente no começo, como por exemplo:
-
-escrever("O visualizador fará uma parada nesta linha...")
---------------------
-escrever("...mas por esta ele irá passar direto.")
---------------------
-escrever("Em seguida, ele passará por esta.")
-
-# Ao contrário dos marcadores '~~' e '~>', o delimitador acima
-# não precisa obedecer quaisquer regras de indentação, e as linhas
-# que o contiverem não serão exibidas no painel de execução.

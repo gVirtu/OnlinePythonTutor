@@ -2,15 +2,15 @@
 # Árvore B em TuPy
 # Implementação por Giancarlo França
 #
-# Este programa não lê a entrada do usuário. 
-# A árvore será construída a partir de uma permutação 
+# Este programa não lê a entrada do usuário.
+# A árvore será construída a partir de uma permutação
 # pseudoaleatória da lista ins definida abaixo. (caracteres de A a M)
 #--------------------------------------------------------------------
 
-~~ visual ARV
+visual ARV ~~
 
 tipo Nó:
-    ~~ cadeia oculta chave_visual
+    cadeia oculta chave_visual ~~
     -------------------------------------------------------------
     inteiro oculto ordem
     caracter oculto chaves[*]
@@ -19,11 +19,11 @@ tipo Nó:
 
     Nó(inteiro ord):
         ordem <- ord
-  
-    ~~ AtualizaChaveVisual():
-        ~~ chave_visual <- juntar(["| ", juntar(chaves, " | "), " |"])
+
+    AtualizaChaveVisual(): ~~
+        chave_visual <- juntar(["| ", juntar(chaves, " | "), " |"]) ~~
     -------------------------------------------------------------
-  
+
     DivideFilho(inteiro ind):
         Nó novo <- Nó(ordem)
         Nó filho <- filhos[ind]
@@ -33,7 +33,7 @@ tipo Nó:
         para i <- 0..ordem-1:
             novo.chaves <- inserir(novo.chaves, filho.chaves[i+ordem])
         ------------------------------------------------------------
-        ~~ novo.AtualizaChaveVisual()
+        novo.AtualizaChaveVisual() ~~
         se não filho.é_folha:
             ------------------------------------------------------------
             para i <- 0..ordem:
@@ -42,13 +42,13 @@ tipo Nó:
             ------------------------------------------------------------
         chaves <- inserir(chaves, filho.chaves[ordem-1], ind)
         filho.chaves <- filho.chaves[0..ordem-2]
-        ~~ filho.AtualizaChaveVisual()
-        ~~ AtualizaChaveVisual()
+        filho.AtualizaChaveVisual() ~~
+        AtualizaChaveVisual() ~~
         filhos <- inserir(filhos, novo, ind+1)
-  
+
     InsereChave(caracter nova):
         asserção(|chaves| < (2*ordem - 1))
-        ~~ exibir_árvore([esta])
+        exibir_árvore([esta]) ~~
         inteiro pos <- BuscaInserção(nova)
         se é_folha:
             chaves <- inserir(chaves, nova, pos)
@@ -57,28 +57,28 @@ tipo Nó:
             Nó filho <- filhos[pos]
             se |filho.chaves| = (2*ordem - 1):
                 DivideFilho(pos)
-                ~~ exibir_árvore([esta])
+                exibir_árvore([esta]) ~~
                 se nova > chaves[pos]:
                     filho <- filhos[pos+1]
             filho.InsereChave(nova)
-      
+
     inteiro BuscaInserção(caracter novo):
         inteiro i <- 0
         enquanto i < |chaves| e chaves[i] < novo:
             i <- i + 1
         retornar i
-  
+
 tipo ÁrvoreB:
     Nó oculto raiz
     inteiro ordem
-  
+
     ----------------------------
     ÁrvoreB(inteiro d):
         ordem <- d
         raiz <- Nó(ordem)
         raiz.é_folha <- verdadeiro
     ----------------------------
-  
+
     Inserção(caracter novo):
         se |raiz.chaves| = (2*ordem - 1):
             Nó novaraiz <- Nó(ordem)
@@ -86,13 +86,13 @@ tipo ÁrvoreB:
             novaraiz.filhos <- inserir(novaraiz.filhos, raiz)
             novaraiz.DivideFilho(0)
             raiz <- novaraiz
-            ~~ exibir_árvore()
+            exibir_árvore() ~~
         raiz.InsereChave(novo)
-        ~~ exibir_árvore()
-    
-~~ exibir_árvore(Nó[] destaques <- []):
-    ~~ ARV <- árvore(T.raiz, "chave_visual", "filhos", destaques, "node [shape=rectangle]")
-      
+        exibir_árvore() ~~
+
+exibir_árvore(Nó[] destaques <- []): ~~
+    ARV <- árvore(T.raiz, "chave_visual", "filhos", destaques, "node [shape=rectangle]") ~~
+
 ÁrvoreB T <- ÁrvoreB(2)
 ------------------------
 exibir_árvore()

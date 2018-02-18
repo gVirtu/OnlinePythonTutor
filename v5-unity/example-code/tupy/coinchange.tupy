@@ -22,16 +22,16 @@
 #--------------------------------------------------------------------
 
 inteiro oculto V[*] <- [1, 5, 10, 25, 50, 100]
-~~ visual VV <- vetor(V)
+visual VV <- vetor(V) ~~
 
 inteiro Moedas(inteiro oculto p, inteiro oculto n):
-    ~~ se p > 0: VV <- vetor(V, [p-1], 1, juntar(("desc [fontsize=20.0; label=\"n=", n, "\n p=", p, "\"]")))
-    ~~ senão: VV <- vetor(V, [], 1, juntar(("desc [fontsize=20.0; label=\"n=", n, "\n p=", p, "\"]")))
-    ~> se p = 0 ou n < 0:
+    se p > 0: VV <- vetor(V, [p-1], 1, juntar(("desc [fontsize=20.0; label=\"n=", n, "\n p=", p, "\"]"))) ~~
+    senão: VV <- vetor(V, [], 1, juntar(("desc [fontsize=20.0; label=\"n=", n, "\n p=", p, "\"]"))) ~~
+    se p = 0 ou n < 0: --
         retornar 0
-    ~> senão se n = 0:
+    senão se n = 0: --
         retornar 1
-    ~> senão:
+    senão: --
         retornar Moedas(p, n - V[p-1]) + Moedas(p-1, n)
 
 Moedas(|V|, 20)

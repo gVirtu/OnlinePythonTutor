@@ -65,7 +65,7 @@ lógico Possível(inteiro linha, inteiro coluna):
     retornar verdadeiro
 -----------------------------------------------
 
-~~ visual V
+visual V ~~
 
 lógico DamasPacíficas(inteiro linha):
     se (linha >= N):
@@ -73,11 +73,11 @@ lógico DamasPacíficas(inteiro linha):
 
     inteiro col
     para col <- 0..N:
-        ~~ V <- Tabuleiro(linha, [linha, col])
+        V <- Tabuleiro(linha, [linha, col]) ~~
         se Possível(linha, col):
             P[linha] <- col
             se DamasPacíficas(linha+1):
-                ~~ V <- Tabuleiro(linha+1)
+                V <- Tabuleiro(linha+1) ~~
                 escrever(P)
 
     retornar falso

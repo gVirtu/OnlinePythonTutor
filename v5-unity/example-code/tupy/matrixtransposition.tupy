@@ -11,7 +11,7 @@ inteiro oculto M[4,4] <- [ [1, 2, 3, 4],
                            [9, 10, 11, 12],
                            [13, 14, 15, 16] ]
 
-~~ visual V <- matriz(M)
+visual V <- matriz(M) ~~
 
 Transposição(ref inteiro[][] M):
     inteiro tam <- |M[0]|
@@ -19,7 +19,7 @@ Transposição(ref inteiro[][] M):
     inteiro i, j
     para i <- 0..tam:
         para j <- i..tam:
-            ~~ V <- matriz(M, [[i,j], [j,i]])
+            V <- matriz(M, [[i,j], [j,i]]) ~~
             M[i,j], M[j,i] <- M[j,i], M[i,j]
 
 Transposição(M)

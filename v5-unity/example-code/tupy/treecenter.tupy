@@ -8,8 +8,8 @@
 # desfolhamento.
 #--------------------------------------------------------------------
 
-~~ visual VA <- árvore(nulo, "chave", "filhos")
-~~ visual VF <- fila([])
+visual VA <- árvore(nulo, "chave", "filhos") ~~
+visual VF <- fila([]) ~~
 
 tipo Árvore:
         ------------------
@@ -46,10 +46,10 @@ tipo Árvore:
         ------------------
 
         EnfileirarFolhas(ref Árvore[] F):
-            ~~ VA <- árvore(T, "chave", "filhos", [esta])
+            VA <- árvore(T, "chave", "filhos", [esta]) ~~
             se ÉFolha():
                 F <- inserir(F, esta)
-                ~~ VF <- fila(F)
+                VF <- fila(F) ~~
 
             inteiro i
             para i <- 0..|filhos|:
@@ -77,30 +77,30 @@ GeraFilhos(Árvore T):
 RemoverFolhas(ref Árvore[] F):
     enquanto(|F| > 1):
         Árvore removida <- F[0]
-        ~~ VF <- fila(F, [0])
-        ~~ VA <- árvore(T, "chave", "filhos", [removida])
+        VF <- fila(F, [0]) ~~
+        VA <- árvore(T, "chave", "filhos", [removida]) ~~
         F <- remover(F, 0)
-        ~~ VF <- fila(F)
+        VF <- fila(F) ~~
         se removida.pai = nulo:
             T <- removida.filhos[0]; T.pai <- nulo
-            ~~ VA <- árvore(T, "chave", "filhos")
+            VA <- árvore(T, "chave", "filhos") ~~
             se |T.filhos| = 1:
                 F <- inserir(F, T)
-                ~~ VF <- fila(F, [-1])
+                VF <- fila(F, [-1]) ~~
         senão:
             removida.RemoverFolha()
-            ~~ VA <- árvore(T, "chave", "filhos")
+            VA <- árvore(T, "chave", "filhos") ~~
             se removida.pai.ÉFolha():
                 F <- inserir(F, removida.pai)
-                ~~ VF <- fila(F, [-1])
+                VF <- fila(F, [-1]) ~~
 
 Árvore oculta T <- GeraÁrvore(15)
 Árvore oculta F[*]
-~~ VA <- árvore(T, "chave", "filhos")
-~~ VF <- fila(F)
+VA <- árvore(T, "chave", "filhos") ~~
+VF <- fila(F) ~~
 
 T.EnfileirarFolhas(F)
-~~ VA <- árvore(T, "chave", "filhos")
-~~ VF <- fila(F)
+VA <- árvore(T, "chave", "filhos") ~~
+VF <- fila(F) ~~
 RemoverFolhas(F)
 F[0]
