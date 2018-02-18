@@ -680,6 +680,10 @@ export class OptFrontendWithTestcases extends OptFrontend {
 
 } // END Class OptFrontendWithTestcases
 
+// Enable navigation prompt
+window.onbeforeunload = function() {
+  return true;
+};
 
 $(document).ready(function() {
   // initialize all HTML elements before creating optFrontend object

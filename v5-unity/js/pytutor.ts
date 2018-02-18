@@ -3299,7 +3299,7 @@ class CodeDisplay {
 
   leftGutterSvgInitialized: boolean = false;
   arrowOffsetY: number;
-  codeRowHeight: number;
+  magicHeight: number;
 
   constructor(owner, domRoot, domRootD3,
               codToDisplay: string, lang: string, editCodeBaseURL: string) {
@@ -3307,6 +3307,7 @@ class CodeDisplay {
     this.domRoot = domRoot;
     this.domRootD3 = domRootD3;
     this.codToDisplay = codToDisplay;
+    this.magicHeight = 12;
 
     var codeDisplayHTML =
       '<div id="codeDisplayDiv">\
@@ -3516,33 +3517,18 @@ class CodeDisplay {
 
       var firstRowOffsetY = this.domRoot.find('table#pyCodeOutput tr:first').offset().top;
 
-      // first take care of edge case when there's only one line ...
-      this.codeRowHeight = this.domRoot.find('table#pyCodeOutput td.cod:first').height();
-
-      // ... then handle the (much more common) multi-line case ...
-      // this weird contortion is necessary to get the accurate row height on Internet Explorer
-      // (simpler methods work on all other major browsers, erghhhhhh!!!)
-      if (this.owner.codeOutputLines.length > 1) {
-        var secondRowOffsetY = this.domRoot.find('table#pyCodeOutput tr:nth-child(2)').offset().top;
-        this.codeRowHeight = secondRowOffsetY - firstRowOffsetY;
-      }
-
-      assert(this.codeRowHeight > 0);
-
       var gutterOffsetY = gutterSVG.offset().top;
       var teenyAdjustment = gutterOffsetY - firstRowOffsetY;
 
       // super-picky detail to adjust the vertical alignment of arrows so that they line up
       // well with the pointed-to code text ...
       // (if you want to manually adjust tableTop, then ~5 is a reasonable number)
-      this.arrowOffsetY = Math.floor((this.codeRowHeight / 2) - (SVG_ARROW_HEIGHT / 2)) - teenyAdjustment;
+      this.arrowOffsetY = Math.floor((this.magicHeight / 2) - (SVG_ARROW_HEIGHT / 2)) - teenyAdjustment;
 
       this.leftGutterSvgInitialized = true;
     }
 
     assert(this.arrowOffsetY !== undefined);
-    assert(this.codeRowHeight !== undefined);
-    assert(0 <= this.arrowOffsetY && this.arrowOffsetY <= this.codeRowHeight);
 
     // assumes that this.owner.updateLineAndExceptionInfo has already
     // been run, so line number info is up-to-date!
@@ -3555,8 +3541,8 @@ class CodeDisplay {
     var isTerminated = (!myViz.instrLimitReached && isLastInstr);
     var pcod = this.domRoot.find('#pyCodeOutputDiv');
 
-    var prevVerticalNudge = myViz.prevLineIsReturn ? Math.floor(this.codeRowHeight / 3) : 0;
-    var curVerticalNudge  = myViz.curLineIsReturn  ? Math.floor(this.codeRowHeight / 3) : 0;
+    var prevVerticalNudge = myViz.prevLineIsReturn ? Math.floor(this.magicHeight / 3) : 0;
+    var curVerticalNudge  = myViz.curLineIsReturn  ? Math.floor(this.magicHeight / 3) : 0;
 
     // ugly edge case for the final instruction :0
     if (isTerminated && !hasError) {
@@ -3567,7 +3553,7 @@ class CodeDisplay {
 
     if (myViz.prevLineNumber) {
       var pla = this.domRootD3.select('#prevLineArrow');
-      var baseY = this.domRoot.find('#lineNo1')[0].getBoundingClientRect().top;
+      var baseY = this.domRoot.find('#gutterTD')[0].getBoundingClientRect().top;
       var targetRect = this.domRoot.find('#lineNo' + String(myViz.prevLineNumber))[0].getBoundingClientRect()
       var targetY = targetRect.top - baseY;
       var magicNumber = 2;
@@ -3600,11 +3586,11 @@ class CodeDisplay {
 
     if (myViz.curLineNumber) {
       var cla = this.domRootD3.select('#curLineArrow');
-      var baseY = this.domRoot.find('#lineNo1')[0].getBoundingClientRect().top;
+      var baseY = this.domRoot.find('#gutterTD')[0].getBoundingClientRect().top;
       var magicNumber = 2;
       if (isTerminated) {
-        var targetRect = this.domRoot.find('#lineNo' + String(this.owner.codeOutputLines.length))[0].getBoundingClientRect();
-        magicNumber = -30;
+        var targetRect = this.domRoot.find('#gutterTD')[0].getBoundingClientRect();
+        magicNumber = -targetRect.height;
       }
       else
         var targetRect = this.domRoot.find('#lineNo' + String(myViz.curLineNumber))[0].getBoundingClientRect();
@@ -3753,7 +3739,7 @@ class NavigationController {
         originalY = element.offset().top;
 
     // Space between element and top of screen (when scrolling)
-    var topMargin = 40;
+    var topMargin = 20;
 
     // Should probably be set in CSS; but here just for emphasis
     element.css('position', 'relative');
