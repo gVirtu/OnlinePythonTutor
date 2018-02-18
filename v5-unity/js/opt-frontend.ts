@@ -144,7 +144,7 @@ export class OptFrontend extends AbstractBaseFrontend {
              });
     });
 
-    $("#instructionsPane").html('Vídeo-tutoriais (em inglês): <a href="https://www.youtube.com/watch?v=h4q3UKdEFKE" target="_blank">compartilhando links permanentes</a> | <a href="https://www.youtube.com/watch?v=Mxt9HZWgwAM" target="_blank">escondendo variáveis</a> | <a href="https://www.youtube.com/watch?v=80ztTXP90Vs" target="_blank">configurando breakpoints</a>');
+    // $("#instructionsPane").html('Vídeo-tutoriais (em inglês): <a href="https://www.youtube.com/watch?v=h4q3UKdEFKE" target="_blank">compartilhando links permanentes</a> | <a href="https://www.youtube.com/watch?v=Mxt9HZWgwAM" target="_blank">escondendo variáveis</a> | <a href="https://www.youtube.com/watch?v=80ztTXP90Vs" target="_blank">configurando breakpoints</a>');
 
     // first initialize options from HTML LocalStorage. very important
     // that this code runs FIRST so that options get overridden by query
