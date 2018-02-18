@@ -13,7 +13,8 @@ inteiro V[*] <- [2, 4, 6]
 V <- V + [8, 10]                # V = [2, 4, 6, 8, 10]
 
 # Podemos, então, acessar ou modificar elementos
-# individuais ou intervalos de um vetor:
+# individuais ou intervalos de um vetor, contando
+# a partir do índice zero:
 
 #                0   1   2   3   4
 inteiro V[5] <- [10, 20, 30, 40, 50]

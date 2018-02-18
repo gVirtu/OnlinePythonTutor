@@ -1,13 +1,13 @@
 ### INTEGRAÇÃO COM GRAPHVIZ ###
 
-# Há suporte rudimentar para renderização de estruturas
+# Há suporte para renderização de estruturas
 # de dados usando o motor dot da ferramenta Graphviz.
 # Isso foi tornado possível graças à biblioteca Viz.js.
 # (https://github.com/mdaines/viz.js/)
 
-# As funções a seguir possibilitam converter uma estrutura 
+# As funções a seguir possibilitam converter uma estrutura
 # para uma cadeia contendo uma definição DOT que é
-# processada automaticamente pelo visualizador e 
+# processada automaticamente pelo visualizador e
 # renderizada como imagem.
 
 # O usuário também pode usar a linguagem DOT para renderizar
@@ -16,6 +16,10 @@
 
 # "[[DOT <comandos>]]"
 
+# Por exemplo:
+
+cadeia V <- "[[DOT digraph G { 1 -> 2; 2 -> 3; 3 -> 1 }]]"
+
 # Você pode aprender mais sobre a linguagem DOT com este
 # guia (em inglês): http://www.graphviz.org/pdf/dotguide.pdf
 
@@ -23,10 +27,15 @@
 # 'visual' pode ser usada com a mesma semântica de 'cadeia' como
 # especificador de tipo de dados.
 
+# Para que os procedimentos de visualização não poluam a visão
+# do código-fonte, especialmente em uma apresentação de um programa, é
+# possível ocultá-los com marcadores compostos por '~'.
+# Veja mais informações na seção 'manipulação da visualização'.
+
 # Lista de funções disponíveis:
 
-# vetor, pilha, fila, matriz, 
-# lista_encadeada, heap, árvore, 
+# vetor, pilha, fila, matriz,
+# lista_encadeada, heap, árvore,
 # grafo_MA, grafo_LA, digrafo_MA, digrafo_LA,
 # grafo_valorado_MA, grafo_valorado_LA,
 # digrafo_valorado_MA, digrafo_valorado_LA
@@ -42,18 +51,18 @@
 
 # Retorna: Uma cadeia com a descrição da estrutura a ser renderizada.
 
-# Caso a cadeia seja armazenada em uma variável, o vetor V será renderizado. 
+# Caso a cadeia seja armazenada em uma variável, o vetor V será renderizado.
 # Opcionalmente, uma ou mais posições do vetor podem ser destacadas em outra
 # cor. Para isso, especifique as posições de destaque na lista d. As cadeias xc e
-# xf, também opcionais, podem ser usadas para inserir comandos adicionais ao 
+# xf, também opcionais, podem ser usadas para inserir comandos adicionais ao
 # subprograma dot ao começo e ao final da mesma estrutura 'digraph', respectivamente.
 
 # Na definição gerada, o vetor inteiro é uma tabela contida no nó 1.
 # Cada posição do vetor pode ser referenciada por '1:vY' em que Y é o
-# índice do elemento. Por exemplo, '2 -> 1:v0' cria um nó 2 que aponta 
+# índice do elemento. Por exemplo, '2 -> 1:v0' cria um nó 2 que aponta
 # para o primeiro elemento do vetor.
 
-# Também é possível referenciar os cabeçalhos das colunas que estão 
+# Também é possível referenciar os cabeçalhos das colunas que estão
 # identificados como '1:cY'.
 
 inteiro V[*] <- [1, 5, 100, 7, 9]
@@ -101,8 +110,8 @@ visual X <- vetor(V[2..3], [], 2, "", "2 -> 1:v3:s; 2 [label=\"Veja!\"]; rankdir
 # no formato de pilha. Os parâmetros d, xc e xf funcionam da mesma maneira como
 # na função vetor.
 
-# É importante destacar que, na definição gerada, o nó 0 é reservado e 
-# invisível, localizado acima da pilha. Os identificadores de colunas '1:cY' 
+# É importante destacar que, na definição gerada, o nó 0 é reservado e
+# invisível, localizado acima da pilha. Os identificadores de colunas '1:cY'
 # do vetor também são substituídos por identificadores de linhas '1:rY'.
 
 inteiro V[*] <- [1, 5, 100, 7, 9]
@@ -127,7 +136,7 @@ visual X <- pilha(V, [1], "", "2 -> 1:v3:w; 2 [label=\"Veja!\"];"
 # no formato de fila. Os parâmetros d, xc e xf funcionam da mesma maneira como
 # na função vetor.
 
-# É importante destacar que, na definição gerada, os nós F e C são reservados 
+# É importante destacar que, na definição gerada, os nós F e C são reservados
 # e invisíveis, localizados à esquerda e à direita da fila, respectivamente.
 
 inteiro V[*] <- [1, 5, 100, 7, 9]
@@ -148,18 +157,18 @@ visual X <- fila(V, [1], "", "2 -> C; 2 [label=\"Começo da fila!\"];"
 
 # Retorna: Uma cadeia com a descrição da estrutura a ser renderizada.
 
-# Caso a cadeia seja armazenada em uma variável, a matriz M será renderizada. 
+# Caso a cadeia seja armazenada em uma variável, a matriz M será renderizada.
 # Opcionalmente, uma ou mais posições da matriz podem ser destacadas em outra
-# cor. Para isso, especifique as posições de destaque na lista d. As cadeias xc 
-# e xf, também opcionais, podem ser usadas para inserir comandos adicionais ao 
+# cor. Para isso, especifique as posições de destaque na lista d. As cadeias xc
+# e xf, também opcionais, podem ser usadas para inserir comandos adicionais ao
 # subprograma dot ao começo e ao final da mesma estrutura 'digraph', respectivamente.
 
 # Na definição gerada, a matriz inteira é uma tabela contida no nó 1.
 # Cada posição da matriz pode ser referenciada por '1:vI_J' em que I é a
-# linha e J a coluna do elemento. Por exemplo, '2 -> 1:v0_1' cria um nó 2 
+# linha e J a coluna do elemento. Por exemplo, '2 -> 1:v0_1' cria um nó 2
 # que aponta para o segundo elemento da primeira linha da matriz.
 
-# Também é possível referenciar os cabeçalhos das colunas e prefixos das 
+# Também é possível referenciar os cabeçalhos das colunas e prefixos das
 # linhas, que estão identificados como '1:cJ' e '1:rI' respectivamente.
 # O identificador '1:rc' aponta para a célula vazia à esquerda do primeiro
 # cabeçalho de coluna.
@@ -168,7 +177,7 @@ inteiro M[*,*] <- [ [1, 2, 7],
                     [4, 8, 5],
                     [9, 3, 6] ]
 visual X <- matriz(M)
-visual X <- matriz(M, [[1,2], [0,0]])                  
+visual X <- matriz(M, [[1,2], [0,0]])
 visual X <- matriz(M, [[1,2], [0,0]], "bgcolor=navy;")
 visual X <- matriz(M, [[1,2], [0,0]], "", "2 -> 1:v2_2:e; 2 [label=\"Veja!\"]; "
                                       "rankdir=\"BT\"")
@@ -221,26 +230,26 @@ visual X <- matriz(M[1..2, 0..1], [], 1, 0, "", "2 -> 1:v1_1:nw; 2 [label=\"Veja
 # e a referência de próximo elemento da lista. Caso 'dupl?' seja verdadeiro, a lista
 # será renderizada como duplamente encadeada.
 
-# Na definição gerada, os nós podem ser identificados por 'sX' onde X é a posição do 
+# Na definição gerada, os nós podem ser identificados por 'sX' onde X é a posição do
 # nó na lista fornecida, partindo do zero. Também é possível endereçar especificamente
-# a chave de um nó usando 'sX:nc', em que nc é o valor da variável nc, o ponteiro de 
-# próximo usando 'sX:r', ou o ponteiro de anterior (no caso de listas duplamente 
+# a chave de um nó usando 'sX:nc', em que nc é o valor da variável nc, o ponteiro de
+# próximo usando 'sX:r', ou o ponteiro de anterior (no caso de listas duplamente
 # encadeadas) usando 'sX:l'. Caso a lista não seja circular, o elemento 'nulo' (fim da
 # lista) é endereçável através do nome 'null'.
 
 # Opcionalmente, um ou mais nós podem ser destacados em outra
 # cor. Para isso, inclua os nós em destaque na lista d. As cadeias xc e xf,
 # também opcionais, podem ser usadas para inserir comandos adicionais que
-# estarão presentes no começo e no fim do subprograma dot, respectivamente, 
+# estarão presentes no começo e no fim do subprograma dot, respectivamente,
 # dentro da estrutura principal 'digraph'.
 
 tipo Nó:
   inteiro chv
   Nó prox
-  
+
   Nó(inteiro c):
     chv <- c
-  
+
 Nó cab <- Nó(5)
 cab.prox <- Nó(3)
 cab.prox.prox <- Nó(7)
@@ -249,9 +258,9 @@ cab.prox.prox.prox <- Nó(1)
 visual X <- lista_encadeada(cab, "chv", "prox")
 visual X <- lista_encadeada(cab, "chv", "prox", verdadeiro)
 visual X <- lista_encadeada(cab, "chv", "prox", verdadeiro, [cab.prox])
-visual X <- lista_encadeada(cab, "chv", "prox", verdadeiro, [cab.prox], 
+visual X <- lista_encadeada(cab, "chv", "prox", verdadeiro, [cab.prox],
                             "edge [color=\"red:blue\";]")
-visual X <- lista_encadeada(cab, "chv", "prox", verdadeiro, [cab.prox], 
+visual X <- lista_encadeada(cab, "chv", "prox", verdadeiro, [cab.prox],
                             "", "x [label=\"Veja!\"]; x -> s2:chv:n")
 
 #----------------------------------------------------------------------
@@ -266,16 +275,16 @@ visual X <- lista_encadeada(cab, "chv", "prox", verdadeiro, [cab.prox],
 
 # Retorna: Uma cadeia com a descrição da estrutura a ser renderizada.
 
-# Caso a cadeia seja armazenada em uma variável, o heap H será renderizado. 
+# Caso a cadeia seja armazenada em uma variável, o heap H será renderizado.
 # Ele será construído a partir de um vetor no qual o elemento no índice i tem
 # filhos nos índices (i+1)*2 e (i+2)*2. O elemento 0 será a raiz.
 # Opcionalmente, um ou mais elementos do heap podem ser destacadas em outra
 # cor. Para isso, especifique os índices de destaque na lista d. Para destacar
-# arestas, utilize a lista 'da'. Um elemento x na lista 'da' significa que a 
+# arestas, utilize a lista 'da'. Um elemento x na lista 'da' significa que a
 # aresta que conecta o pai do elemento no índice 'da' até o elemento no índice
-# 'da' será destacada. 
+# 'da' será destacada.
 
-# As cadeias xc e xf são interpretadas da mesma maneira como nas demais funções 
+# As cadeias xc e xf são interpretadas da mesma maneira como nas demais funções
 # de visualização.
 
 inteiro H[*] <- [10, 5, 20, 2, 7, 15, 25, 1, 3, 6, 8]
@@ -306,16 +315,16 @@ visual X <- heap(H, [3, 5, 1], [2, 5, 6], "", "0 [shape=star];")
 # Opcionalmente, um ou mais nós podem ser destacados em outra
 # cor. Para isso, inclua os nós em destaque na lista d. As cadeias xc e xf,
 # também opcionais, podem ser usadas para inserir comandos adicionais que
-# estarão presentes no começo e no fim do subprograma dot, respectivamente, 
+# estarão presentes no começo e no fim do subprograma dot, respectivamente,
 # dentro da estrutura principal 'digraph'.
 
 tipo Nó:
   inteiro chv
   Nó fs[*]
-  
+
   Nó(inteiro c):
     chv <- c
-  
+
 Nó T, A, B, C, D <- Nó(5), Nó(1), Nó(3), Nó(2), Nó(4)
 T.fs <- [A, B]
 B.fs <- [C, D]
@@ -343,11 +352,11 @@ visual X <- árvore(T, "chv", "fs", [B], "", "x [label=\"Veja!\"]; x -> 2")
 
 # Opcionalmente, vértices e arestas podem ser destacados com cores.
 # Para destacar vértices, preencha a lista 'd' com os índices dos vértices
-# a serem destacados. Para destacar arestas, preencha a lista 'da' com 
+# a serem destacados. Para destacar arestas, preencha a lista 'da' com
 # listas da forma [u, v] para representar uma aresta entre os vértices u e v.
 
-# As cadeias xc e xf, também opcionais, podem ser usadas para inserir comandos 
-# adicionais que estarão presentes no começo e no fim do subprograma dot, 
+# As cadeias xc e xf, também opcionais, podem ser usadas para inserir comandos
+# adicionais que estarão presentes no começo e no fim do subprograma dot,
 # respectivamente, dentro da estrutura principal 'strict graph'.
 
 inteiro G[5, 5] <- [ [ 0, 1, 0, 0, 1],
@@ -359,7 +368,7 @@ inteiro G[5, 5] <- [ [ 0, 1, 0, 0, 1],
 visual X <- grafo_MA(G)
 visual X <- grafo_MA(G, [4])
 visual X <- grafo_MA(G, [4], [[1, 2]])
-visual X <- grafo_MA(G, [4], [[1, 2]], "node [style=radial;" 
+visual X <- grafo_MA(G, [4], [[1, 2]], "node [style=radial;"
                                        "fillcolor=\"white:purple\"; gradientangle=270];")
 visual X <- grafo_MA(G, [4], [[1, 2]], "", "3 [style=invis]")
 
@@ -405,8 +414,8 @@ visual X <- grafo_LA(L, [4], [[1, 2]], "", "3 [style=invis]")
 
 # Retorna: Uma cadeia com a descrição da estrutura a ser renderizada.
 
-# Caso a cadeia seja armazenada em uma variável, o grafo direcionado 
-# descrito pela matriz de adjacência M será renderizado. Uma aresta 
+# Caso a cadeia seja armazenada em uma variável, o grafo direcionado
+# descrito pela matriz de adjacência M será renderizado. Uma aresta
 # do grafo de i para j existe se M[i,j] != 0.
 
 # Os parâmetros opcionais são equivalentes aos da função grafo_MA.
@@ -435,8 +444,8 @@ visual X <- digrafo_MA(D, [4], [[2, 1]], "", "3 [style=invis]")
 
 # Retorna: Uma cadeia com a descrição da estrutura a ser renderizada.
 
-# Caso a cadeia seja armazenada em uma variável, o grafo direcionado 
-# descrito pela lista de adjacência L será renderizado. Uma aresta 
+# Caso a cadeia seja armazenada em uma variável, o grafo direcionado
+# descrito pela lista de adjacência L será renderizado. Uma aresta
 # do grafo de i para j existe se j ∈ L[i].
 
 # Os parâmetros opcionais são equivalentes aos da função grafo_MA.
@@ -466,7 +475,7 @@ visual X <- digrafo_LA(L, [4], [[2, 1]], "", "3 [style=invis]")
 # Retorna: Uma cadeia com a descrição da estrutura a ser renderizada.
 
 # Caso a cadeia seja armazenada em uma variável, o grafo valorado
-# descrito pela matriz de adjacência M será renderizado. Uma aresta do 
+# descrito pela matriz de adjacência M será renderizado. Uma aresta do
 # grafo existe com peso M[i,j] se M[i,j] != 0 e M[j,i] != 0.
 
 # Os parâmetros opcionais são equivalentes aos da função grafo_MA.
@@ -495,7 +504,7 @@ visual X <- grafo_valorado_MA(G, [4], [[1, 2]], "", "3 [style=invis]")
 
 # Retorna: Uma cadeia com a descrição da estrutura a ser renderizada.
 
-# Caso a cadeia seja armazenada em uma variável, o grafo valorado 
+# Caso a cadeia seja armazenada em uma variável, o grafo valorado
 # descrito pela lista de adjacência L será renderizado. Uma aresta do
 # grafo existe com peso w se [j, w] ∈ L[i] e [i, _] ∈ L[j].
 
@@ -526,7 +535,7 @@ visual X <- grafo_valorado_LA(L, [4], [[1, 2]], "", "3 [style=invis]")
 # Retorna: Uma cadeia com a descrição da estrutura a ser renderizada.
 
 # Caso a cadeia seja armazenada em uma variável, o grafo valorado e
-# direcionado descrito pela matriz de adjacência M será renderizado. 
+# direcionado descrito pela matriz de adjacência M será renderizado.
 # Uma aresta do grafo de i para j existe com peso M[i,j] se M[i,j] != 0.
 
 # Os parâmetros opcionais são equivalentes aos da função grafo_MA.
@@ -540,7 +549,7 @@ inteiro D[5, 5] <- [ [0, 4, 0, 0, 0],
 visual X <- digrafo_valorado_MA(D)
 visual X <- digrafo_valorado_MA(D, [4])
 visual X <- digrafo_valorado_MA(D, [4], [[2, 1]])
-visual X <- digrafo_valorado_MA(D, [4], [[2, 1]], "node [style=wedged; " 
+visual X <- digrafo_valorado_MA(D, [4], [[2, 1]], "node [style=wedged; "
                                                   "fillcolor=\"green:yellow:blue\"];")
 visual X <- digrafo_valorado_MA(D, [4], [[2, 1]], "", "3 [style=invis]")
 
@@ -557,7 +566,7 @@ visual X <- digrafo_valorado_MA(D, [4], [[2, 1]], "", "3 [style=invis]")
 # Retorna: Uma cadeia com a descrição da estrutura a ser renderizada.
 
 # Caso a cadeia seja armazenada em uma variável, o grafo valorado e
-# direcionado descrito pela lista de adjacência L será renderizado. 
+# direcionado descrito pela lista de adjacência L será renderizado.
 # Uma aresta do grafo existe com peso w se [j, w] ∈ L[i] e [i, _] ∈ L[j].
 
 # Os parâmetros opcionais são equivalentes aos da função grafo_MA.
@@ -571,7 +580,7 @@ inteiro L[5, *, 2] <- [ [[1, 4]],
 visual X <- digrafo_valorado_LA(L)
 visual X <- digrafo_valorado_LA(L, [4])
 visual X <- digrafo_valorado_LA(L, [4], [[2, 1]])
-visual X <- digrafo_valorado_LA(L, [4], [[2, 1]], "node [shape=polygon; peripheries=2; " 
+visual X <- digrafo_valorado_LA(L, [4], [[2, 1]], "node [shape=polygon; peripheries=2; "
                                                   "sides=7; skew=-0.4; distortion=0.7];")
 visual X <- digrafo_valorado_LA(L, [4], [[2, 1]], "", "3 [style=invis]")
 

@@ -4,7 +4,7 @@
 # Começando uma linha com '#', todo o conteúdo
 # dessa linha é ignorado pelo interpretador.
 
-# Um programa TuPy é composto de comandos baseados
+# Um programa TuPy é composto por comandos baseados
 # na língua portuguesa.
 
 cadeia S <- "Olá mundo!"
