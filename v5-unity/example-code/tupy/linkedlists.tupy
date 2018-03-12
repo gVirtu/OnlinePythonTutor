@@ -1,0 +1,64 @@
+#--------------------------------------------------------------------
+# Inserção em Lista Encadeada em TuPy
+# Implementação por Giancarlo França
+#
+# Este programa não lê a entrada do usuário.
+# São demonstradas as funções Insere (insere ao começo da lista),
+# InsereEm (insere em uma posição escolhida), e InsereOrdenado
+# (insere de forma a manter a lista ordenada), com elementos
+# predefinidos.
+#--------------------------------------------------------------------
+
+tipo Nó:
+    inteiro chave
+    Nó próx
+
+    Nó(inteiro c):
+        chave <- c
+
+tipo Lista:
+    Nó início
+
+visual V <- "" ~~
+----------------
+
+Lista X <- Lista()
+
+Insere(Lista L, inteiro chave):
+    Nó novo <- Nó(chave)
+    L.início, novo.próx <- novo, L.início
+    V <- lista_encadeada(L.início, "chave", "próx") ~~
+
+InsereEm(Lista L, inteiro chave, inteiro pos):
+    se pos > 0:
+        Nó novo <- Nó(chave)
+        Nó p <- L.início
+        inteiro i
+        para i <- 1..pos:
+            p <- p.próx
+        p.próx, novo.próx <- novo, p.próx
+    senão:
+        Insere(L, chave)
+    V <- lista_encadeada(L.início, "chave", "próx") ~~
+
+InsereOrdenado(Lista L, inteiro chave):
+    Nó p <- L.início
+    se p = nulo ou chave < p.chave:
+        Insere(L, chave)
+    senão:
+        enquanto(p.próx != nulo e p.próx.chave < chave):
+            p <- p.próx
+        Nó novo <- Nó(chave)
+        p.próx, novo.próx <- novo, p.próx
+    V <- lista_encadeada(L.início, "chave", "próx") ~~
+
+Insere(X, 5); Insere(X, 6); Insere(X, 7);
+InsereEm(X, 1, 2);
+
+Lista X <- Lista()
+
+InsereOrdenado(X, 5)
+InsereOrdenado(X, 7)
+InsereOrdenado(X, 6)
+InsereOrdenado(X, 1)
+InsereOrdenado(X, 4)

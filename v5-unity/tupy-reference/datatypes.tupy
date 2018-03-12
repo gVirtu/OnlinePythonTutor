@@ -1,0 +1,81 @@
+### TIPOS DE DADOS ###
+
+# TuPy conta com os seguintes tipos primitivos de dados:
+#   inteiro => para números inteiros positivos ou negativos
+#      real => para números reais de ponto flutuante
+#  caracter => para caracteres ASCII ou Unicode
+#    cadeia => para cadeias de caracteres (strings)
+#    lógico => para verdadeiro / falso (booleanos)
+
+# OBS: O operador '<-' é o operador de atribuição, com ele
+#      é possível salvar valores na memória em variáveis,
+#      desde que os tipos utilizados estejam corretos.
+#         ex:   a <- 5    # lê-se 'a recebe 5'
+#                         # O valor 5 fica salvo em a e
+#                         # pode ser recuperado no futuro.
+
+inteiro i <- 329
+real r <- 3.29
+caracter c <- 'k'
+cadeia s <- "TuPy"
+lógico L <- verdadeiro
+
+# Para literais do tipo inteiro, podemos usar o prefixo
+# '0b', '0o' ou '0x' para usar representações na base
+# binária, octal ou hexadecimal. Na visualização, eles
+# ainda aparecerão na base decimal.
+
+inteiro i <- 0b110        # i = 6
+inteiro i <- 0o10         # i = 8
+inteiro i <- 0xFF         # i = 255
+
+# Podemos concatenar literais do tipo cadeia utilizando-os
+# lado a lado:
+
+cadeia s <- ("isso" "e" "aquilo")   # s = "issoeaquilo"
+
+# Para inserir o caracter de aspas (") em uma cadeia, é 
+# necessário usar o caracter de escape '\'.
+
+cadeia s <- "isso ou \"aquilo\"?"     
+escrever(s)                           # escreve isso ou "aquilo"?
+
+# Em TuPy, qualquer palavra reservada que possui
+# acentos pode ser digitada sem eles. Portanto,
+# pode-se escrever 'logico' para usar o tipo lógico.
+
+logico L2 <- falso
+
+# Por padrão, dados declarados sem inicialização
+# explícita assumem o valor zero/cadeia vazia/falso.
+
+cadeia t # t é igual a ""
+
+# Uma variável de qualquer tipo também pode
+# assumir o valor 'nulo'. No entanto, esta não
+# poderá operar com outras variáveis.
+
+inteiro n <- nulo
+
+# Existe uma constante real 'pi' para ser 
+# usada com funções matemáticas. Ela também
+# pode ser usada como 'π'.
+
+real dois_pi <- 2.0 * π
+
+# Para converter o tipo de uma variável, use
+# o nome do tipo desejado como uma função:
+
+inteiro ic <- inteiro('A') # ic = 65
+cadeia cr <- cadeia(9.57)  # cr = "9.57"
+
+# É possível declarar tipos compostos por um ou
+# mais atributos primitivos, como veremos em mais
+# detalhe no módulo 'classes':
+
+tipo Aluno:
+  cadeia nome
+  inteiro idade
+  
+Aluno a <- Aluno()
+a.nome <- "Gian"

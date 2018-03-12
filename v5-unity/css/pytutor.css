@@ -78,7 +78,7 @@ div.ExecutionVisualizer div#pyCodeOutputDiv {
 }
 
 div.ExecutionVisualizer table#pyCodeOutput {
-  font-family: Andale mono, monospace;
+  font-family: Fira Code, monospace;
   /*font-size:12pt;*/
   font-size:11pt;
   line-height:1.1em;
@@ -498,7 +498,7 @@ div.ExecutionVisualizer div#globals_area {
 div.ExecutionVisualizer div.stackFrame,
 div.ExecutionVisualizer div.zombieStackFrame {
   background-color: #ffffff;
-  margin-bottom: 15px;
+  margin-bottom: 48px;
   padding: 2px;
   padding-left: 6px;
   padding-right: 6px;
@@ -831,6 +831,20 @@ div.ExecutionVisualizer td.queueFElt table.dictTbl {
 
 .symbolic {
   font-size: 18pt;
+}
+
+.ace_static_highlight {
+  font-size: 14px !important;
+}
+
+.variableTr {
+  height: 48px;
+}
+
+#codAndNav {
+  background-color: white;
+  border: 1px solid lightgray;
+  padding: 1em;
 }
 
 /* END Java frontend by David Pritchard and Will Gwozdz */

@@ -1,0 +1,352 @@
+### FUNÇÕES INTERNAS ###
+
+# A linguagem TuPy também conta com algumas funções
+# embutidas que podem ser chamadas a qualquer momento
+# no programa.
+
+# Lista de funções disponíveis:
+# escrever, ler, ler_linha, 
+# binário, octal, hexadecimal,
+# copiar, comprimento, asserção,
+# cadeia, caracter, inteiro, real, lógico,
+# lista, juntar, embaralhar, inserir, remover, 
+# mín, máx, abs, aleatório, inteiro_aleatório
+
+#----------------------------------------------------------------------
+## escrever(x1, x2... xn)
+
+# Parâmetros:
+#   arbitrários
+
+# Imprime seu retorno para a saída padrão.
+
+# Retorna: Uma cadeia contendo a impressão dos argumentos fornecidos,
+#          separados por espaço. 
+
+escrever("Olá", "mundo!", ':', ')')      # escreve "Olá mundo! : )"
+
+#----------------------------------------------------------------------
+## ler(x1, x2... xn)
+
+# Parâmetros:
+#   arbitrários (todos por referência)
+
+# Atribui às variáveis x1 a xn os n primeiros fragmentos de entrada
+# do usuário lidos, em que cada fragmento é delimitado por um ou mais
+# espaços, quebras de linha, ou tabulações.
+
+# Retorna: Um inteiro menor ou igual a n, representando a quantidade
+#          de atribuições feitas com sucesso.
+
+ler(a, b, c)                             # atribui valores às variáveis
+                                         # a, b e c caso não seja atingido
+                                         # o fim de arquivo.
+
+#----------------------------------------------------------------------
+## ler_linha(x)
+
+# Parâmetros:
+#   x (cadeia)
+
+# Atribui à variável x o conteúdo da próxima linha da entrada do usuário.
+
+# Retorna: Verdadeiro caso a leitura tenha sido feita com sucesso,
+#          falso caso contrário.
+
+ler_linha(L)                             # atribui valor à variável L
+                                         # caso não seja atingido o 
+                                         # fim de arquivo.
+
+#----------------------------------------------------------------------
+## copiar(x)
+
+# Parâmetros:
+#   x (estrutura)
+
+# Retorna: Uma nova estrutura da mesma classe de x, contendo cópias dos
+#          atributos contidos em x.
+
+tipo Teste:
+    inteiro x
+
+Teste A <- Teste()                  # Instanciação
+Teste B <- A                        # B é uma referência a A 
+Teste C <- copiar(A)                # C é uma cópia de A
+A.x <- 1                            # A.x = 1, B.x = 1, C.x = 0
+B.x <- 2                            # A.x = 2, B.x = 2, C.x = 0
+C.x <- 3                            # A.x = 2, B.x = 2, C.x = 3
+
+#----------------------------------------------------------------------
+## comprimento(x)
+
+# Parâmetros:
+#   x (lista)
+
+# Retorna: Um inteiro contendo o comprimento da lista x.
+#          Difere do operador de cardinalidade |x| especialmente quando
+#          usado em listas de duas ou mais dimensões. Dada uma lista L:
+#           - |L| = quantos elementos primitivos existem em L
+#           - comprimento(L) = quantos elementos existem em L
+
+inteiro V[*] <- [1, 2, 3, 4]
+inteiro M[*,*] <- [ [1, 2], [3, 4, 5] ]
+inteiro x <- |V|                         # x = 4
+inteiro x <- comprimento(V)              # x = 4
+inteiro x <- |M|                         # x = 5
+inteiro x <- comprimento(M)              # x = 2
+
+#----------------------------------------------------------------------
+## asserção(x)
+
+# Parâmetros:
+#   x (lógico)
+
+# Interrompe a execução do programa se a condição definida por x
+# não for atendida.
+
+# Não possui retorno.
+
+asserção(9 < 10)      # prossegue a execução do programa
+asserção((2 + 2) = 5) # interrompe a execução do programa
+
+#----------------------------------------------------------------------
+## binário(x)
+
+# Parâmetros:
+#   x (inteiro)
+
+# Retorna: Uma cadeia contendo a representação de x na base binária.
+
+cadeia r <- binário(106)                 # r = "1101010"
+
+#----------------------------------------------------------------------
+## octal(x)
+
+# Parâmetros:
+#   x (inteiro)
+
+# Retorna: Uma cadeia contendo a representação de x na base octal.
+
+cadeia r <- octal(668)                   # r = "1234"
+
+#----------------------------------------------------------------------
+## hexadecimal(x)
+
+# Parâmetros:
+#   x (inteiro)
+
+# Retorna: Uma cadeia contendo a representação de x na base hexadecimal.
+
+cadeia r <- hexadecimal(207)             # r = "CF"
+
+#----------------------------------------------------------------------
+## cadeia(x)
+
+# Parâmetros:
+#   x (inteiro|real|caracter|lógico|lista|nulo)
+
+# Retorna: Uma representação de x como uma cadeia de caracteres.
+
+cadeia r <- cadeia([1, 2, 3, 5])         # r = "[1, 2, 3, 5]"
+
+#----------------------------------------------------------------------
+## caracter(x)
+
+# Parâmetros:
+#   x (inteiro|cadeia)
+
+# Retorna: O caracter cujo código ASCII/Unicode é x.
+
+caracter r <- caracter(0x1F4A9)          # r = '💩'
+
+#----------------------------------------------------------------------
+## inteiro(x)
+
+# Parâmetros:
+#   x (real|caracter|lógico)
+
+# Retorna: O valor inteiro de x.
+
+inteiro r <- inteiro(verdadeiro)         # r = 1
+
+#----------------------------------------------------------------------
+## inteiro(x, b = 10)
+
+# Parâmetros:
+#   x (cadeia)
+#   b (inteiro)
+
+# Retorna: A cadeia x, como a representação de um inteiro na base b,
+#          convertida para inteiro.
+
+inteiro r <- inteiro("0x100", 16)        # r = 256
+
+#----------------------------------------------------------------------
+## real(x)
+
+# Parâmetros:
+#   x (inteiro|caracter|cadeia|lógico)
+
+# Retorna: O valor de x convertido para um número de ponto flutuante.
+
+real r <- real("3.21")         # r = 3.21
+
+#----------------------------------------------------------------------
+## lógico(x)
+
+# Parâmetros:
+#   x (inteiro|real|caracter|cadeia)
+
+# Retorna: Verdadeiro caso x seja diferente de zero ou cadeia vazia,
+#          falso caso contrário.
+
+lógico r <- lógico("")                   # r = falso
+
+#----------------------------------------------------------------------
+## lista(x, s = ' ')
+
+# Parâmetros:
+#   x (cadeia)
+#   s (cadeia)
+
+# Retorna: Uma lista resultante da partição da cadeia x usando s como
+#          separador. 
+
+cadeia r[*] <- lista("1, 2, 3, 4", ", ") # r = ["1", "2", "3", "4"]
+
+#----------------------------------------------------------------------
+## juntar(x, s = ' ')
+
+# Parâmetros:
+#   x (lista)
+#   s (cadeia)
+
+# Retorna: Uma cadeia resultante da concatenação dos elementos contidos
+#          em x usando s como separador. Caso x não contenha cadeias,
+#          os elementos serão convertidos automaticamente.
+
+cadeia r <- juntar([1, 2, 3, 4], ", ")   # r = "1, 2, 3, 4"
+
+#----------------------------------------------------------------------
+## embaralhar(x)
+
+# Parâmetros:
+#   x (lista)
+
+# Retorna: Uma permutação pseudo-aleatória dos elementos contidos em x.
+
+inteiro r[3] <- embaralhar([1, 2, 3])    # r = [1, 2, 3] ou [1, 3, 2] ou
+                                         #     [3, 1, 2] ou [2, 1, 3] ou
+                                         #     [2, 3, 1] ou [3, 2, 1]
+
+#----------------------------------------------------------------------
+## inserir(L, x, pos = |L|)
+
+# Parâmetros:
+#   L (lista)
+#   x (tipo contido na lista)
+#   pos (inteiro)
+
+# Retorna: Uma cópia da lista L com o elemento x inserido na posição pos.
+#          Caso não seja fornecido o parâmetro 'pos', insere ao final da lista.
+
+inteiro r[4] <- inserir([1, 2, 3], 4)    # r = [1, 2, 3, 4]
+
+#----------------------------------------------------------------------
+## remover(L, i)
+
+# Parâmetros:
+#   L (lista)
+#   i (inteiro)
+
+# Retorna: Uma cópia da lista x sem o elemento na i-ésima posição.
+#          Indexada a partir de zero.
+
+inteiro r[*] <- remover([1, 2, 3, 4], 2) # r = [1, 2, 4]
+
+#----------------------------------------------------------------------
+## mín(x, y)
+
+# Parâmetros:
+#   x, y (inteiro|real|caracter|cadeia)
+
+# Retorna: o menor dos dois argumentos fornecidos. Para cadeias, é 
+#          usada ordem lexicográfica.
+
+inteiro r <- mín(-3, 2)                  # r = -3
+cadeia r <- mín("abc", "abb")            # r = "abb"
+
+#----------------------------------------------------------------------
+## máx(x, y)
+
+# Parâmetros:
+#   x, y (inteiro|real|caracter|cadeia)
+
+# Retorna: o maior dos dois argumentos fornecidos. Para cadeias, é 
+#          usada ordem lexicográfica.
+
+inteiro r <- máx(-3, 2)                  # r = 2
+cadeia r <- máx("abc", "abb")            # r = "abc"
+
+#----------------------------------------------------------------------
+## abs(x)
+
+# Parâmetros:
+#   x (inteiro|real)
+
+# Retorna: x, caso x seja positivo, ou -x, caso x seja negativo.
+
+inteiro r <- abs(-3)                     # r = 3
+real r <- abs(4.7)                       # r = 4.7
+
+#----------------------------------------------------------------------
+## aleatório()
+
+# Parâmetros:
+#   nenhum
+
+# Retorna: Um número real pseudo-aleatório entre 0 e 1 inclusive.
+
+real r <- aleatório()                    # r = ?
+
+#----------------------------------------------------------------------
+## aleatório(x)
+
+# Parâmetros:
+#   x (real)
+
+# Retorna: Um número real pseudo-aleatório entre 0 e x inclusive.
+
+real r <- aleatório(5.0)                 # r = ?
+
+#----------------------------------------------------------------------
+## aleatório(x, y)
+
+# Parâmetros:
+#   x, y (real)
+
+# Retorna: Um número real pseudo-aleatório entre x e y inclusive.
+
+real r <- aleatório(-5.0, 5.0)           # r = ?
+
+#----------------------------------------------------------------------
+## inteiro_aleatório(x)
+
+# Parâmetros:
+#   x (inteiro)
+
+# Retorna: Um número inteiro pseudo-aleatório entre 0 e x inclusive.
+
+inteiro r <- inteiro_aleatório(50)       # r = ?
+
+#----------------------------------------------------------------------
+## inteiro_aleatório(x, y)
+
+# Parâmetros:
+#   x, y (inteiro)
+
+# Retorna: Um número inteiro pseudo-aleatório entre x e y inclusive.
+
+inteiro r <- inteiro_aleatório(-50, 50)           # r = ?
+
+#----------------------------------------------------------------------

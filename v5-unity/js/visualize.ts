@@ -2,7 +2,8 @@
 // Copyright (C) Philip Guo (philip@pgbovine.net)
 // LICENSE: https://github.com/pgbovine/OnlinePythonTutor/blob/master/LICENSE.txt
 
-import {OptFrontendSharedSessions,TogetherJS} from './opt-shared-sessions';
+// import {OptFrontendSharedSessions,TogetherJS} from './opt-shared-sessions';
+import {OptFrontend} from './opt-frontend';
 import {assert,htmlspecialchars} from './pytutor';
 import {OptTestcases,redSadFace,yellowHappyFace} from './opt-testcases';
 import {pythonExamplesHtml,PY2_EXAMPLES,PY3_EXAMPLES,
@@ -12,6 +13,7 @@ import {pythonExamplesHtml,PY2_EXAMPLES,PY3_EXAMPLES,
         rubyExamplesHtml,RUBY_EXAMPLES,
         cExamplesHtml,C_EXAMPLES,
         cppExamplesHtml,CPP_EXAMPLES,
+        tupyExamplesHtml,TUPY_EXAMPLES,TUPY_CHEATSHEET,
         exampleHeaderHtml} from './example-links';
 import {footerHtml} from './footer-html';
 import {eureka_survey,eureka_prompt,eureka_survey_version} from './surveys';
@@ -19,6 +21,7 @@ import {eureka_survey,eureka_prompt,eureka_survey_version} from './surveys';
 require('./lib/jquery-3.0.0.min.js');
 require('./lib/jquery.qtip.js');
 require('../css/jquery.qtip.css');
+require('../fonts/firacode/fira_code.css');
 
 // for TypeScript
 declare var initCodeopticon: any; // FIX later when porting Codeopticon
@@ -70,7 +73,7 @@ SyntaxErrorSurveyBubble.prototype.qTipID = function() {
 
 
 // augment with a "Create test cases" pane
-export class OptFrontendWithTestcases extends OptFrontendSharedSessions {
+export class OptFrontendWithTestcases extends OptFrontend {
   optTests: OptTestcases;
 
   prevExecutionExceptionObjLst = []; // previous consecutive executions with "compile"-time exceptions
@@ -216,9 +219,9 @@ export class OptFrontendWithTestcases extends OptFrontendSharedSessions {
     }
     this.prevExecutionExceptionObjLst = []; // reset this since there was no compile-time error
 
-    if (this.activateRuntimeErrorSurvey) {
-      this.popupRuntimeErrorSurvey();
-    }
+    // if (this.activateRuntimeErrorSurvey) {
+    //   this.popupRuntimeErrorSurvey();
+    // }
     this.prevExecutionRuntimeErrorMsg = null; // clear this now and populate it in updateOutputCallbackFunc
     this.prevExecutionRuntimeErrorLine = null;
     this.prevExecutionRuntimeErrorCode = null;
@@ -450,6 +453,8 @@ export class OptFrontendWithTestcases extends OptFrontendSharedSessions {
         mod = 'typescript';
       } else if (lang === 'ruby') {
         mod = 'ruby';
+      } else if (lang === 'tupy') {
+        mod = 'tupy';
       } else if (lang === 'c' || lang === 'cpp') {
         mod = 'c_cpp';
       }
@@ -491,7 +496,7 @@ export class OptFrontendWithTestcases extends OptFrontendSharedSessions {
   // created on 2017-05-15 to mimic experimentalPopUpSyntaxErrorSurvey
   // (lots of copy-pasta!!!), except this is for run-time errors instead of
   // compile-time (i.e., syntax) errors
-  popupRuntimeErrorSurvey() {
+  /*popupRuntimeErrorSurvey() {
     var noErrorsInCurTrace = true;
     // scan through the entire trace to make sure there are no errors;
     // if there are any errors, then we haven't really definitively "fixed"
@@ -671,10 +676,14 @@ export class OptFrontendWithTestcases extends OptFrontendSharedSessions {
                            v: version};
       $.get('runtime_err_survey.py', {arg: JSON.stringify(impressionObj)}, function(dat) {});
     }
-  }
+  }*/
 
 } // END Class OptFrontendWithTestcases
 
+// Enable navigation prompt
+window.onbeforeunload = function() {
+  return true;
+};
 
 $(document).ready(function() {
   // initialize all HTML elements before creating optFrontend object
@@ -695,6 +704,8 @@ $(document).ready(function() {
       $("#exampleSnippets").append(tsExamplesHtml);
     } else if (optOverride.frontendLang === 'ruby') {
       $("#exampleSnippets").append(rubyExamplesHtml);
+    } else if (optOverride.frontendLang === 'tupy') {
+      $("#exampleSnippets").append(tupyExamplesHtml);
     } else if (optOverride.frontendLang === 'c') {
       $("#exampleSnippets").append(cExamplesHtml);
     } else if (optOverride.frontendLang === 'cpp') {
@@ -708,18 +719,19 @@ $(document).ready(function() {
       .append(tsExamplesHtml)
       .append(rubyExamplesHtml)
       .append(cExamplesHtml)
-      .append(cppExamplesHtml);
+      .append(cppExamplesHtml)
+      .append(tupyExamplesHtml);
   }
   $("#footer").append(footerHtml);
 
   // insert a toggle for examples after #exampleSnippets, then hide it
-  $("#exampleSnippets").after('<a href="#" id="showExampleLink" style="font-size: 11pt;">Show example code and courses</a>');
-  $("#showExampleLink").click(() => {
-    $("#exampleSnippets").show();
-    $("#showExampleLink").hide();
-    return false; // don't follow the href link
-  });
-  $("#exampleSnippets").hide();
+  // $("#exampleSnippets").after('<a href="#" id="showExampleLink" style="font-size: 11pt;">Mostrar códigos de exemplo</a>');
+  //$("#showExampleLink").click(() => {
+//    $("#exampleSnippets").show();
+//    $("#showExampleLink").hide();
+//    return false; // don't follow the href link
+//  });
+//  $("#exampleSnippets").hide();
 
   var optFrontend = new OptFrontendWithTestcases(params);
   optFrontend.setSurveyHTML();
@@ -749,6 +761,9 @@ $(document).ready(function() {
     } else if (CPP_EXAMPLES[myId] !== undefined) {
       exFile = CPP_EXAMPLES[myId];
       lang = 'cpp';
+    } else if (TUPY_EXAMPLES[myId] !== undefined) {
+      exFile = TUPY_EXAMPLES[myId];
+      lang = 'tupy';
     } else if (PY2_EXAMPLES[myId] !== undefined) {
       exFile = PY2_EXAMPLES[myId];
       if ($('#pythonVersionSelector').val() === '3') {
@@ -776,6 +791,8 @@ $(document).ready(function() {
 
       // very subtle! for TogetherJS to sync #pythonVersionSelector
       // properly, we must manually send a sync request event:
+
+      /*
       if (TogetherJS && TogetherJS.running) {
         var myVisualizer = optFrontend.myVisualizer;
         TogetherJS.send({type: "syncAppState",
@@ -785,6 +802,21 @@ $(document).ready(function() {
                                                    myVisualizer.domRoot.find('#pyCodeOutputDiv').scrollTop() :
                                                    undefined});
       }
+      */
+    }, 'text' /* data type - set to text or else jQuery tries to EXECUTE the JS example code, haha, eeek! */);
+    return false; // prevent an HTML 'a' element click from going to a link
+  });
+  // tupy cheatsheet
+  $(".tupyReference").click(function() {
+    var myId = $(this).attr('id');
+    var exFile;
+    var lang;
+    exFile = TUPY_CHEATSHEET[myId];
+    exFile = 'tupy-reference/' + exFile;
+
+    $.get(exFile, function(dat) {
+      optFrontend.cheatSheetEditor.setValue(dat, -1)
+      optFrontend.cheatSheetEditor.scrollToLine(0)
     }, 'text' /* data type - set to text or else jQuery tries to EXECUTE the JS example code, haha, eeek! */);
     return false; // prevent an HTML 'a' element click from going to a link
   });

@@ -1,0 +1,58 @@
+#--------------------------------------------------------------------
+# Hashing com Encadeamento Exterior em TuPy
+# Implementação por Giancarlo França
+#
+# Este programa não lê a entrada do usuário.
+# Na tabela são inseridos os elementos predefinidos abaixo.
+#--------------------------------------------------------------------
+
+tipo Nó:
+    cadeia chave
+    inteiro elemento
+    Nó próx
+
+    Nó(cadeia c, inteiro el):
+        chave, elemento <- c, el
+------------------------------
+
+tipo TabelaHash:
+    inteiro tam <- 32
+    Nó H[tam]
+
+    ----------------------------
+    inteiro Hash(cadeia chave):
+        inteiro i, ret
+        para i <- 0..|chave|:
+            ret <- ret xor inteiro(chave[i])
+        retornar ret mod tam
+    ----------------------------
+
+    inteiro Buscar(cadeia chave):
+        Nó p <- H[Hash(chave)]
+        enquanto(p != nulo):
+            se p.chave = chave:
+                parar
+            senão:
+                p <- p.próx
+        retornar p.elemento
+
+    Inserir(cadeia chave, inteiro elemento):
+        Nó p <- Nó(chave, elemento)
+        inteiro ind <- Hash(chave)
+        p.próx, H[ind] <- H[ind], p
+
+TabelaHash T <- TabelaHash()
+T.Inserir("um", 1)
+T.Inserir("dois", 2)
+T.Inserir("três", 3)
+T.Inserir("quatro", 4)
+T.Inserir("cinco", 5)
+T.Inserir("mu", 12)
+
+inteiro X
+X <- T.Buscar("um")
+X <- T.Buscar("dois")
+X <- T.Buscar("três")
+X <- T.Buscar("quatro")
+X <- T.Buscar("cinco")
+X <- T.Buscar("mu")

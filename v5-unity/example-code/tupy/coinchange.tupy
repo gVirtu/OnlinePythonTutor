@@ -1,0 +1,37 @@
+#--------------------------------------------------------------------
+# Problema das Moedas utilizando recursão SEM memorização em TuPy
+# Implementação por Giancarlo França
+#
+# Dado um conjunto V de moedas, cada uma com seu valor, determinar o
+# número de maneiras distintas que podemos compor uma quantia n
+# utilizando essas moedas. É permitida a repetição de moedas.
+#
+# Ex: Para n = 20, temos 9 maneiras:
+#       1. 10 + 10
+#       2. 10 + 5 + 5
+#       3. 10 + 5 + 1...1
+#       4. 10 + 1...1
+#       5. 5 + 5 + 5 + 5
+#       6. 5 + 5 + 5 + 1...1
+#       7. 5 + 5 + 1...1
+#       8. 5 + 1...1
+#       9. 1...1
+#
+# <ATENÇÃO!> O limite de recursão em TuPy é consideravelmente menor
+# do que o encontrado em linguagens convencionais.
+#--------------------------------------------------------------------
+
+inteiro oculto V[*] <- [1, 5, 10, 25, 50, 100]
+visual VV <- vetor(V) ~~
+
+inteiro Moedas(inteiro oculto p, inteiro oculto n):
+    se p > 0: VV <- vetor(V, [p-1], 1, juntar(("desc [fontsize=20.0; label=\"n=", n, "\n p=", p, "\"]"))) ~~
+    senão: VV <- vetor(V, [], 1, juntar(("desc [fontsize=20.0; label=\"n=", n, "\n p=", p, "\"]"))) ~~
+    se p = 0 ou n < 0: --
+        retornar 0
+    senão se n = 0: --
+        retornar 1
+    senão: --
+        retornar Moedas(p, n - V[p-1]) + Moedas(p-1, n)
+
+Moedas(|V|, 20)

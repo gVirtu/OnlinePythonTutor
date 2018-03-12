@@ -1,0 +1,79 @@
+### MANIPULAÇÃO DA VISUALIZAÇÃO ###
+
+# Usando o botão 'Visualizar Execução', o interpretador
+# irá processar os comandos e mostrar uma visualização
+# da sequência de passos efetuados para executar o
+# programa, comando a comando.
+
+# Algumas vezes, no entanto, a lista de passos gerados
+# para a sequência de execução pode ficar muito extensa ou
+# muito carregada de informações. Visto que TuPy foi projetada
+# para auxiliar a visualização, existem funcionalidades que
+# permitem manipulá-la.
+
+# Por padrão, toda variável declarada é apresentada no contexto
+# em que ela foi criada.
+
+inteiro X <- 12345
+
+# É possível escondê-la acrescentando o modificador 'oculto' ou
+# 'oculta' no momento da declaração da variável, após o tipo de
+# dado escolhido. A variável ainda existirá e poderá ser usada
+# no programa, ela só não será exibida.
+
+inteiro oculto X <- 54321
+inteiro Y <- X + 2
+
+# Você também pode omitir certas linhas da visualização
+# do programa: essas linhas ainda serão executadas, mas os
+# passos resultantes dos comandos contidos nessa parte do
+# programa não serão listados.
+
+# O visualizador irá ocultar qualquer linha terminada por '~~':
+
+cadeia S <- "Olá mundo!" ~~
+
+# Note que o '~~' deve estar separado do último caracter válido
+# da linha por pelo menos um espaço.
+
+cadeia S <- "Olá mundo!"~~      # ERRO!
+
+# É possível fazer com que o visualizador nunca faça uma
+# parada em uma linha específica, mas a mesma ainda seja
+# mostrada no painel de exibição do programa. Para isso,
+# utilize o marcador '--' de forma análoga ao '~~'.
+
+cadeia S <- "Olá mundo!" --         # O marcador não será exibido, mas
+                                    # a linha será. A sequência de
+                                    # execução passará direto por ela.
+
+# Para aplicar essas alterações a um conjunto de linhas
+# consecutivas, utilize um delimitador feito por pelo
+# menos três '~' ou '-' em qualquer parte do programa para
+# ocultar ou pular a visualização do conjunto de linhas,
+# respectivamente.
+
+~~~~~
+escrever("Esta linha estará oculta do painel de código.")
+escrever("E esta também. Mas o comando será executado.")
+~~~~~
+cadeia S <- "Olá mundo!"
+----------------------------
+escrever("O visualizador passará direto por esta linha")
+escrever("E por esta também")
+escrever("Inclusive esta")
+----------------------------
+escrever("O próximo ponto de parada será esta linha.")
+
+# Caso seja usado um número ÍMPAR de delimitadores, todas as
+# linhas entre o PRIMEIRO delimitador e o começo do programa
+# serão afetadas:
+
+cadeia S <- "Olá mundo!"
+------
+escrever(S)
+
+# No exemplo acima, como a linha 'cadeia S <- "Olá mundo!"'
+# está antes do delimitador, ela será executada mas seu
+# comando não estará presente na lista de passos da
+# visualização, assim como nenhuma das linhas anteriores.

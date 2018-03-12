@@ -1,0 +1,253 @@
+### FUNÇÕES MATEMÁTICAS ###
+
+# A linguagem TuPy também conta com algumas funções
+# embutidas que podem ser chamadas a qualquer momento
+# no programa.
+
+# As funções a seguir lidam com operações matemáticas.
+
+# Lista de funções disponíveis:
+# log, ln, raiz, exp, sinal, piso, teto, arredondar
+# graus, radianos, sen, cos, tg, arcsen, arccos, arctg
+# arctg2, senh, cosh, tgh, arsenh, arcosh, artgh
+
+#----------------------------------------------------------------------
+## log(n, b = 10)
+
+# Parâmetros:
+#   n (real)
+#   b (real)
+
+# Retorna: O logaritmo de n na base b. (real)
+
+log(10000)                               # retorna 4
+log(1024, 2)                             # retorna 10
+
+#----------------------------------------------------------------------
+## ln(x)
+
+# Parâmetros:
+#   x (real)
+
+# Retorna: O logaritmo natural de n. (real)
+
+ln(7.3890560989306495)                   # retorna 2
+
+#----------------------------------------------------------------------
+## raiz(x)
+
+# Parâmetros:
+#   x (real)
+
+# Retorna: A raiz quadrada de x. (real)
+
+raiz(144)                                # retorna 12
+
+#----------------------------------------------------------------------
+## exp(n)
+
+# Parâmetros:
+#   n (real)
+
+# Retorna: A função exponencial natural com expoente = n. (real)
+#          Em outras palavras, retorna e^n, onde e é o número de Euler.
+
+exp(1)                                   # retorna 2.718281828459045
+
+#----------------------------------------------------------------------
+## sinal(x)
+
+# Parâmetros:
+#   x (real)
+
+# Retorna: 1 caso x > 0, -1 caso x < 0, 0 caso x = 0. (inteiro)
+
+sinal(-123)                              # retorna -1
+
+#----------------------------------------------------------------------
+## piso(x)
+
+# Parâmetros:
+#   x (real)
+
+# Retorna: O resultado de x arredondado para baixo. (real)
+
+piso(3.4567)                             # retorna 3
+
+#----------------------------------------------------------------------
+## teto(x)
+
+# Parâmetros:
+#   x (real)
+
+# Retorna: O resultado de x arredondado para cima. (real)
+
+teto(3.4567)                             # retorna 4
+
+#----------------------------------------------------------------------
+## arredondar(x)
+
+# Parâmetros:
+#   x (real)
+
+# Retorna: O resultado de x arredondado para o inteiro mais 
+#          próximo. (real)
+
+arredondar(3.49999)                      # retorna 3
+arredondar(3.5)                          # retorna 4
+
+#----------------------------------------------------------------------
+## graus(x)
+
+# Parâmetros:
+#   x (real)
+
+# Retorna: O ângulo x (em radianos) convertido para graus. (real)
+
+graus(2 * pi)                            # retorna 360
+
+#----------------------------------------------------------------------
+## radianos(x)
+
+# Parâmetros:
+#   x (real)
+
+# Retorna: O ângulo x (em graus) convertido para radianos. (real)
+
+radianos(180)                            # retorna 3.141592653589793
+
+#----------------------------------------------------------------------
+## sen(x)
+
+# Parâmetros:
+#   x (real)
+
+# Retorna: O seno de x (em radianos). (real)
+
+sen(pi / 2)                              # retorna 1
+
+#----------------------------------------------------------------------
+## cos(x)
+
+# Parâmetros:
+#   x (real)
+
+# Retorna: O cosseno de x (em radianos). (real)
+
+cos(pi)                                  # retorna -1
+
+#----------------------------------------------------------------------
+## tg(x)
+
+# Parâmetros:
+#   x (real)
+
+# Retorna: A tangente de x (em radianos). (real)
+
+tg(pi / 4)                               # retorna 0.9999999999999999
+
+#----------------------------------------------------------------------
+## arcsen(x)
+
+# Parâmetros:
+#   x (real)
+
+# Retorna: O arco seno de x (-1 <= x <= 1) em radianos. (real)
+
+arcsen(1)                                # retorna 1.5707963267948966
+
+#----------------------------------------------------------------------
+## arccos(x)
+
+# Parâmetros:
+#   x (real)
+
+# Retorna: O arco cosseno de x (-1 <= x <= 1) em radianos. (real)
+
+arccos(-1)                               # retorna 3.141592653589793
+
+#----------------------------------------------------------------------
+## arctg(x)
+
+# Parâmetros:
+#   x (real)
+
+# Retorna: O arco tangente de x em radianos. (real)
+
+arctg(9999999)                           # retorna 1.5707962267948867
+
+#----------------------------------------------------------------------
+## arctg2(y, x)
+
+# Parâmetros:
+#   y (real)
+#   x (real)
+
+# Retorna: O arco tangente de y/x em radianos. (real)
+#          O resultado estará entre -pi e pi, correspondente ao ângulo
+#          que o vetor que vai da origem ao ponto (x, y) faz com o eixo x
+#          positivo. Essa função, ao contrário de arctg(x), permite determinar
+#          em qual quadrante tal ângulo está situado.
+
+arctg2(-5, 0)                            # retorna -1.5707963267948966
+
+#----------------------------------------------------------------------
+## senh(x)
+
+# Parâmetros:
+#   x (real)
+
+# Retorna: O seno hiperbólico de x (em radianos). (real)
+
+senh(pi / 2)                             # retorna 2.3012989023072947
+
+#----------------------------------------------------------------------
+## cosh(x)
+
+# Parâmetros:
+#   x (real)
+
+# Retorna: O cosseno hiperbólico de x (em radianos). (real)
+
+cosh(pi / 2)                             # retorna 2.5091784786580567
+
+#----------------------------------------------------------------------
+## tgh(x)
+
+# Parâmetros:
+#   x (real)
+
+# Retorna: A tangente hiperbólica de x (em radianos). (real)
+
+tgh(2*pi)                                # retorna 0.9999930253396107
+
+#----------------------------------------------------------------------
+## arsenh(x)
+
+# Parâmetros:
+#   x (real)
+
+# Retorna: O arco seno hiperbólico de x em radianos. (real)
+
+arsenh(2.3012989023072947)               # retorna 1.5707963267948966
+
+#----------------------------------------------------------------------
+## arcosh(x)
+
+# Parâmetros:
+#   x (real)
+
+# Retorna: O arco cosseno hiperbólico de x em radianos. (real)
+
+arcosh(2.5091784786580567)               # retorna 1.5707963267948966
+
+#----------------------------------------------------------------------
+## artgh(x)
+
+# Parâmetros:
+#   x (real)
+
+# Retorna: O arco tangente hiperbólica de x (-1 < x < 1) em radianos. (real)
+
+artgh(0.9999930253396107)                # retorna 6.283185307182609
+

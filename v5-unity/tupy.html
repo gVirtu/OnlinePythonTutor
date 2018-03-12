@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!--
+  Python Tutor: https://github.com/pgbovine/OnlinePythonTutor/
+  Copyright (C) Philip Guo (philip@pgbovine.net)
+  LICENSE: https://github.com/pgbovine/OnlinePythonTutor/blob/master/LICENSE.txt
+-->
+
+<head>
+  <title>Tutor TuPy - Visualização de códigos em Português</title>
+
+  <meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>
+
+<script type="text/javascript">
+window.optOverride = {}
+window.optOverride.frontendLang = 'tupy'; // hacky override before including visualize.bundle.js
+</script>
+
+  <!-- let Webpack take care of everything. Use the [hash] feature to
+       create unique filenames for releases:
+       https://webpack.github.io/docs/long-term-caching.html -->
+  <script type="text/javascript" src="build/visualize.bundle.js?699971165c" charset="utf-8"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.6/js/regular.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.6/js/solid.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.6/js/fontawesome.js"></script>
+  <style type="text/css">
+    #optionsPane {
+        display: none;
+    }
+
+    #inputTextArea {
+      width: 100%;
+      margin: 0px;
+      box-sizing: border-box;
+      overflow: hidden;
+      resize: vertical;
+    }
+  </style>
+<!-- insert google-analytics.txt contents here -->
+
+</head>
+
+<body>
+
+<table id="experimentalHeader" style="width:100%">
+<tr>
+<td valign="top" id="headerTdLeft" style="display:none"></td>
+<td valign="top" id="headerTdRight">
+
+<div id="surveyHeader"></div>
+
+<div id="optHeader" style="font-family: Georgia, Palatino, Times, serif; font-size: 16pt; margin-bottom: 16px; text-align: center">
+Tutor TuPy - Visualização de códigos em Português - Trabalho de Conclusão de Curso
+
+</div>
+
+</td>
+</tr>
+</table>
+
+
+<div id="pyInputPane">
+
+<div id="codeInputWarnings">Escreva seu programa TuPy abaixo:
+
+  <select id="pythonVersionSelector" style="display:none">
+    <option value="tupy">TuPy 1.0</option>
+  </select>
+
+</div>
+
+<div id="someoneIsTypingDiv" style="color: #e93f34; font-weight: bold; display: none;">Someone is typing ...</div>
+
+<div id="codeInputPane"></div> <!-- populate with Ace code editor instance -->
+<div id="userInputPane">
+  <textarea id="inputTextArea" spellcheck="false" placeholder="Digite a entrada de seu programa aqui..." rows="10"></textarea>
+</div>
+<div id="frontendErrorOutput"></div>
+<div id="surveyPane"></div>
+
+<p>
+<button id="executeBtn" class="bigBtn" type="button"><i class="fas fa-play fa-2x"></i> Visualizar Execução</button>
+<button id="saveBtn" class="bigBtn" type="button"><i class="far fa-save fa-2x"></i> Salvar programa</button>
+<button id="loadBtn" class="bigBtn" type="button"><i class="far fa-folder-open fa-2x"></i> Carregar programa</button>
+<button id="surveyBtn" class="bigBtn" onClick="window.open('https://goo.gl/forms/tZESQWfvY4VnnZbr2');" type="button"><i class="far fa-check-square fa-2x"></i> Enquete!</button>
+<form id="fileLoaderForm" style="display:none"><input id="fileLoader" type="file"/></form>
+</p>
+
+<div id="instructionsPane"></div>
+
+<div id="exampleSnippets"></div>
+
+</div>
+
+<div id="pyOutputPane"></div>
+
+<div id="footer"></div>
+
+</body>
+</html>

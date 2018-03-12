@@ -66,6 +66,7 @@ export abstract class AbstractBaseFrontend {
     //  permissions)
     '2': 'web_exec_py2.py',
     '3': 'web_exec_py3.py',
+    'tupy': 'web_exec_tupy.py',
 
     // empty dummy scripts just to do logging on Apache server
     'js':   'web_exec_js.py',
@@ -86,6 +87,7 @@ export abstract class AbstractBaseFrontend {
   langSettingToJsonpEndpoint = {
     '2':    null,
     '3':    null,
+    'tupy': null,
     'js':   this.serverRoot + 'exec_js_jsonp',
     'ts':   this.serverRoot + 'exec_ts_jsonp',
     'java': this.serverRoot + 'exec_java_jsonp',
@@ -95,6 +97,8 @@ export abstract class AbstractBaseFrontend {
   };
 
   abstract executeCode(forceStartingInstr?: number, forceRawInputLst?: string[]) : any;
+  abstract saveCode() : any;
+  abstract loadCode() : any;
   abstract finishSuccessfulExecution() : any; // called by executeCodeAndCreateViz
   abstract handleUncaughtException(trace: any[]) : any; // called by executeCodeAndCreateViz
 
@@ -166,14 +170,13 @@ export abstract class AbstractBaseFrontend {
           $("#executeBtn").click();
         } else {
           this.num414Tries = 0;
-          this.setFronendError(["Server error! Your code might be too long for this tool. Shorten your code and re-try."]);
+          this.setFronendError(["Erro do servidor! Talvez seu código esteja longo demais para executar aqui.",
+                                "Tente encurtá-lo e então execute novamente."]);
         }
       } else {
         this.setFronendError(
-                        ["Server error! Your code might be taking too much time/memory. Or the server CRASHED",
-                         "due to too many people using it. Or you are behind a FIREWALL that blocks access.",
-                         "Try again later, or report a bug to philip@pgbovine.net by clicking the 'Generate",
-                         "permanent link' button at the bottom of this page and including a URL in your email."]);
+                        ["Erro do servidor! O interpretador pode ter sofrido uma falha inesperada tentando",
+                         "executar o código, ou houve alguma falha na conexão. Tente novamente mais tarde."]);
       }
       this.doneExecutingCode();
     });
@@ -183,6 +186,10 @@ export abstract class AbstractBaseFrontend {
     $("#executeBtn")
       .attr('disabled', false)
       .click(this.executeCodeFromScratch.bind(this));
+
+    $("#saveBtn").click(this.saveCode.bind(this));
+    $("#fileLoader").change(this.loadCode.bind(this))
+    $("#loadBtn").click(function() {$("#fileLoader").click()});
   }
 
   ignoreAjaxError(settings) {return false;} // subclasses should override
@@ -269,13 +276,13 @@ export abstract class AbstractBaseFrontend {
   }
 
   startExecutingCode(startingInstruction=0) {
-    $('#executeBtn').html("Please wait ... executing (takes up to 10 seconds)");
+    $('#executeBtn').html("<i class=\"fas fa-cog fa-2x fa-spin\"></i> Executando, aguarde...");
     $('#executeBtn').attr('disabled', true);
     this.isExecutingCode = true;
   }
 
   doneExecutingCode() {
-    $('#executeBtn').html("Visualize Execution");
+    $('#executeBtn').html("<i class=\"fas fa-play fa-2x\"></i> Visualizar Execução");
     $('#executeBtn').attr('disabled', false);
     this.isExecutingCode = false;
   }
@@ -285,7 +292,7 @@ export abstract class AbstractBaseFrontend {
   executeCodeAndCreateViz(codeToExec,
                           pyState,
                           backendOptionsObj, frontendOptionsObj,
-                          outputDiv) {
+                          outputDiv, userInput = "") {
     var vizCallback = (dataFromBackend) => {
       var trace = dataFromBackend.trace;
       var killerException = null;
@@ -349,7 +356,7 @@ export abstract class AbstractBaseFrontend {
     this.executeCodeAndRunCallback(codeToExec,
                                    pyState,
                                    backendOptionsObj, frontendOptionsObj,
-                                   vizCallback.bind(this));
+                                   vizCallback.bind(this), userInput);
   }
 
   // execute code and call the execCallback function when the server
@@ -357,7 +364,7 @@ export abstract class AbstractBaseFrontend {
   executeCodeAndRunCallback(codeToExec,
                             pyState,
                             backendOptionsObj, frontendOptionsObj,
-                            execCallback) {
+                            execCallback, userInput = "") {
       var callbackWrapper = (dataFromBackend) => {
         execCallback(dataFromBackend); // call the main event first
 
@@ -435,26 +442,33 @@ export abstract class AbstractBaseFrontend {
         });
       } else {
         // for Python 2 or 3, directly execute backendScript
-        assert (pyState === '2' || pyState === '3');
-        $.get(backendScript,
-              {user_script : codeToExec,
-               raw_input_json: this.rawInputLst.length > 0 ? JSON.stringify(this.rawInputLst) : '',
-               options_json: JSON.stringify(backendOptionsObj),
-               user_uuid: this.userUUID,
-               session_uuid: this.sessionUUID,
-               diffs_json: deltaObjStringified},
-               callbackWrapper, "json");
+        //assert (pyState === '2' || pyState === '3');
+        var data = {"user_script" : codeToExec,
+                    "user_input" : userInput,
+                    //raw_input_json: this.rawInputLst.length > 0 ? JSON.stringify(this.rawInputLst) : '',
+                    //options_json: JSON.stringify(backendOptionsObj),
+                    "user_uuid": this.userUUID,
+                    "session_uuid": this.sessionUUID}
+                    //diffs_json: deltaObjStringified}
+        $.ajax({
+          url : backendScript,
+          type: "post",
+          data: JSON.stringify(data),
+          dataType: "json",
+          contentType: "application/json",
+          success: callbackWrapper
+        });
       }
   }
 
   setSurveyHTML() {
     // use ${this.userUUID} within the string ...
-    var survey_v12 = '\n\
+    /*var survey_v12 = '\n\
     <p style="font-size: 10pt; margin-top: 12px; margin-bottom: 15px; line-height: 150%;">\n\
-    <span>Support our research and keep this tool free by <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQJP1ojlv8XzXAvHz0al-J_Hs3GQu4XeblxT8EzS8dIzuaYA/viewform?entry.956368502=';
+    <span>Contribua com a pesquisa e o desenvolvimento do Online Python Tutor, sobre o qual este visualizador foi construído, <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQJP1ojlv8XzXAvHz0al-J_Hs3GQu4XeblxT8EzS8dIzuaYA/viewform?entry.956368502=';
     survey_v12 += this.userUUID;
-    survey_v12 += '" target="_blank"><b>filling out this short user survey</b></a>.</span></p>';
-    $('#surveyPane').html(survey_v12);
+    survey_v12 += '" target="_blank"><b>respondendo a essa enquete em inglês</b></a>.</span></p>';
+    $('#surveyPane').html(survey_v12);*/
   }
 } // END class AbstractBaseFrontend
 

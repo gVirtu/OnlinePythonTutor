@@ -1,0 +1,54 @@
+#--------------------------------------------------------------------
+# MergeSort em TuPy
+# Implementação por Giancarlo França
+#
+# <ATENÇÃO!> - Este programa espera receber uma entrada contendo
+#              inteiros separados por espaço, que constituirão a
+#              lista a ser ordenada.
+#
+# Exemplo de entrada:
+#         3 5 1 9 7 10 3
+# Saída:
+#         1 3 3 5 7 9 10
+#--------------------------------------------------------------------
+
+MergeSort(ref inteiro[] B, inteiro inicio, inteiro fim):
+    asserção(|B| >= fim)
+    inteiro m
+    visual VB, VB2 <- vetor(B[inicio..fim]), "" ~~
+    se inicio < fim:
+        m <- (inicio + fim) div 2
+        MergeSort(B, inicio, m)
+        MergeSort(B, m+1, fim)
+        Merge(B, inicio, m, fim, VB, VB2)
+        V <- vetor(A) ~~
+
+Merge(ref inteiro[] B, inteiro oculto inicio, inteiro oculto limite, \
+inteiro fim, ref visual VB, ref visual VB2):
+    inteiro oculto C[fim-inicio+1]
+    inteiro i, j, k
+    visual VC ~~
+    VC, VB, VB2 <- vetor(C), vetor(B[inicio..limite]), vetor(B[limite+1..fim]) ~~
+    i, j <- inicio, limite + 1
+    para k <- 0 até |C|:
+        se (j > fim) ou (i <= limite e B[i] <= B[j]):
+            VB, VB2 <- vetor(B[inicio..limite], [i-inicio]), vetor(B[limite+1..fim]) ~~
+            C[k], i <- B[i], i + 1
+        senão:
+            VB, VB2 <- vetor(B[inicio..limite]), vetor(B[limite+1..fim], [j-(limite+1)]) ~~
+            C[k], j <- B[j], j + 1
+        VC <- vetor(C, [k]) ~~
+    B[inicio..fim] <- C[*]
+
+-----------------------
+inteiro oculto A[*], elem
+visual V ~~
+
+enquanto ler(elem):
+    A <- inserir(A, elem)
+
+V <- vetor(A)
+-----------------------
+
+MergeSort(A, 0, |A|-1)
+escrever(A)

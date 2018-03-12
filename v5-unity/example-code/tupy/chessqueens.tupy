@@ -1,0 +1,85 @@
+#--------------------------------------------------------------------
+# Damas Pacíficas em TuPy
+# Implementação por Giancarlo França
+#
+# Imprime as configurações possíveis para posicionar N rainhas em
+# um tabuleiro de xadrez NxN. As configurações são dadas por um vetor
+# P, em que P[i] é a coluna em que ficará a rainha da linha i.
+#
+# Utiliza uma função "Tabuleiro" para gerar uma visualização
+# personalizada através do GraphViz.
+#
+# Observe, no entanto, que o número de operações no backtracking
+# cresce rapidamente conforme aumentamos o valor de N, tornando
+# inviável a execução completa neste visualizador. A complexidade
+# da função "Tabuleiro" também impacta o tempo de execução.
+#--------------------------------------------------------------------
+
+inteiro N <- 4
+inteiro P[N] <- 0
+
+# Funções para visualização customizada
+#####################################################################
+
+visual Tabuleiro(inteiro atéLinha, inteiro[] d <- []):
+    cadeia retorno[*] <- ["[[DOT digraph G { node [shape=plaintext]" \
+                          " 1 [label = <<TABLE CELLPADDING=\"0\" CELLSPACING=\"0\">"]
+
+    inteiro i, j
+    para i <- 0..N:
+        retorno <- inserir(retorno, "<TR BORDER=\"0\" CELLPADDING=\"0\" CELLSPACING=\"0\">")
+
+        para j <- 0..N:
+            cadeia começo, peça, fim
+            se comprimento(d) e i = d[0] e j = d[1]:
+                começo <- "<TD BGCOLOR=\"yellow\" BORDER=\"1\" FIXEDSIZE=\"TRUE\" WIDTH=\"42\" HEIGHT=\"42\"><FONT COLOR=\"BLACK\" POINT-SIZE=\"42\">"
+            senão se (i+j) mod 2:
+                começo <- "<TD BGCOLOR=\"black\" BORDER=\"0\" FIXEDSIZE=\"TRUE\" WIDTH=\"42\" HEIGHT=\"42\"><FONT COLOR=\"WHITE\" POINT-SIZE=\"42\">"
+            senão:
+                começo <- "<TD BGCOLOR=\"white\" BORDER=\"0\" FIXEDSIZE=\"TRUE\" WIDTH=\"42\" HEIGHT=\"42\"><FONT COLOR=\"BLACK\" POINT-SIZE=\"42\">"
+            fim <- "</FONT></TD>"
+            se i < atéLinha e P[i]=j:
+                peça <- "♛"
+            senão:
+                peça <- " "
+            retorno <- inserir(retorno, juntar((começo, peça, fim)))
+
+        retorno <- inserir(retorno, "</TR>")
+
+    retorno <- inserir(retorno, "</TABLE>>] }]]")
+
+    retornar juntar(retorno)
+-----------------------------------------------------------------------
+
+# O programa começa aqui
+#####################################################################
+
+-----------------------------------------------
+lógico Possível(inteiro linha, inteiro coluna):
+    inteiro i
+    para i <- 0..linha:
+        se P[i] = coluna \
+        ou P[linha-(i+1)] = coluna+(i+1) \
+        ou P[linha-(i+1)] = coluna-(i+1):
+            retornar falso
+    retornar verdadeiro
+-----------------------------------------------
+
+visual V ~~
+
+lógico DamasPacíficas(inteiro linha):
+    se (linha >= N):
+        retornar verdadeiro
+
+    inteiro col
+    para col <- 0..N:
+        V <- Tabuleiro(linha, [linha, col]) ~~
+        se Possível(linha, col):
+            P[linha] <- col
+            se DamasPacíficas(linha+1):
+                V <- Tabuleiro(linha+1) ~~
+                escrever(P)
+
+    retornar falso
+
+DamasPacíficas(0)

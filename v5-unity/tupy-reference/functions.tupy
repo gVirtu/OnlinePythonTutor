@@ -1,0 +1,99 @@
+### FUNÇÕES ###
+
+# Podemos definir funções em TuPy da
+# seguinte forma:
+
+inteiro função(inteiro x):
+  retornar x*x
+  
+# A função, então, pode ser chamada
+# pelo nome:
+
+inteiro y <- função(30)       # y = 900
+
+# OBS: Funções definidas pelo usuário devem obedecer a 
+#      acentuação escolhida. e.g.: Não seria possível
+#      invocar 'função' utilizando 'funcao'!
+
+# O tipo que precede o nome da função
+# define qual será o tipo do seu valor
+# de retorno. Porém, funções não precisam
+# necessariamente gerar um retorno:
+
+outra_função(inteiro x, inteiro y):
+  se x > y:
+    escrever(x)
+  senão:
+    escrever(y)
+    
+outra_função(10, 30)          # escreve 30
+
+# Por padrão, parâmetros são passados para
+# as funções por VALOR.
+
+soma_um(inteiro x):           # 'x' é passado por valor
+  x <- x + 1
+  
+inteiro a <- 10
+soma_um(a)                    # copiamos o valor de 'a' para 'x'
+                              # portanto quaisquer operações com 'x'
+                              # não afetarão 'a'.
+escrever(a)                   # a = 10
+
+# No entanto, podemos passar parâmetros por
+# REFERÊNCIA explicitamente:
+
+soma_dois(ref inteiro x):     # 'x' é passado por referência
+  x <- x + 2
+  
+inteiro a <- 10
+soma_dois(a)                  # toda ocorrência de 'x' será uma
+                              # referência a 'a'
+escrever(a)                   # a = 12
+
+# A passagem por valor também pode ser usada
+# explicitamente:
+
+soma_três(val inteiro x):     # esta forma é equivalente a
+  x <- x + 3                  # soma_três(inteiro x): <...>
+
+# Uma função pode receber vetores:
+
+inteiro acessar(ref inteiro[] V, inteiro índice):
+  retornar V[índice]
+  
+#           índices  0  1  2  3  4
+inteiro vetor[*] <- [5, 4, 3, 2, 1]
+inteiro elem <- acessar(vetor, 3)       # elem = 2
+
+# ...e também pode receber matrizes:
+
+inteiro acessar_matriz(ref inteiro[][] M, inteiro L, inteiro C):
+  retornar M[L, C]
+  
+inteiro A[*, *] <- [ [4, 9, 2], [3, 5, 7], [8, 1, 6] ]
+inteiro elem <- acessar_matriz(A, 1, 2) # elem = 7
+
+# Na lista de argumentos que uma função deve receber, os
+# argumentos das últimas posições podem ter valores padrão
+# que serão assumidos caso seja feita uma chamada que não
+# os inclua:
+
+inteiro multiplicar(inteiro a, inteiro b <- 2):
+  retornar a*b
+
+inteiro a <- multiplicar(4)             # a = 8
+inteiro a <- multiplicar(4, 3)          # a = 12
+
+# Duas ou mais funções podem ter o mesmo nome, desde que
+# não haja ambiguidade para referenciá-las. Duas funções
+# com diferentes números de argumentos (sem valores padrão)
+# nunca serão ambíguas, e funções com o mesmo número de
+# argumentos não serão ambíguas se receberem argumentos
+# com tipos diferentes.
+
+lógico é_inteiro(inteiro a):
+  retornar verdadeiro
+
+lógico é_inteiro(real a):
+  retornar falso

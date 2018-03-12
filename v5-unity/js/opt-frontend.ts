@@ -26,18 +26,21 @@ require('./lib/jquery-3.0.0.min.js');
 
 // just punt and use global script dependencies
 require("script-loader!./lib/ace/src-min-noconflict/ace.js");
+require("script-loader!./lib/ace/src-min-noconflict/ext-language_tools.js");
 require('script-loader!./lib/ace/src-min-noconflict/mode-python.js');
 require('script-loader!./lib/ace/src-min-noconflict/mode-javascript.js');
 require('script-loader!./lib/ace/src-min-noconflict/mode-typescript.js');
 require('script-loader!./lib/ace/src-min-noconflict/mode-c_cpp.js');
 require('script-loader!./lib/ace/src-min-noconflict/mode-java.js');
 require('script-loader!./lib/ace/src-min-noconflict/mode-ruby.js');
+require('script-loader!./lib/ace/src-min-noconflict/mode-tupy.js');
 
 require('script-loader!./lib/socket.io-client/socket.io.js');
 
 // need to directly import the class for type checking to work
 import {AbstractBaseFrontend, generateUUID, supports_html5_storage} from './opt-frontend-common';
 import {ExecutionVisualizer, assert, htmlspecialchars} from './pytutor';
+import {TUPY_CHEATSHEET} from './example-links';
 
 require('../css/opt-frontend.css');
 require('../css/opt-testcases.css');
@@ -67,6 +70,7 @@ function sanitizeURL(s) {
 export class OptFrontend extends AbstractBaseFrontend {
   originFrontendJsFile: string = 'opt-frontend.js';
   pyInputAceEditor = undefined; // Ace editor object that contains the user's code
+  cheatSheetEditor = undefined; // Ace editor object for quick reference
 
   // some subclasses use these, so put them in the superclass
   activateSyntaxErrorSurvey: boolean = true;
@@ -140,7 +144,7 @@ export class OptFrontend extends AbstractBaseFrontend {
              });
     });
 
-    $("#instructionsPane").html('Instructions: <a href="https://www.youtube.com/watch?v=h4q3UKdEFKE" target="_blank">sharing permanent links</a> | <a href="https://www.youtube.com/watch?v=Mxt9HZWgwAM" target="_blank">hiding variables</a> | <a href="https://www.youtube.com/watch?v=80ztTXP90Vs" target="_blank">setting breakpoints</a>');
+    // $("#instructionsPane").html('Vídeo-tutoriais (em inglês): <a href="https://www.youtube.com/watch?v=h4q3UKdEFKE" target="_blank">compartilhando links permanentes</a> | <a href="https://www.youtube.com/watch?v=Mxt9HZWgwAM" target="_blank">escondendo variáveis</a> | <a href="https://www.youtube.com/watch?v=80ztTXP90Vs" target="_blank">configurando breakpoints</a>');
 
     // first initialize options from HTML LocalStorage. very important
     // that this code runs FIRST so that options get overridden by query
@@ -242,23 +246,113 @@ export class OptFrontend extends AbstractBaseFrontend {
     }
   }
 
+  saveCode() {
+    if (this.pyInputAceEditor) {
+      var textToWrite = this.pyInputAceEditor.getValue();
+
+      //  create a new Blob (html5 magic) that conatins the data from your form feild
+      var textFileAsBlob = new Blob([textToWrite], { type: 'text/plain' });
+      // Specify the name of the file to be saved
+      var dateNow = new Date();
+
+      var pad = function(n) { return ("0" + n).slice(-2); };
+
+      var fileNameToSaveAs = dateNow.getFullYear() + "-" + pad(dateNow.getMonth()+1) + "-" + pad(dateNow.getDate()) + "_" +
+                            pad(dateNow.getHours()) + pad(dateNow.getMinutes()) + pad(dateNow.getSeconds()) + ".tupy";
+
+      // create a link for our script to 'click'
+      var downloadLink = document.createElement("a");
+      //  supply the name of the file (from the var above).
+      // you could create the name here but using a var
+      // allows more flexability later.
+      downloadLink.download = fileNameToSaveAs;
+      // provide text for the link. This will be hidden so you
+      // can actually use anything you want.
+      downloadLink.innerHTML = "Download!";
+
+      // allow our code to work in webkit & Gecko based browsers
+      // without the need for a if / else block.
+      window.URL = window.URL || (window as any).webkitURL;
+
+      // Create the link Object.
+      downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+      // when link is clicked call a function to remove it from
+      // the DOM in case user wants to save a second file.
+      downloadLink.onclick = this.destroyClickedElement;
+      // make sure the link is hidden.
+      downloadLink.style.display = "none";
+      // add the link to the DOM
+      document.body.appendChild(downloadLink);
+
+      // click the new link
+      downloadLink.click();
+    }
+  }
+
+  loadCode() {
+    if (this.pyInputAceEditor) {
+      var file = (document.getElementById("fileLoader") as any).files[0];
+      var textType = /text.*/;
+
+      if (!file) {
+        alert("Não foi possível ler o arquivo!");
+      } else if (file.type.match(textType) || file.type == "") {
+        var reader = new FileReader();
+        var editor = this.pyInputAceEditor;
+        reader.onload = function (e) {
+            editor.setValue((e.target as any).result);
+        };
+        reader.readAsText(file);
+      } else {
+        alert("Arquivo não suportado!");
+      }
+    }
+
+    (document.getElementById("fileLoaderForm") as any).reset();
+  }
+
+  destroyClickedElement(event) {
+      // remove the link from the DOM
+      document.body.removeChild(event.target);
+  }
+
   initAceEditor(height: number) {
     assert(!this.pyInputAceEditor);
     this.pyInputAceEditor = ace.edit('codeInputPane');
+    this.cheatSheetEditor = ace.edit('cheatSheet');
     var s = this.pyInputAceEditor.getSession();
     // tab -> 4 spaces
     s.setTabSize(4);
     s.setUseSoftTabs(true);
     // disable extraneous indicators:
-    s.setFoldStyle('manual'); // no code folding indicators
+    // s.setFoldStyle('manual'); // no code folding indicators
     s.getDocument().setNewLineMode('unix'); // canonicalize all newlines to unix format
     this.pyInputAceEditor.setHighlightActiveLine(false);
     this.pyInputAceEditor.setShowPrintMargin(false);
     this.pyInputAceEditor.setBehavioursEnabled(false);
     this.pyInputAceEditor.$blockScrolling = Infinity; // kludgy to shut up weird warnings
 
+    this.cheatSheetEditor.getSession().setMode("ace/mode/tupy");
+    this.cheatSheetEditor.setHighlightActiveLine(false);
+    var exFile = "tupy-reference/" + TUPY_CHEATSHEET.tupyIntroduction
+    var optFrontend = this
+    $.get(exFile, function(dat) {
+      optFrontend.cheatSheetEditor.setValue(dat, -1)
+    }, 'text' /* data type - set to text or else jQuery tries to EXECUTE the JS example code, haha, eeek! */);
+    this.cheatSheetEditor.setReadOnly(true);
+    this.cheatSheetEditor.setShowPrintMargin(false);
+    this.cheatSheetEditor.setOptions({minLines: 36, maxLines: 36, fontSize: "12pt"});
+    this.cheatSheetEditor.renderer.setShowGutter(false);
+    this.cheatSheetEditor.$blockScrolling = Infinity; // kludgy to shut up weird warnings
+
+    $('#cheatSheet').css('width', '100%');
+    $('#cheatSheet').css('height', '820px'); // VERY IMPORTANT so that it works on I.E., ugh!
+
     // auto-grow height as fit
-    this.pyInputAceEditor.setOptions({minLines: 18, maxLines: 1000});
+    this.pyInputAceEditor.setOptions({minLines: 18, maxLines: 1000,
+                                      fontFamily: "Fira Code", fontSize: "10pt",
+                                      enableBasicAutocompletion: true,
+                                      enableLiveAutocompletion: true});
 
     $('#codeInputPane').css('width', '700px');
     $('#codeInputPane').css('height', height + 'px'); // VERY IMPORTANT so that it works on I.E., ugh!
@@ -311,6 +405,9 @@ export class OptFrontend extends AbstractBaseFrontend {
       mod = 'typescript';
     } else if (selectorVal === 'ruby') {
       mod = 'ruby';
+    } else if (selectorVal === 'tupy') {
+      mod = 'tupy';
+      tabSize = 4;
     } else if (selectorVal === 'c' || selectorVal == 'cpp') {
       mod = 'c_cpp';
       if (editorVal === '') {
@@ -372,7 +469,7 @@ export class OptFrontend extends AbstractBaseFrontend {
   executeCodeFromScratch() {
     // don't execute empty string:
     if (this.pyInputAceEditor && $.trim(this.pyInputGetValue()) == '') {
-      this.setFronendError(["Type in some code to visualize."]);
+      this.setFronendError(["Primeiro, digite o código de seu programa acima!"]);
       return;
     }
     super.executeCodeFromScratch();
@@ -404,7 +501,8 @@ export class OptFrontend extends AbstractBaseFrontend {
                                  $('#pythonVersionSelector').val(),
                                  backendOptionsObj,
                                  frontendOptionsObj,
-                                 'pyOutputPane');
+                                 'pyOutputPane',
+                                 $('#inputTextArea').val());
 
     this.initDeltaObj(); // clear deltaObj to start counting over again
   }

@@ -1,49 +1,38 @@
-export var exampleHeaderHtml = `<p>Here are some free courses that either already use Python Tutor or are good to use with it:
+export var exampleHeaderHtml = `<p style="margin-top: 25px; font-weight: bold; font-size: 13pt;">Referência rápida de TuPy:</p>
+
+<p>Utilize os links a seguir para se familiarizar com a sintaxe de TuPy:</b>
+
+<p style="margin-top: 10px;">
+<a class="tupyReference" id="tupyIntroduction" href="#">introdução</a> |
+<a class="tupyReference" id="tupyDatatypes" href="#">tipos&nbsp;de&nbsp;dados</a> |
+<a class="tupyReference" id="tupyIO" href="#">entrada/saída</a> |
+<a class="tupyReference" id="tupyOperators" href="#">operadores</a> |
+<a class="tupyReference" id="tupyArrays" href="#">vetores&nbsp;e&nbsp;matrizes</a> |
+<a class="tupyReference" id="tupyControlFlow" href="#">estruturas&nbsp;de&nbsp;controle</a> |
+<a class="tupyReference" id="tupyFunctions" href="#">funções</a> |
+<a class="tupyReference" id="tupyClasses" href="#">classes</a> |
+<a class="tupyReference" id="tupyExecutionTrace" href="#">manipulação&nbsp;da&nbsp;visualização</a> |
+<a class="tupyReference" id="tupyStdlib" href="#">funções&nbsp;internas</a> |
+<a class="tupyReference" id="tupyMaths" href="#">funções&nbsp;matemáticas</a> |
+<a class="tupyReference" id="tupyGraphviz" href="#">integração&nbsp;com&nbsp;GraphViz</a>
 </p>
 
-<p>
-edX:
+<div id="cheatSheet"></div>`
 
-<a href="https://www.edx.org/course/python-data-science-uc-san-diegox-dse200x">Python for Data Science</a> |
-<a href="https://www.edx.org/course/introduction-computer-science-mitx-6-00-1x-10">Intro CS w/ Python (MIT)</a> |
-<a href="https://www.edx.org/course/introduction-computational-thinking-data-mitx-6-00-2x-5#!">Data Science (MIT)</a> |
-<a href="https://www.edx.org/course/introduction-computer-science-harvardx-cs50x">Intro CS (Harvard)</a> | <br/>
-<a href="https://www.edx.org/course/software-construction-java-mitx-6-005-1x">Software Construction in Java</a> |
-<a href="https://www.edx.org/course/using-python-research-harvardx-ph526x">Python for Research</a> |
-<a href="https://www.edx.org/course/statistics-probability-data-science-uc-san-diegox-dse210x">Stats w/ Python</a> |
-<a href="https://www.edx.org/course/how-win-coding-competitions-secrets-itmox-i2cpx-0#!">Coding Competitions</a>
-</p>
-
-<p>
-Coursera:
-
-<a href="https://www.coursera.org/learn/learn-to-program">Intro CS w/ Python</a> |
-<a href="https://www.coursera.org/learn/python">Intro Python</a> |
-<a href="https://www.coursera.org/learn/python-data-analysis">Data Science w/ Python</a> |
-<a href="https://www.coursera.org/specializations/python">Intro Python series</a><br/>
-</p>
-
-<p>
-Udacity:
-
-<a href="https://www.udacity.com/course/intro-to-computer-science--cs101">Intro CS w/ Python</a> |
-<a href="https://www.udacity.com/course/intro-to-java-programming--cs046">Intro Java</a> |
-<a href="https://www.udacity.com/course/intro-to-artificial-intelligence--cs271">Intro A.I.</a> |
-<a href="https://www.udacity.com/course/design-of-computer-programs--cs212">Design of Computer Programs</a> | <br/>
-<a href="https://www.udacity.com/course/javascript-basics--ud804">JavaScript Basics</a> |
-<a href="https://www.udacity.com/course/technical-interview--ud513">Technical Interview Prep</a>
-</p>
-
-<p>
-Textbooks:
-
-<a href="http://composingprograms.com/">Composing Programs</a> |
-<a href="https://www.inferentialthinking.com/">Computational Thinking</a> |
-<a href="http://interactivepython.org/runestone/static/thinkcspy/index.html">Interactive Python</a> |
-<a href="http://runestoneinteractive.org/library.html">Runestone Books</a>
-</p>
-
-<p style="margin-top: 35px;">The examples below illustrate some of this tool's visualization capabilities but are <em>not</em> meant as standalone programming lessons. See the courses listed above for lessons.</p>`
+export var TUPY_CHEATSHEET = {
+  tupyIntroduction: "introduction.tupy",
+  tupyDatatypes: "datatypes.tupy",
+  tupyIO: "io.tupy",
+  tupyOperators: "operators.tupy",
+  tupyArrays: "arrays.tupy",
+  tupyControlFlow: "controlflow.tupy",
+  tupyFunctions: "functions.tupy",
+  tupyClasses: "classes.tupy",
+  tupyExecutionTrace: "executiontrace.tupy",
+  tupyStdlib: "stdlib.tupy",
+  tupyMaths: "maths.tupy",
+  tupyGraphviz: "graphviz.tupy",
+}
 
 // extraneous:
 // <a href="https://www.edx.org/course/nature-code-biology-javascript-epflx-nic1-0x">Comp. Bio w/ JavaScript</a> | <br/>
@@ -354,6 +343,61 @@ export var RUBY_EXAMPLES = {
   rubyProcReturnLink: 'proc-return.rb',
 };
 
+export var tupyExamplesHtml = `<p style="margin-top: 25px; font-weight: bold; font-size: 13pt;">Exemplos de TuPy</p>
+
+<p style="margin-top: 10px;">Abaixo se encontram implementações em TuPy de alguns algoritmos e operações com estruturas de dados. Clique para abrir o código no editor. <b>Atenção:</b> Certifique-se de ter salvo seu programa antes de clicar nos exemplos abaixo!</p>
+
+<p style="margin-top: 10px;">
+<a class="exampleLink" id="tupyInsertionSort" href="#">insertionSort</a> |
+<a class="exampleLink" id="tupyShellSort" href="#">shellSort</a> |
+<a class="exampleLink" id="tupyMergeSort" href="#">mergeSort</a> |
+<a class="exampleLink" id="tupyHeapSort" href="#">heapSort</a> |
+<a class="exampleLink" id="tupyLinkedList1" href="#">inserção&nbsp;em&nbsp;lista&nbsp;encadeada</a> |
+<a class="exampleLink" id="tupyLinkedList2" href="#">merge&nbsp;em&nbsp;lista&nbsp;encadeada</a> |
+<a class="exampleLink" id="tupyMatrixTranspose" href="#">transposição&nbsp;de&nbsp;matriz</a> |
+<a class="exampleLink" id="tupyMatrixMultiply" href="#">multiplicação&nbsp;de&nbsp;matrizes</a> |
+<a class="exampleLink" id="tupyHashing" href="#">hashing&nbsp;(encadeamento&nbsp;exterior)</a> |
+<a class="exampleLink" id="tupyBST" href="#">árvore&nbsp;binária&nbsp;de&nbsp;busca</a> |
+<a class="exampleLink" id="tupyTreeCenter" href="#">centro&nbsp;de&nbsp;árvore&nbsp;(desfolhamento)</a> |
+<a class="exampleLink" id="tupyDFS" href="#">busca&nbsp;em&nbsp;profundidade</a> |
+<a class="exampleLink" id="tupyBFS" href="#">busca&nbsp;em&nbsp;largura</a> |
+moedas&nbsp;(<a class="exampleLink" id="tupyCoinChange" href="#">sem&nbsp;memorização</a> |
+<a class="exampleLink" id="tupyCoinChange2" href="#">com&nbsp;memorização</a>) |
+<a class="exampleLink" id="tupyChessQueens" href="#">damas&nbsp;pacíficas</a>
+</p>
+`
+/*<p style="margin-top: 5px;">
+  <a class="exampleLink" id="tupyHelloWorldLink" href="#">Olá Mundo</a> |
+  <a class="exampleLink" id="tupyMathsLink" href="#">Funções Matemáticas</a> |
+  <a class="exampleLink" id="tupyLoopsLink" href="#">Laços</a> |
+  <a class="exampleLink" id="tupyVectorsLink" href="#">Vetores</a> |
+  <a class="exampleLink" id="tupyMatricesLink" href="#">Matrizes</a> |
+  <a class="exampleLink" id="tupyLinkedListsLink" href="#">Listas Encadeadas</a>
+  <p/>
+  <a class="exampleLink" id="tupyFunctionsLink" href="#">Funções</a> |
+  <a class="exampleLink" id="tupyClassesLink" href="#">Classes</a> |
+  <a class="exampleLink" id="tupyAdvClassesLink" href="#">Herança e Polimorfismo</a>
+</p>`*/;
+
+export var TUPY_EXAMPLES = {
+  tupyInsertionSort: 'insertionsort.tupy',
+  tupyShellSort: 'shellsort.tupy',
+  tupyMergeSort: 'mergesort.tupy',
+  tupyHeapSort: 'heapsort.tupy',
+  tupyLinkedList1: 'linkedlists.tupy',
+  tupyLinkedList2: 'linkedlistmerge.tupy',
+  tupyMatrixTranspose: 'matrixtransposition.tupy',
+  tupyMatrixMultiply: 'matrixmultiplication.tupy',
+  tupyHashing: 'hashing.tupy',
+  tupyBST: 'bst.tupy',
+  tupyBTree: 'btree.tupy',
+  tupyTreeCenter: 'treecenter.tupy',
+  tupyDFS: 'dfs.tupy',
+  tupyBFS: 'bfs.tupy',
+  tupyCoinChange: 'coinchange.tupy',
+  tupyCoinChange2: 'coinchangememo.tupy',
+  tupyChessQueens: 'chessqueens.tupy'
+};
 
 export var cExamplesHtml = `<p style="margin-top: 25px; font-weight: bold;">C Examples</p>
 

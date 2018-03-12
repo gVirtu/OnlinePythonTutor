@@ -26,20 +26,22 @@
 
 */
 
-
 require('./lib/d3.v2.min.js');
+require('script-loader!./lib/viz.js');
 require('./lib/jquery-3.0.0.min.js');
-require('./lib/jquery.jsPlumb-1.3.10-all-min.js'); // DO NOT UPGRADE ABOVE 1.3.10 OR ELSE BREAKAGE WILL OCCUR 
+require('./lib/jquery.jsPlumb-1.3.10-all-min.js'); // DO NOT UPGRADE ABOVE 1.3.10 OR ELSE BREAKAGE WILL OCCUR
 require('./lib/jquery-ui-1.11.4/jquery-ui.js');
 require('./lib/jquery-ui-1.11.4/jquery-ui.css');
 require('./lib/jquery.ba-bbq.js'); // contains slight pgbovine modifications
 require('../css/pytutor');
-
+require('./lib/ace/src-min-noconflict/ace.js');
+require('./lib/ace/src-min-noconflict/ext-static_highlight.js');
+require('./lib/ace/src-min-noconflict/mode-tupy.js');
 
 // for TypeScript
 declare var jQuery: JQueryStatic;
 declare var jsPlumb: any;
-
+declare var Viz: any;
 
 export var SVG_ARROW_POLYGON = '0,3 12,3 12,0 18,5 12,10 12,7 0,7';
 var SVG_ARROW_HEIGHT = 10; // must match height of SVG_ARROW_POLYGON
@@ -96,6 +98,7 @@ export class ExecutionVisualizer {
   //   'executionPoints' - an ordered array of zero-indexed execution points where this line was executed
   //   'breakpointHere' - has a breakpoint been set here?
   codeOutputLines: {text: string, lineNumber: number, executionPoints: number[], breakpointHere: boolean}[] = [];
+  codeOutputCSS: string;
 
   promptForUserInput: boolean;
   userInputPromptStr: string;
@@ -242,10 +245,22 @@ export class ExecutionVisualizer {
       this.activateJavaFrontend(); // ohhhh yeah! do this before initializing codeOutputLines (ugh order dependency)
     }
 
+    //Static highlight (won't work well for multiline ace rules!!)
+    var highlight = ace.require("ace/ext/static_highlight")
+    var dom = ace.require("ace/lib/dom")
+
+    var highlighted = highlight.render(this.curInputCode, "ace/mode/tupy", "ace/theme/textmate",
+                                       1, true)
+    // var highlightedCode = highlighted.html
+    this.codeOutputCSS = highlighted.css
 
     var lines = this.curInputCode.split('\n');
     for (var i = 0; i < lines.length; i++) {
-      var cod = lines[i];
+      var cod
+      if (lines[i] == "<INVISIBLE>")
+        cod = lines[i]
+      else
+        cod = highlight.render(lines[i], "ace/mode/tupy", "ace/theme/textmate", 1, true).html;
       var n: {text: string, lineNumber: number, executionPoints: number[], breakpointHere: boolean} = {
         text: cod,
         lineNumber: i + 1,
@@ -365,14 +380,16 @@ export class ExecutionVisualizer {
 
     var myViz = this; // to prevent confusion of 'this' inside of nested functions
 
+    var aceStyle = '<style type="text/css" media="screen">\n' + this.codeOutputCSS + '</style>\n'
+
     if (this.params.verticalStack) {
-      this.domRoot.html('<table border="0" class="visualizer">\
+      this.domRoot.html(aceStyle + '<table border="0" class="visualizer">\
                            <tr><td class="vizLayoutTd" id="vizLayoutTdFirst""></td></tr>\
                            <tr><td class="vizLayoutTd" id="vizLayoutTdSecond"></td></tr>\
                          </table>');
     }
     else {
-      this.domRoot.html('<table border="0" class="visualizer"><tr>\
+      this.domRoot.html(aceStyle + '<table border="0" class="visualizer"><tr>\
                            <td class="vizLayoutTd" id="vizLayoutTdFirst"></td>\
                            <td class="vizLayoutTd" id="vizLayoutTdSecond"></td>\
                          </tr></table>');
@@ -400,11 +417,11 @@ export class ExecutionVisualizer {
 
       // add an extra label to link back to the main site, so that viewers
       // on the embedded page know that they're seeing an OPT visualization
-      base.append('<div style="font-size: 8pt; margin-bottom: 10px;">Visualized using <a href="http://pythontutor.com" target="_blank" style="color: #3D58A2;">Python Tutor</a> by <a href="http://www.pgbovine.net/" target="_blank" style="color: #3D58A2;">Philip Guo</a> (<a href="https://twitter.com/pgbovine" target="_blank" style="color: #3D58A2;">@pgbovine</a>)</div>');
+      base.append('<div style="font-size: 8pt; margin-bottom: 10px;">Visualização adaptada de <a href="http://pythontutor.com" target="_blank" style="color: #3D58A2;">Python Tutor</a> por <a href="http://www.pgbovine.net/" target="_blank" style="color: #3D58A2;">Philip Guo</a> (<a href="https://twitter.com/pgbovine" target="_blank" style="color: #3D58A2;">@pgbovine</a>)</div>');
       base.find('#codeFooterDocs').hide(); // cut out extraneous docs
     } else {
       // also display credits:
-      base.append('<div style="font-size: 8pt; margin-bottom: 10px;">Visualized using <a href="http://pythontutor.com" target="_blank" style="color: #3D58A2;">Python Tutor</a> by <a href="http://www.pgbovine.net/" target="_blank" style="color: #3D58A2;">Philip Guo</a> (<a href="https://twitter.com/pgbovine" target="_blank" style="color: #3D58A2;">@pgbovine</a>)</div>');
+      base.append('<div style="font-size: 8pt; margin-bottom: 10px;">Visualização adaptada de <a href="http://pythontutor.com" target="_blank" style="color: #3D58A2;">Python Tutor</a> por <a href="http://www.pgbovine.net/" target="_blank" style="color: #3D58A2;">Philip Guo</a> (<a href="https://twitter.com/pgbovine" target="_blank" style="color: #3D58A2;">@pgbovine</a>)</div>');
     }
 
     // not enough room for these extra buttons ...
@@ -668,14 +685,14 @@ export class ExecutionVisualizer {
     var totalInstrs = this.curTrace.length;
     var isFirstInstr = (this.curInstr == 0);
     var isLastInstr = (this.curInstr == (totalInstrs-1));
-    var msg = "Step " + String(this.curInstr + 1) + " of " + String(totalInstrs-1);
+    var msg = "Passo " + String(this.curInstr + 1) + " de " + String(totalInstrs-1);
     if (isLastInstr) {
       if (this.promptForUserInput || this.promptForMouseInput) {
         msg = '<b><font color="' + brightRed + '">Enter user input below:</font></b>';
       } else if (this.instrLimitReached) {
-        msg = "Instruction limit reached";
+        msg = "Limite de instruções alcançado";
       } else {
-        msg = "Program terminated";
+        msg = "Programa terminado";
       }
     }
 
@@ -770,12 +787,12 @@ export class ExecutionVisualizer {
         else if (obj instanceof Array && obj[0] == "CHAR-LITERAL") {
           var asc = obj[1].charCodeAt(0);
           var ch = obj[1];
-          
+
           // default
           var show = asc.toString(16);
           while (show.length < 4) show = "0" + show;
           show = "\\u" + show;
-          
+
           if (ch == "\n") show = "\\n";
           else if (ch == "\r") show = "\\r";
           else if (ch == "\t") show = "\\t";
@@ -785,7 +802,7 @@ export class ExecutionVisualizer {
           else if (ch == "\"") show = "\\\"";
           else if (ch == "\\") show = "\\\\";
           else if (asc >= 32) show = ch;
-          
+
           // stringObj to make monospace
           d3DomElement.append('<span class="stringObj">\'' + show + '\'</span>');
         }
@@ -795,7 +812,7 @@ export class ExecutionVisualizer {
       });
 
     this.add_pytutor_hook(
-      "isPrimitiveType", 
+      "isPrimitiveType",
       function(args) {
         var obj = args.obj;
         if ((obj instanceof Array && obj[0] == "VOID")
@@ -820,14 +837,14 @@ export class ExecutionVisualizer {
             escapeHtml(myViz.params.stdin.substr(stdinPosition));
           myViz.domRoot.find('#stdinShow').html(stdinContent);
         }
-        return [false]; 
+        return [false];
       });
 
     this.add_pytutor_hook(
       "end_render",
       function(args) {
         var myViz = args.myViz;
-        
+
         if (myViz.params.stdin && myViz.params.stdin != "") {
           var stdinHTML = '<div id="stdinWrap">stdin:<pre id="stdinShow" style="border:1px solid gray"></pre></div>';
           myViz.domRoot.find('#dataViz').append(stdinHTML); // TODO: leaky abstraction with #dataViz
@@ -855,12 +872,12 @@ export class ExecutionVisualizer {
         var myViz = args.myViz;
         var stepNum = args.stepNum;
 
-        if (!(obj[0] == 'LIST' || obj[0] == 'QUEUE' || obj[0] == 'STACK')) 
+        if (!(obj[0] == 'LIST' || obj[0] == 'QUEUE' || obj[0] == 'STACK'))
           return [false]; // didn't handle
 
         var label = obj[0].toLowerCase();
         var visibleLabel = {list:'array', queue:'queue', stack:'stack'}[label];
-        
+
         if (obj.length == 1) {
           d3DomElement.append('<div class="typeLabel">' + typeLabelPrefix + 'empty ' + visibleLabel + '</div>');
           return [true]; //handled
@@ -869,22 +886,22 @@ export class ExecutionVisualizer {
         d3DomElement.append('<div class="typeLabel">' + typeLabelPrefix + visibleLabel + '</div>');
         d3DomElement.append('<table class="' + label + 'Tbl"></table>');
         var tbl = d3DomElement.children('table');
-        
+
         if (obj[0] == 'LIST') {
           tbl.append('<tr></tr><tr></tr>');
           var headerTr = tbl.find('tr:first');
           var contentTr = tbl.find('tr:last');
-          
+
           // i: actual index in json object; ind: apparent index
           for (var i=1, ind=0; i<obj.length; i++) {
             var val = obj[i];
             var elide = val instanceof Array && val[0] == 'ELIDE';
-            
+
             // add a new column and then pass in that newly-added column
             // as d3DomElement to the recursive call to child:
             headerTr.append('<td class="' + label + 'Header"></td>');
             headerTr.find('td:last').append(elide ? "&hellip;" : ind);
-            
+
             contentTr.append('<td class="'+ label + 'Elt"></td>');
             if (!elide) {
               myViz.renderNestedObject(val, stepNum, contentTr.find('td:last'));
@@ -900,7 +917,7 @@ export class ExecutionVisualizer {
        // Stack and Queue handling code by Will Gwozdz
         /* The table produced for stacks and queues is formed slightly differently than the others,
        missing the header row. Two rows made the dashed border not line up properly */
-        if (obj[0] == 'STACK') { 
+        if (obj[0] == 'STACK') {
           tbl.append('<tr></tr><tr></tr>');
           var contentTr = tbl.find('tr:last');
           contentTr.append('<td class="'+ label + 'FElt">'+'<span class="stringObj symbolic">&#8596;</span>'+'</td>');
@@ -911,18 +928,18 @@ export class ExecutionVisualizer {
           });
           contentTr.append('<td class="'+ label + 'LElt">'+'</td>');
         }
-        
-        if (obj[0] == 'QUEUE') { 
+
+        if (obj[0] == 'QUEUE') {
           tbl.append('<tr></tr><tr></tr>');
-          var contentTr = tbl.find('tr:last');    
+          var contentTr = tbl.find('tr:last');
           // Add arrows showing in/out direction
-          contentTr.append('<td class="'+ label + 'FElt">'+'<span class="stringObj symbolic">&#8592;</span></td>');    
+          contentTr.append('<td class="'+ label + 'FElt">'+'<span class="stringObj symbolic">&#8592;</span></td>');
           $.each(obj, function(ind, val) {
             if (ind < 1) return; // skip type tag and ID entry
             contentTr.append('<td class="'+ label + 'Elt"></td>');
             myViz.renderNestedObject(val, stepNum, contentTr.find('td:last'));
           });
-          contentTr.append('<td class="'+ label + 'LElt">'+'<span class="stringObj symbolic">&#8592;</span></td>');    
+          contentTr.append('<td class="'+ label + 'LElt">'+'<span class="stringObj symbolic">&#8592;</span></td>');
         }
 
         return [true]; // did handle
@@ -969,6 +986,11 @@ export class ExecutionVisualizer {
           return entityMap[s];
         });
     };
+  }
+
+  hasException() {
+    var myViz = this;
+    return myViz.curTrace[myViz.curInstr].event == 'exception';
   }
 
   // update fields corresponding to the current and previously executed lines
@@ -1143,7 +1165,7 @@ class DataVisualizer {
 
 
     this.jsPlumbInstance = jsPlumb.getInstance({
-      Endpoint: ["Dot", {radius:3}],
+      Endpoint: ["Dot", {radius:6}],
       EndpointStyles: [{fillStyle: connectorBaseColor}, {fillstyle: null} /* make right endpoint invisible */],
       Anchors: ["RightMiddle", "LeftMiddle"],
       PaintStyle: {lineWidth:1, strokeStyle: connectorBaseColor},
@@ -1154,9 +1176,10 @@ class DataVisualizer {
 
       // state machine curve style:
       Connector: [ "StateMachine" ],
+      ConnectionsDetachable   : false,
       Overlays: [[ "Arrow", { length: 10, width:7, foldback:0.55, location:1 }]],
       EndpointHoverStyles: [{fillStyle: connectorHighlightColor}, {fillstyle: null} /* make right endpoint invisible */],
-      HoverPaintStyle: {lineWidth: 1, strokeStyle: connectorHighlightColor},
+      HoverPaintStyle: {lineWidth: 2, strokeStyle: connectorHighlightColor},
     });
   }
 
@@ -1169,6 +1192,10 @@ class DataVisualizer {
   // display the same heap object at multiple execution steps.
   generateHeapObjID(objID, stepNum) {
     return this.owner.generateID('heap_object_' + objID + '_s' + stepNum);
+  }
+
+  escape(string) {
+    return String(string).replace(/(:|\.|\[|\]|,|=|@)/g, '\\$1')
   }
 
   // customize labels for each language's preferred vocabulary
@@ -1218,6 +1245,26 @@ class DataVisualizer {
         return 'Stack';
       } else if (label === 'Objects') {
         return 'Heap';
+      }
+    } else if (this.params.lang === 'tupy') {
+      if (label === 'Global frame') {
+        return 'Contexto global';
+      } else if (label === 'Frames') {
+        return 'Contextos';
+      } else if (label === 'Objects') {
+        return 'Memória';
+      } else if (label === 'list') {
+        return 'lista';
+      } else if (label === 'struct') {
+        return 'objeto';
+      } else if (label === 'True') {
+        return 'verdadeiro';
+      } else if (label === 'False') {
+        return 'falso';
+      } else if (label === 'tuple') {
+        return 'tupla';
+      } else if (label === 'Return</br>value') {
+        return 'Retorno';
       }
     }
 
@@ -1421,6 +1468,10 @@ class DataVisualizer {
         else if ((heapObj[0] == 'C_ARRAY') || (heapObj[0] == 'C_MULTIDIMENSIONAL_ARRAY') || (heapObj[0] == 'C_STRUCT')) {
           updateCurLayoutAndRecurse(heapObj);
         }
+        else if (isHeapRef(heapObj, curEntry.heap)) {
+          var id = getRefID(heapObj);
+          updateCurLayout(id, null, []);
+        }
       }
 
 
@@ -1609,7 +1660,7 @@ class DataVisualizer {
   // codebase be unified. but for now, keep C/C++ separate because I don't
   // want to risk screwing up the visualizations for the other languages
   isCppMode() {
-    return (this.params.lang === 'c' || this.params.lang === 'cpp');
+    return (this.params.lang === 'c' || this.params.lang === 'cpp' || this.params.lang == 'tupy');
   }
 
   // compare two JSON-encoded compound objects for structural equivalence:
@@ -1809,6 +1860,30 @@ class DataVisualizer {
     // remember that the enter selection is added to the update
     // selection so that we can process it later ...
 
+    heapRows
+      .attr('style', 'display:block');
+
+    heapRows
+      .filter(function(d) {
+        //console.log("CHECKING ROW "+this.id)
+        var validChildren = myViz.domRootD3
+          .select("#" + this.id)
+          .selectAll('td.toplevelHeapObject');
+
+        //console.log(validChildren);
+
+        validChildren = validChildren
+          .filter(function(d) {
+            //console.log(this.id)
+            //console.log(d)
+            //console.log(curEntry.heap[d])
+            return curEntry.heap[d] !== undefined;
+          })
+
+        return validChildren.empty();
+      })
+      .attr('style', 'display:none;');
+
     // update a toplevelHeapObject
     toplevelHeapObjects
       .order() // VERY IMPORTANT to put in the order corresponding to data elements
@@ -1824,7 +1899,11 @@ class DataVisualizer {
           // disappeared from the heap all of a sudden?!?
           if (curEntry.heap[objID] !== undefined) {
             myViz.renderCompoundObject(objID, curInstr, $(this), true);
-          }
+          } //else {
+            // This makes sure no awkward gaps are left when garbage collecting
+            //d3.select(this.parentNode)
+            //  .attr('style', 'display:none;');
+          //}
         } else {
           myViz.renderCompoundObject(objID, curInstr, $(this), true);
         }
@@ -1925,7 +2004,10 @@ class DataVisualizer {
       .order() // VERY IMPORTANT to put in the order corresponding to data elements
       .each(function(varname, i) {
         if (i == 0) {
-          $(this).html(varname);
+          if (varname == '__return__')
+            $(this).html('<span class="retval">' + myViz.getRealLabel('Return</br>value') + '</span>');
+          else
+            $(this).html(varname);
         }
         else {
           // always delete and re-render the global var ...
@@ -2156,7 +2238,7 @@ class DataVisualizer {
 
         if (i == 0) {
           if (varname == '__return__')
-            $(this).html('<span class="retval">Return<br/>value</span>');
+            $(this).html('<span class="retval">' + myViz.getRealLabel('Return</br>value') + '</span>');
           else
             $(this).html(varname);
         }
@@ -2285,9 +2367,9 @@ class DataVisualizer {
       $.each(srcHeapConnectorIDs, function(i, srcID) {
         var dstID = myViz.jsPlumbManager.heapConnectionEndpointIDs.get(srcID);
 
-        var srcAnchorObject = myViz.domRoot.find('#' + srcID);
+        var srcAnchorObject = myViz.domRoot.find('#' + myViz.escape(srcID));
         var srcHeapObject = srcAnchorObject.closest('.heapObject');
-        var dstHeapObject = myViz.domRoot.find('#' + dstID);
+        var dstHeapObject = myViz.domRoot.find('#' + myViz.escape(dstID));
         assert(dstHeapObject.attr('class') == 'heapObject');
 
         var srcHeapRow = srcHeapObject.closest('.heapRow');
@@ -2551,8 +2633,8 @@ class DataVisualizer {
         var leader = '';
 
         // prefix with 'cdata_' so that we can distinguish this from a
-        // top-level heap ID generated by generateHeapObjID
-        var cdataId = myViz.generateHeapObjID('cdata_' + addr, stepNum);
+        // top-level heap ID generated by generateHeapObjID (changed for TuPy)
+        var cdataId = myViz.generateHeapObjID(/*'cdata_' +*/ addr, stepNum);
 
         if (isValidPtr) {
           // for pointers, put cdataId in the header
@@ -2564,7 +2646,7 @@ class DataVisualizer {
           // IE needs this div to be NON-EMPTY in order to properly
           // render jsPlumb endpoints, so that's why we add an "&nbsp;"!
           var ptrSrcId = myViz.generateHeapObjID('ptrSrc_' + addr, stepNum);
-          var ptrTargetId = myViz.generateHeapObjID('cdata_' + ptrVal, stepNum); // don't forget cdata_ prefix!
+          var ptrTargetId = myViz.generateHeapObjID(/*'cdata_' +*/ ptrVal, stepNum); // don't forget cdata_ prefix!
 
           var debugInfo = '';
 
@@ -2582,39 +2664,65 @@ class DataVisualizer {
             myViz.jsPlumbManager.connectionEndpointIDs.set(ptrSrcId, ptrTargetId);
           }
         } else {
-          // for non-pointers, put cdataId on the element itself, so that
-          // pointers can point directly at the element, not the header
-          d3DomElement.append('<div class="cdataHeader">' + leader + typeName + '</div>');
+          var dotRegexp = /\[\[DOT\s+(.*)\]\]/i;
+          var isGraphviz = (typeName === 'cadeia' && typeof obj[3] === 'string'
+                            && dotRegexp.test(obj[3].replace(new RegExp("\n", 'g'), '\\n')))
 
-          var rep = '';
-          if (typeof obj[3] === 'string') {
-            var literalStr = obj[3];
-            if (literalStr === '<UNINITIALIZED>') {
-              rep = '<span class="cdataUninit">?</span>';
-              //rep = '\uD83D\uDCA9'; // pile of poo emoji
-            } else if (literalStr == '<UNALLOCATED>') {
-              rep = '\uD83D\uDC80'; // skull emoji
-            } else {
-              // a regular string
-              literalStr = literalStr.replace(new RegExp("\n", 'g'), '\\n'); // replace ALL
-              literalStr = literalStr.replace(new RegExp("\t", 'g'), '\\t'); // replace ALL
-              literalStr = literalStr.replace(new RegExp('\"', 'g'), '\\"'); // replace ALL
+          if (isGraphviz) {
+            d3DomElement.append('<div class="cdataHeader">' + leader + 'graphViz' + '</div>');
+            try {
+              var dotSrc = dotRegexp.exec(obj[3].replace(new RegExp("\n", 'g'), '\\n'))[1]
+              var resultSvg = Viz(dotSrc);
+              var tempElement = d3DomElement.append('<div id="' + cdataId + '" class="cdataElt"></div>')
 
-              // unprintable chars are denoted with '???', so show them as
-              // a special unicode character:
-              if (typeName === 'char' && literalStr === '???') {
-                literalStr = '\uFFFD'; // question mark in black diamond unicode character
-              } else {
-                // print as a SINGLE-quoted string literal (to emulate C-style chars)
-                literalStr = "'" + literalStr + "'";
-              }
-              rep = htmlspecialchars(literalStr);
+              var resultImg = Viz.svgXmlToPngImageElement(resultSvg, 1, function(err, img) {
+                var myElement = tempElement.html( '<img src="' + img.src +
+                                                  '" width="' + img.width*0.75 +
+                                                  '" height="' + img.height*0.75 + '"/>');
+                myViz.redrawConnectors()
+              })
+            } catch(err) {
+              d3DomElement.append('<div id="' + cdataId + '" class="cdataElt">erro de sintaxe!</div>')
             }
           } else {
-            rep = htmlspecialchars(obj[3]);
-          }
+            // for non-pointers, put cdataId on the element itself, so that
+            // pointers can point directly at the element, not the header
 
-          d3DomElement.append('<div id="' + cdataId + '" class="cdataElt">' + rep + '</div>');
+            d3DomElement.append('<div class="cdataHeader">' + leader + typeName + '</div>');
+
+            var rep = '';
+            if (typeof obj[3] === 'string') {
+              var literalStr = obj[3];
+              if (literalStr === '<UNINITIALIZED>') {
+                rep = '<span class="cdataUninit">?</span>';
+                //rep = '\uD83D\uDCA9'; // pile of poo emoji
+              } else if (literalStr == '<UNALLOCATED>') {
+                rep = '\uD83D\uDC80'; // skull emoji
+              } else if (literalStr == '<NULL>') {
+                rep = '\uD83D\uDEAB'; // no entry emoji
+              } else {
+                // a regular string
+                literalStr = literalStr.replace(new RegExp("\n", 'g'), '\\n'); // replace ALL
+                literalStr = literalStr.replace(new RegExp("\t", 'g'), '\\t'); // replace ALL
+                literalStr = literalStr.replace(new RegExp('\"', 'g'), '\\"'); // replace ALL
+
+                // unprintable chars are denoted with '???', so show them as
+                // a special unicode character:
+                if (typeName === 'char' && literalStr === '???') {
+                  literalStr = '\uFFFD'; // question mark in black diamond unicode character
+                } else {
+                  // print as a SINGLE-quoted string literal (to emulate C-style chars)
+                  if (typeName === 'caracter') { literalStr = "'" + literalStr + "'"; }
+                  else if (typeName === 'cadeia') { literalStr = '"' + literalStr + '"'; }
+                }
+                rep = htmlspecialchars(literalStr);
+              }
+            } else {
+              rep = htmlspecialchars(obj[3]);
+            }
+
+            d3DomElement.append('<div id="' + cdataId + '" class="cdataElt">' + rep + '</div>');
+          }
         }
       } else {
         assert(obj[0] == 'SPECIAL_FLOAT' || obj[0] == 'JS_SPECIAL_VAL');
@@ -2689,7 +2797,7 @@ class DataVisualizer {
     // wrap ALL compound objects in a heapObject div so that jsPlumb
     // connectors can point to it:
     d3DomElement.append('<div class="heapObject" id="' + heapObjID + '"></div>');
-    d3DomElement = myViz.domRoot.find('#' + heapObjID); // TODO: maybe inefficient
+    d3DomElement = myViz.domRoot.find('#' + myViz.escape(heapObjID)); // TODO: maybe inefficient
 
     myViz.jsPlumbManager.renderedHeapObjectIDs.set(heapObjID, 1);
 
@@ -2704,8 +2812,8 @@ class DataVisualizer {
     }
 
     var hook_result = myViz.owner.try_hook("renderCompoundObject",
-                               {objID:objID, d3DomElement:d3DomElement, 
-                                isTopLevel:isTopLevel, obj:obj, 
+                               {objID:objID, d3DomElement:d3DomElement,
+                                isTopLevel:isTopLevel, obj:obj,
                                 typeLabelPrefix:typeLabelPrefix,
                                 stepNum:stepNum,
                                 myViz:myViz});
@@ -2716,7 +2824,7 @@ class DataVisualizer {
 
       assert(obj.length >= 1);
       if (obj.length == 1) {
-        d3DomElement.append('<div class="typeLabel">' + typeLabelPrefix + ' empty ' + myViz.getRealLabel(label) + '</div>');
+        d3DomElement.append('<div class="typeLabel">' + typeLabelPrefix + myViz.getRealLabel(label) + ' vazia</div>');
       }
       else {
         d3DomElement.append('<div class="typeLabel">' + typeLabelPrefix + myViz.getRealLabel(label) + '</div>');
@@ -2983,7 +3091,7 @@ class DataVisualizer {
         // call it 'object' instead of 'struct'
         d3DomElement.append('<div class="typeLabel">' + leader + 'object ' + typename + '</div>');
       } else {
-        d3DomElement.append('<div class="typeLabel">' + leader + 'struct ' + typename + '</div>');
+        d3DomElement.append('<div class="typeLabel">' + leader + myViz.getRealLabel('struct') + ' ' + typename + '</div>');
       }
 
       if (obj.length > 3) {
@@ -3123,7 +3231,7 @@ class ProgramOutputBox {
 
     var outputsHTML =
       '<div id="progOutputs">\
-         <div id="printOutputDocs">Print output (drag lower right corner to resize)</div>\n\
+         <div id="printOutputDocs">Saída do programa (puxe o canto inferior direito para redimensionar)</div>\n\
          <textarea id="pyStdout" cols="40" rows="5" wrap="off" readonly></textarea>\
        </div>';
 
@@ -3191,7 +3299,7 @@ class CodeDisplay {
 
   leftGutterSvgInitialized: boolean = false;
   arrowOffsetY: number;
-  codeRowHeight: number;
+  magicHeight: number;
 
   constructor(owner, domRoot, domRootD3,
               codToDisplay: string, lang: string, editCodeBaseURL: string) {
@@ -3199,16 +3307,17 @@ class CodeDisplay {
     this.domRoot = domRoot;
     this.domRootD3 = domRootD3;
     this.codToDisplay = codToDisplay;
+    this.magicHeight = 12;
 
     var codeDisplayHTML =
       '<div id="codeDisplayDiv">\
          <div id="langDisplayDiv"></div>\
          <div id="pyCodeOutputDiv"/>\
-         <div id="editCodeLinkDiv"><a id="editBtn">Edit code</a>\
+         <div id="editCodeLinkDiv"><a id="editBtn">Editar código</a>\
          <span id="liveModeSpan" style="display: none;">| <a id="editLiveModeBtn" href="#">Live programming</a></a>\
          </div>\
          <div id="legendDiv"/>\
-         <div id="codeFooterDocs">Click a line of code to set a breakpoint; use the Back and Forward buttons to jump there.</div>\
+         <div id="codeFooterDocs"><p>Você pode usar as setas direcionais, HOME e END ao invés dos botões de navegação.</p><p>Clique em uma linha de código para colocar um breakpoint; use os botões Próximo/Anterior para se deslocar entre eles.</p></div>\
        </div>';
 
     this.domRoot.append(codeDisplayHTML);
@@ -3216,8 +3325,8 @@ class CodeDisplay {
       this.domRoot.find('#editCodeLinkDiv').css('font-size', '10pt');
     }
     this.domRoot.find('#legendDiv')
-        .append('<svg id="prevLegendArrowSVG"/> line that has just executed')
-        .append('<p style="margin-top: 4px"><svg id="curLegendArrowSVG"/> next line to execute</p>');
+        .append('<svg id="prevLegendArrowSVG"/> linha que acabou de executar')
+        .append('<p style="margin-top: 4px"><svg id="curLegendArrowSVG"/> próxima linha</p>');
     this.domRootD3.select('svg#prevLegendArrowSVG')
         .append('polygon')
         .attr('points', SVG_ARROW_POLYGON)
@@ -3262,6 +3371,8 @@ class CodeDisplay {
         this.domRoot.find('#langDisplayDiv').html('TypeScript');
       } else if (lang === 'ruby') {
         this.domRoot.find('#langDisplayDiv').html('Ruby');
+      } else if (lang === 'tupy') {
+        this.domRoot.find('#langDisplayDiv').html('TuPy');
       } else if (lang === 'java') {
         this.domRoot.find('#langDisplayDiv').html('Java');
       } else if (lang === 'py2') {
@@ -3322,12 +3433,20 @@ class CodeDisplay {
           return this.owner.generateID('cod' + d.lineNumber); // make globally unique (within the page)
         }
       })
+      .attr('style', (d, i) => {
+        if (d.text == "<INVISIBLE>") {
+          return "display: none";
+        }
+        else {
+          return "";
+        }
+      })
       .html(function(d, i) {
         if (i == 0) {
           return d.lineNumber;
         }
         else {
-          return htmlspecialchars(d.text);
+          return d.text; //htmlspecialchars(d.text);
         }
       });
 
@@ -3398,33 +3517,18 @@ class CodeDisplay {
 
       var firstRowOffsetY = this.domRoot.find('table#pyCodeOutput tr:first').offset().top;
 
-      // first take care of edge case when there's only one line ...
-      this.codeRowHeight = this.domRoot.find('table#pyCodeOutput td.cod:first').height();
-
-      // ... then handle the (much more common) multi-line case ...
-      // this weird contortion is necessary to get the accurate row height on Internet Explorer
-      // (simpler methods work on all other major browsers, erghhhhhh!!!)
-      if (this.owner.codeOutputLines.length > 1) {
-        var secondRowOffsetY = this.domRoot.find('table#pyCodeOutput tr:nth-child(2)').offset().top;
-        this.codeRowHeight = secondRowOffsetY - firstRowOffsetY;
-      }
-
-      assert(this.codeRowHeight > 0);
-
       var gutterOffsetY = gutterSVG.offset().top;
       var teenyAdjustment = gutterOffsetY - firstRowOffsetY;
 
       // super-picky detail to adjust the vertical alignment of arrows so that they line up
       // well with the pointed-to code text ...
       // (if you want to manually adjust tableTop, then ~5 is a reasonable number)
-      this.arrowOffsetY = Math.floor((this.codeRowHeight / 2) - (SVG_ARROW_HEIGHT / 2)) - teenyAdjustment;
+      this.arrowOffsetY = Math.floor((this.magicHeight / 2) - (SVG_ARROW_HEIGHT / 2)) - teenyAdjustment;
 
       this.leftGutterSvgInitialized = true;
     }
 
     assert(this.arrowOffsetY !== undefined);
-    assert(this.codeRowHeight !== undefined);
-    assert(0 <= this.arrowOffsetY && this.arrowOffsetY <= this.codeRowHeight);
 
     // assumes that this.owner.updateLineAndExceptionInfo has already
     // been run, so line number info is up-to-date!
@@ -3437,8 +3541,8 @@ class CodeDisplay {
     var isTerminated = (!myViz.instrLimitReached && isLastInstr);
     var pcod = this.domRoot.find('#pyCodeOutputDiv');
 
-    var prevVerticalNudge = myViz.prevLineIsReturn ? Math.floor(this.codeRowHeight / 3) : 0;
-    var curVerticalNudge  = myViz.curLineIsReturn  ? Math.floor(this.codeRowHeight / 3) : 0;
+    var prevVerticalNudge = myViz.prevLineIsReturn ? Math.floor(this.magicHeight / 3) : 0;
+    var curVerticalNudge  = myViz.curLineIsReturn  ? Math.floor(this.magicHeight / 3) : 0;
 
     // ugly edge case for the final instruction :0
     if (isTerminated && !hasError) {
@@ -3449,7 +3553,17 @@ class CodeDisplay {
 
     if (myViz.prevLineNumber) {
       var pla = this.domRootD3.select('#prevLineArrow');
-      var translatePrevCmd = 'translate(0, ' + (((myViz.prevLineNumber - 1) * this.codeRowHeight) + this.arrowOffsetY + prevVerticalNudge) + ')';
+      var baseY = this.domRoot.find('#gutterTD')[0].getBoundingClientRect().top;
+      var targetRect = this.domRoot.find('#lineNo' + String(myViz.prevLineNumber))[0].getBoundingClientRect()
+      var targetY = targetRect.top - baseY;
+      var magicNumber = 2;
+      var offsetY = (targetRect.height >> 1) - (SVG_ARROW_HEIGHT >> 1) - magicNumber;
+      // console.log("Line: " + myViz.prevLineNumber);
+      // console.log("Intended: " + (((myViz.prevLineNumber - 1) * this.codeRowHeight) + this.arrowOffsetY + prevVerticalNudge) );
+      // console.log("Target Y: "+ targetY);
+      // console.log("Got: " + (targetY + this.arrowOffsetY + prevVerticalNudge));
+      var translatePrevCmd = 'translate(0, ' + (targetY + offsetY + prevVerticalNudge) + ')';
+      // var translatePrevCmd = 'translate(0, ' + (((myViz.prevLineNumber - 1) * this.codeRowHeight) + this.arrowOffsetY + prevVerticalNudge) + ')';
       if (smoothTransition) {
         pla
           .transition()
@@ -3472,7 +3586,23 @@ class CodeDisplay {
 
     if (myViz.curLineNumber) {
       var cla = this.domRootD3.select('#curLineArrow');
-      var translateCurCmd = 'translate(0, ' + (((myViz.curLineNumber - 1) * this.codeRowHeight) + this.arrowOffsetY + curVerticalNudge) + ')';
+      var baseY = this.domRoot.find('#gutterTD')[0].getBoundingClientRect().top;
+      var magicNumber = 2;
+      if (isTerminated) {
+        var targetRect = this.domRoot.find('#gutterTD')[0].getBoundingClientRect();
+        magicNumber = -targetRect.height;
+      }
+      else
+        var targetRect = this.domRoot.find('#lineNo' + String(myViz.curLineNumber))[0].getBoundingClientRect();
+      var targetY = targetRect.top - baseY;
+      var offsetY = (targetRect.height >> 1) - (SVG_ARROW_HEIGHT >> 1) - magicNumber;
+      // console.log("Line: " + myViz.prevLineNumber);
+      // console.log("Intended: " + (((myViz.prevLineNumber - 1) * this.codeRowHeight) + this.arrowOffsetY + prevVerticalNudge) );
+      // console.log("Target Y: "+ targetY);
+      // console.log("Offset Y: "+ offsetY);
+      // console.log("Got: " + (targetY + this.arrowOffsetY + prevVerticalNudge));
+      var translateCurCmd = 'translate(0, ' + (targetY + offsetY + curVerticalNudge) + ')';
+      //var translateCurCmd = 'translate(0, ' + (((myViz.curLineNumber - 1) * this.codeRowHeight) + this.arrowOffsetY + curVerticalNudge) + ')';
       if (smoothTransition) {
         cla
           .transition()
@@ -3565,21 +3695,67 @@ class NavigationController {
                      <div id="executionSlider"/>\
                      <div id="executionSliderFooter"/>\
                      <div id="vcrControls">\
-                       <button id="jmpFirstInstr", type="button">&lt;&lt; First</button>\
-                       <button id="jmpStepBack", type="button">&lt; Back</button>\
-                       <span id="curInstr">Step ? of ?</span>\
-                       <button id="jmpStepFwd", type="button">Forward &gt;</button>\
-                       <button id="jmpLastInstr", type="button">Last &gt;&gt;</button>\
+                       <button id="jmpFirstInstr", type="button"><i class=\"fas fa-angle-double-left\"></i> Primeiro</button>\
+                       <button id="jmpStepBack", type="button"><i class=\"fas fa-angle-left\"></i> Anterior</button>\
+                       <span id="curInstr">Passo ? de ?</span>\
+                       <button id="jmpStepFwd", type="button">Próximo <i class=\"fas fa-angle-right\"></i>\
+                       </button>\
+                       <button id="jmpLastInstr", type="button">Último <i class=\"fas fa-angle-double-right\"></i></button>\
                      </div>\
                      <div id="rawUserInputDiv">\
                        <span id="userInputPromptStr"/>\
                        <input type="text" id="raw_input_textbox" size="30"/>\
-                       <button id="raw_input_submit_btn">Submit</button>\
+                       <button id="raw_input_submit_btn">Submeter</button>\
                      </div>\
-                     <div id="errorOutput"/>\
+                     <div id="errorOutput" style="word-wrap: break-word;"/>\
                    </div>';
 
     this.domRoot.append(navHTML);
+
+    $(document).keydown(function(e) {
+      switch(e.which) {
+          case 35: // end
+          owner.renderStep(nSteps - 1);
+          break;
+
+          case 36: // home
+          owner.renderStep(0);
+          break;
+
+          case 37: // left
+          owner.stepBack();
+          break;
+
+          case 39: // right
+          owner.stepForward();
+          break;
+
+          default: return; // exit this handler for other keys
+      }
+      e.preventDefault(); // prevent the default action (scroll / move caret)
+    });
+
+    var element = $('#codAndNav'),
+        originalY = element.offset().top;
+
+    // Space between element and top of screen (when scrolling)
+    var topMargin = 20;
+
+    // Should probably be set in CSS; but here just for emphasis
+    element.css('position', 'relative');
+
+    var windowViz = owner
+    $(window).on('scroll', function(event) {
+        if (!windowViz.hasException()) {
+          var scrollTop = $(window).scrollTop();
+
+          element.stop(false, false).animate({
+              top: scrollTop < originalY
+                      ? 0
+                      : scrollTop - originalY + topMargin
+          }, 200);
+        }
+    });
 
     this.domRoot.find("#jmpFirstInstr").click(() => {this.owner.renderStep(0);});
     this.domRoot.find("#jmpLastInstr").click(() => {this.owner.renderStep(this.nSteps - 1);});
@@ -3787,6 +3963,8 @@ function isHeapRef(obj, heap) {
     if (obj[3] != '<UNINITIALIZED>' && obj[3] != '<UNALLOCATED>') {
       return (heap[obj[3]] !== undefined);
     }
+  } else if (obj[0] === 'HEAP_PRIMITIVE') {
+    return isHeapRef(obj[2], heap)
   }
 
   return false;
@@ -3795,9 +3973,13 @@ function isHeapRef(obj, heap) {
 function getRefID(obj) {
   if (obj[0] == 'REF') {
     return obj[1];
-  } else {
+  } else if (obj[0] === 'C_DATA') {
     assert (obj[0] === 'C_DATA' && obj[2] === 'pointer');
     assert (obj[3] != '<UNINITIALIZED>' && obj[3] != '<UNALLOCATED>');
     return obj[3]; // pointed-to address
+  } else if (obj[0] === 'HEAP_PRIMITIVE') {
+    assert (obj[2][0] === 'C_DATA' && obj[2][2] === 'pointer');
+    assert (obj[2][3] != '<UNINITIALIZED>' && obj[2][3] != '<UNALLOCATED>');
+    return obj[2][3]; // pointed-to address
   }
 }

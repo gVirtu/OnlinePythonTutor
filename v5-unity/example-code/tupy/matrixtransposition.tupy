@@ -1,0 +1,26 @@
+#--------------------------------------------------------------------
+# Transposição de Matriz em TuPy
+# Implementação por Giancarlo França
+#
+# Este programa não lê a entrada do usuário.
+# É computada a transposta de M, que está predefinida abaixo.
+#--------------------------------------------------------------------
+
+inteiro oculto M[4,4] <- [ [1, 2, 3, 4],
+                           [5, 6, 7, 8],
+                           [9, 10, 11, 12],
+                           [13, 14, 15, 16] ]
+
+visual V <- matriz(M) ~~
+
+Transposição(ref inteiro[][] M):
+    inteiro tam <- |M[0]|
+    asserção(|M| = tam^2)
+    inteiro i, j
+    para i <- 0..tam:
+        para j <- i..tam:
+            V <- matriz(M, [[i,j], [j,i]]) ~~
+            M[i,j], M[j,i] <- M[j,i], M[i,j]
+
+Transposição(M)
+V <- matriz(M)

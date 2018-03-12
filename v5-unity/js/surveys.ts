@@ -18,7 +18,13 @@ var eureka_survey_v2 = `
 `;
 var eureka_prompt_v2 = "What was your misunderstanding or error? (Press 'OK' to submit)";
 
+// Temp
+
+var eureka_survey_none = `<!-- eureka temporarily disabled -->`
+
+var eureka_prompt_none = ""
+
 // adjust as versions increase ...
-export var eureka_survey_version = 'v2';
-export var eureka_survey = eureka_survey_v2;
-export var eureka_prompt = eureka_prompt_v2;
+export var eureka_survey_version = 'none';
+export var eureka_survey = eureka_survey_none;
+export var eureka_prompt = eureka_prompt_none;

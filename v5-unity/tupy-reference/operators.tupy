@@ -1,0 +1,118 @@
+### OPERADORES ###
+
+# O operador fundamental de TuPy é o da 
+# atribuição, que pode ser usado na forma:
+
+inteiro a <- 1                 # a = 1
+
+# Ou, ainda, para múltiplos valores paralelamente:
+
+inteiro a, b <- 1, 2           # a = 1, b = 2
+
+# Esta forma também é conveniente para permutar
+# o valor de duas ou mais variáveis:
+
+inteiro c <- 3                 # a = 1, b = 2, c = 3
+a, b, c <- b, c, a             # a = 2, b = 3, c = 1
+
+# Uma atribuição de tipos primitivos é feita por VALOR,
+# isto é, a variável (ou literal) da direita é acessada
+# e seu valor é copiado para a variável da esquerda.
+
+inteiro c <- a                 # a = 2, b = 3, c = 2
+
+# No entanto, quando lidamos com tipos compostos,
+# as atribuições são todas por REFERÊNCIA, isto é, 
+# a variável da esquerda passa a referenciar o mesmo dado
+# em memória que a variável da direita. Dessa forma,
+# a alteração de uma das variáveis implicará na alteração
+# da outra. Essa propriedade é representada no visualizador
+# como duas variáveis que possuem setas apontando para uma
+# mesma região da memória.
+
+tipo Registro:
+    inteiro id
+    cadeia dado
+
+Registro r <- Registro()        # r.id = 0
+r.id <- 2                       # r.id = 2
+Registro s <- r                 # r.id = 2, s.id = 2
+s.id <- 3                       # r.id = 3, s.id = 3
+
+# Para os casos em que for necessário copiar uma estrutura
+# de tipo composto, a função copiar está disponível:
+
+r.dado <- "Olá mundo!"
+Registro t <- copiar(r)
+t.id <- 4                       # r.id = 3, t.id = 4
+                                # r.dado = "Olá mundo!"
+                                # t.dado = "Olá mundo!"
+
+# Operadores matemáticos tradicionais estão
+# disponíveis em TuPy para manipular valores:
+#   +  -  *  / 
+
+inteiro a <- 1 + 2 * 3         # a = 7
+
+# Expressões também podem ser parentizadas:
+
+inteiro a <- (1 + 2) * 3       # a = 9
+
+# Os operadores de soma e multiplicação
+# também funcionam em cadeias:
+
+cadeia b <- "concat" + "enada" # b = "concatenada"
+cadeia b <- "abc" * 3          # b = "abcabcabc"
+
+# Outros operadores matemáticos estão
+# demonstrados a seguir:
+
+# Exponenciação
+inteiro a <- 2^10              # a = 1024
+
+# Divisão inteira
+real c <- 5.0 div 2.0          # c = 2.0
+
+# Resto da divisão
+inteiro a <- 5 mod 3           # a = 2
+
+# Os seguintes operadores lógicos também
+# podem ser utilizados em TuPy:
+#     e    ou    não
+
+lógico d <- verdadeiro e falso  # d = falso
+lógico d <- verdadeiro ou falso # d = verdadeiro
+lógico d <- não verdadeiro      # d = falso
+
+# Para manipulação de bits, existem os
+# operadores abaixo:
+
+# E (AND) bit a bit
+inteiro a <- 3 && 2             # a = 2
+
+# OU (OR) bit a bit
+inteiro a <- 5 || 3             # a = 7
+
+# NÃO (NOT) bit a bit
+inteiro a <- ~5                 # a = -6
+
+# OU EXCLUSIVO (XOR) bit a bit
+inteiro a <- 6 xor 3            # a = 5
+
+# DESLOCAMENTO (LEFT/RIGHT SHIFT) bit a bit
+inteiro a <- 4 << 2             # a = 16
+inteiro a <- 64 >> 1            # a = 32
+
+# Existe, ainda, um operador para calcular
+# a cardinalidade:
+#      |x| = cardinalidade de x
+
+--------------------------------------
+inteiro valor <- 3
+cadeia palavra <- "TuPy"
+inteiro lista[*] <- [0, 1, 2, 3, 4, 5]
+--------------------------------------
+
+inteiro a <- |valor|            # a = 1
+inteiro a <- |palavra|          # a = 4
+inteiro a <- |lista|            # a = 6

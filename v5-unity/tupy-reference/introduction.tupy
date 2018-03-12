@@ -1,0 +1,14 @@
+### INTRODUÇÃO ###
+
+# Este é um comentário em TuPy!
+# Começando uma linha com '#', todo o conteúdo
+# dessa linha é ignorado pelo interpretador.
+
+# Um programa TuPy é composto por comandos baseados
+# na língua portuguesa.
+
+cadeia S <- "Olá mundo!"
+escrever(S)
+
+# Para aprender mais sobre como construir programas TuPy,
+# visite os outros links da referência.
