@@ -3364,38 +3364,42 @@ class CodeDisplay {
       this.domRoot.find('#editBtn').click(function(){return false;}); // DISABLE the link!
     }
 
+    var langName = ""
+
     if (lang !== undefined) {
       if (lang === 'js') {
-        this.domRoot.find('#langDisplayDiv').html('JavaScript');
+        langName = 'JavaScript';
       } else if (lang === 'ts') {
-        this.domRoot.find('#langDisplayDiv').html('TypeScript');
+        langName = 'TypeScript';
       } else if (lang === 'ruby') {
-        this.domRoot.find('#langDisplayDiv').html('Ruby');
+        langName = 'Ruby';
       } else if (lang === 'tupy') {
-        this.domRoot.find('#langDisplayDiv').html('TuPy');
+        langName = 'TuPy';
       } else if (lang === 'java') {
-        this.domRoot.find('#langDisplayDiv').html('Java');
+        langName = 'Java';
       } else if (lang === 'py2') {
-        this.domRoot.find('#langDisplayDiv').html('Python 2.7');
+        langName = 'Python 2.7';
       } else if (lang === 'py3') {
-        this.domRoot.find('#langDisplayDiv').html('Python 3.6');
+        langName = 'Python 3.6';
       } else if (lang === 'c') {
         if (this.owner.params.embeddedMode) {
-          this.domRoot.find('#langDisplayDiv').html('C (gcc 4.8, C11)');
+          langName = 'C (gcc 4.8, C11)';
         } else {
-          this.domRoot.find('#langDisplayDiv').html('C (gcc 4.8, C11) <font color="#e93f34">EXPERIMENTAL!</font><br/>see <a href="https://github.com/pgbovine/opt-cpp-backend/issues" target="_blank">known bugs</a> and report to philip@pgbovine.net');
+          langName = 'C (gcc 4.8, C11) <font color="#e93f34">EXPERIMENTAL!</font><br/>see <a href="https://github.com/pgbovine/opt-cpp-backend/issues" target="_blank">known bugs</a> and report to philip@pgbovine.net';
         }
       } else if (lang === 'cpp') {
         if (this.owner.params.embeddedMode) {
-          this.domRoot.find('#langDisplayDiv').html('C++ (gcc 4.8, C++11)');
+          langName = 'C++ (gcc 4.8, C++11)';
         } else {
-          this.domRoot.find('#langDisplayDiv').html('C++ (gcc 4.8, C++11) <font color="#e93f34">EXPERIMENTAL!</font><br/>see <a href="https://github.com/pgbovine/opt-cpp-backend/issues" target="_blank">known bugs</a> and report to philip@pgbovine.net');
+          langName = 'C++ (gcc 4.8, C++11) <font color="#e93f34">EXPERIMENTAL!</font><br/>see <a href="https://github.com/pgbovine/opt-cpp-backend/issues" target="_blank">known bugs</a> and report to philip@pgbovine.net';
         }
       } else {
         this.domRoot.find('#langDisplayDiv').hide();
       }
     }
 
+    var noScrollBox = " (<input type=\"checkbox\" id=\"codPanelNoScroll\"> Fixar painel)";
+    this.domRoot.find('#langDisplayDiv').html(langName + noScrollBox);
   }
 
   renderPyCodeOutput() {
@@ -3746,7 +3750,8 @@ class NavigationController {
 
     var windowViz = owner
     $(window).on('scroll', function(event) {
-        if (!windowViz.hasException()) {
+      var checkBox = <HTMLInputElement> document.getElementById("codPanelNoScroll");
+        if (!windowViz.hasException() && !checkBox.checked) {
           var scrollTop = $(window).scrollTop();
 
           element.stop(false, false).animate({

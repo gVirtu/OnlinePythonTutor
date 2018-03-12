@@ -847,4 +847,8 @@ div.ExecutionVisualizer td.queueFElt table.dictTbl {
   padding: 1em;
 }
 
+h1, h2 {
+  font-family: 'Nunito', sans-serif;
+}
+
 /* END Java frontend by David Pritchard and Will Gwozdz */

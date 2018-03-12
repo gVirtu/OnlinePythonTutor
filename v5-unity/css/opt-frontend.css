@@ -3,8 +3,6 @@
 h1 {
   font-weight: normal;
   font-size: 20pt;
-  font-family: georgia, serif;
-  line-height: 1em;  /* enforce single spacing so that Georgia works */
 
   margin-top: 0px;
   margin-bottom: 8px;
@@ -13,8 +11,6 @@ h1 {
 h2 {
   font-size: 12pt;
   font-weight: normal;
-  font-family: georgia, serif;
-  line-height: 1.1em; /* enforce single spacing so that Georgia works */
 
   margin-top: 2px;
   margin-bottom: 20px;
