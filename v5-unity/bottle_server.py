@@ -11,7 +11,7 @@
 # easy_install pip
 # pip install bottle
 
-from bottle import route, get, request, run, template, static_file, BaseRequest
+from bottle import route, get, error, request, run, redirect, template, static_file, BaseRequest
 try:
     import StringIO # NB: don't use cStringIO since it doesn't support unicode!!!
 except:
@@ -24,6 +24,12 @@ import sys
 
 BaseRequest.MEMFILE_MAX = 1024 * 1024
 sys.setrecursionlimit(2000) # !!
+
+@route('/')
+def home():
+    response = static_file("index.html", root='.')
+    response.set_header("Cache-Control", "public, max-age=1")
+    return response
 
 @route('/web_exec_<name:re:.+>.py')
 @route('/LIVE_exec_<name:re:.+>.py')
@@ -69,6 +75,9 @@ def get_tupy_exec():
 
 #   return out_s.getvalue()
 
+@error(404)
+def error_route(code):
+    redirect('/index.html', 303)
 
 if __name__ == "__main__":
     run(host='0.0.0.0', port=os.getenv('PORT', 8003), reloader=True)
