@@ -14,7 +14,8 @@ export var exampleHeaderHtml = `<p style="margin-top: 25px; font-weight: bold; f
 <a class="tupyReference" id="tupyExecutionTrace" href="#">manipulação&nbsp;da&nbsp;visualização</a> |
 <a class="tupyReference" id="tupyStdlib" href="#">funções&nbsp;internas</a> |
 <a class="tupyReference" id="tupyMaths" href="#">funções&nbsp;matemáticas</a> |
-<a class="tupyReference" id="tupyGraphviz" href="#">integração&nbsp;com&nbsp;GraphViz</a>
+<a class="tupyReference" id="tupyGraphviz" href="#">integração&nbsp;com&nbsp;GraphViz</a> |
+<a class="tupyReference" id="tupyGlossary" href="#">glossário</a>
 </p>
 
 <div id="cheatSheet"></div>`
@@ -32,6 +33,7 @@ export var TUPY_CHEATSHEET = {
   tupyStdlib: "stdlib.tupy",
   tupyMaths: "maths.tupy",
   tupyGraphviz: "graphviz.tupy",
+  tupyGlossary: "glossary.tupy"
 }
 
 // extraneous:

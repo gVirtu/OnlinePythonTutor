@@ -1,0 +1,84 @@
+### GLOSSÁRIO ###
+
+# Abaixo se encontram os símbolos e palavras reservadas da
+# linguagem TuPy, assim como as suas correspondências em Python.
+
+# TUPY              | PYTHON           | SIGNIFICADO
+------------------------------------------------------------------------------------------------
+#                   # #                # Comentário
+.                   # .                # Acesso a atributo/método de instância
+..                  # range            # Intervalo de repetição ou vetor
+\                   # \                # Continuação de linha, caracter de escape
+()                  # ()               # Parentização de expressões, listar argumentos de função
+[]                  # []               # Inicializador, índice ou fatia de vetor/matriz
+,                   # ,                # Separador de listas
+;                   # ;                # Separador de comandos da mesma linha
+:                   # :                # Marcador de início de bloco indentado
+<-                  # =                # Operador de atribuição
++                   # +                # Operador de adição
+-                   # -                # Operador de subtração
+*                   # *                # Operador de multiplicação
+/                   # /                # Operador de divisão
+^                   # **               # Operador de exponenciação
+mod                 # %                # Operador de resto de divisão (módulo)
+div                 # //               # Operador de divisão inteira
+||                  # |                # Operador bit a bit (OR)
+&&                  # &                # Operador bit a bit (AND)
+<<                  # <<               # Operador bit a bit (LEFT SHIFT)
+>>                  # >>               # Operador bit a bit (RIGHT SHIFT)
+~                   # ~                # Operador bit a bit (NOT)
+=                   # ==               # Operador de comparação (igual a)
+!=                  # !=               # Operador de comparação (diferente de)
+<                   # <                # Operador de comparação (menor que)
+<=                  # <=               # Operador de comparação (menor ou igual a)
+>                   # >                # Operador de comparação (maior que)
+>=                  # >=               # Operador de comparação (maior ou igual a)
+e                   # and              # Operador lógico (conjunção)
+ou                  # or               # Operador lógico (disjunção)
+não                 # not              # Operador lógico (negação)
+|                   # len() *          # Operador de cardinalidade (da forma |x|)
+nulo                # None             # Ausência de valor
+verdadeiro          # True             # Constante lógica (1)
+falso               # False            # Constante lógica (0)
+pi                  # math.pi          # Constante real = 3.141592653589793
+π                   # math.pi          # Equivalente a 'pi'
+esta                # self             # Instância corrente
+este                # self             # Instância corrente
+inteiro             # N/D (int())      # Tipo numérico inteiro
+real                # N/D (float())    # Tipo numérico de ponto flutuante
+caracter            # N/D (chr())      # Tipo para caracteres ASCII/Unicode
+cadeia              # N/D (str())      # Tipo para cadeias (strings) de caracteres
+visual              # N/D (str())      # Equivalente a 'cadeia'
+lógico              # N/D (bool())     # Tipo lógico (booleano)
+val                 # N/D              # Passagem de parâmetro por valor
+ref                 # N/D              # Passagem de parâmetro por referência
+retornar            # return           # Retorno de função
+se                  # if               # Desvio condicional
+senão se            # elif             # Desvio condicional
+senão               # else             # Desvio condicional
+enquanto            # while            # Repetição
+para                # for **           # Repetição
+até                 # range            # Intervalo de repetição (para)
+inclusive           # N/D              # Modificador de intervalo de repetição (para)
+incl.               # N/D              # Equivalente a 'inclusive'
+passo               # range            # Passo de repetição (para)
+tipo                # class            # Definição de classe
+avançar             # continue         # Controle de fluxo de repetição
+parar               # break            # Controle de fluxo de repetição
+oculta              # N/D              # Modificador de visibilidade de variável
+oculto              # N/D              # Modificador de visibilidade de variável
+------------------------------------------------------------------------------------------------
+
+# *) O operador de cardinalidade em TuPy somente é equivalente à função len() de Python para
+#    cadeias e vetores unidimensionais. Para tipos primitivos, o operador de cardinalidade retorna
+#    1, e para vetores multidimensionais é retornada a quantidade de elementos primitivos contidos.
+#    Por exemplo: '|[[1, 2], [3, 4]]|' em TuPy retorna 4, mas
+#                 'len([[1, 2], [3, 4]])' em Python retorna 2.
+#    A função 'comprimento' pode ser usada para obter o comportamento
+#    equivalente a Python nesse caso.
+
+# **) O laço de repetição 'para' em TuPy difere do modelo Python por não operar em listas, e sim
+#     intervalos numéricos somente.
+#     Por exemplo: 'para i <- 0 até 5 passo 2' em TuPy seria traduzido para
+#                  'for i in range(0, 5, 2)' em Python.
+
