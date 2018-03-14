@@ -358,6 +358,10 @@ export class OptFrontend extends AbstractBaseFrontend {
     $('#codeInputPane').css('height', height + 'px'); // VERY IMPORTANT so that it works on I.E., ugh!
 
     this.initDeltaObj();
+    this.pyInputAceEditor.on('paste', function(e) {
+      e.text = e.text.replace("←", "<-").replace("≠", "!=").replace("≥", ">=").replace("≤", "<=");
+    })
+
     this.pyInputAceEditor.on('change', (e) => {
       // 2017-11-21: convert all tabs to 4 spaces so that when you paste
       // in code from somewhere else that contains tabs, instantly
