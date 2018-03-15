@@ -1,0 +1,130 @@
+### INTERFACE ###
+
+# O ambiente de desenvolvimento do Tutor TuPy herda vários
+# aspectos do Online Python Tutor (www.pythontutor.com).
+
+
+## Menu Principal
+
+# A página atual é o menu principal. Aqui são encontrados
+# alguns elementos importantes para a elaboração do programa
+# que será executado e visualizado.
+
+### Editor de código
+
+# No topo encontra-se o editor de código. Programas TuPy têm
+# sua sintaxe salientada com cores automaticamente. Perceba que
+# ao digitar certos símbolos compostos por dois ou mais caracteres,
+# como por exemplo "<-" ou "!=", estes são automaticamente
+# substituídos por símbolos individuais que evidenciam a sua semântica
+# de forma mais clara. Esta mudança é proveniente da fonte utilizada, e
+# é apenas cosmética, não alterando os caracteres do código: quando o
+# código é salvo ou copiado para outro editor de texto, os símbolos
+# originais estarão intactos.
+
+# É possível minimizar blocos indentados de código (code folding). Para
+# isso, clique na pequena seta para baixo que aparecerá à direita do
+# número da linha que inicia o bloco de código. Para retornar ao formato
+# original, clique na seta dupla horizontal que aparecerá ao fim da linha
+# minimizada.
+
+# Também existe a funcionalidade de autocompletar palavras reservadas da
+# linguagem TuPy ou palavras previamente utilizadas no documento. Para
+# autocompletar uma palavra, comece a escrevê-la normalmente até que a
+# janela de sugestões apareça automaticamente. Quando ela aparecer, será
+# possível navegar pelas sugestões existentes usando as setas para cima
+# e para baixo do teclado, e selecionar uma alternativa usando 'Tab' ou
+# 'Enter'. A palavra escolhida será, então, produzida. A janela de
+# sugestões é fechada ao pressionar 'Esc' ou 'Barra de Espaço'.
+
+### Botões do menu
+
+# Existem quatro botões principais abaixo do editor de código. O primeiro,
+# "Visualizar Execução", dispara a interpretação do código digitado e produzirá,
+# geralmente em alguns segundos, uma visualização passo-a-passo na página de
+# visualização.
+
+# Os botões seguintes podem ser usados para salvar e carregar programas
+# elaborados na ferramenta. O botão de salvar abre um diálogo de download para
+# que o conteúdo do editor de texto seja salvo no armazenamento local do computador
+# em um arquivo ".tupy". O botão de carregar abre um diálogo de upload para
+# que o conteúdo de um arquivo de texto local seja transferido para o editor de
+# texto, possibilitando a continuação de trabalhos iniciados anteriormente.
+
+# O último botão redireciona para uma pesquisa de opinião para avaliar a experiência
+# de uso da ferramenta. Ao participar você estará ajudando o desenvolvimento
+# futuro do Tutor TuPy.
+
+### Referência
+
+# Abaixo dos botões do menu está a referência da linguagem, da qual esse
+# documento faz parte. As particularidades de TuPy estão detalhadas nessa
+# seção, que pode ser usada para sanar dúvidas.
+
+### Exemplos
+
+# Sob esse painel de texto encontram-se diversos exemplos ilustrativos das
+# capacidades de visualização do Tutor TuPy. Clicar em um dos links fará
+# com que o código digitado no painel principal de edição seja substituído
+# por um programa de exemplo predefinido, que poderá ser executado normalmente
+# com um clique do botão "Visualizar Execução".
+
+
+## Página de Visualização
+
+# A página de visualização é exibida quando a execução de um programa é
+# concluída. Ela tem dois componentes principais: o painel de código e a
+# área de visualização.
+
+### Painel de código
+
+# À esquerda é possível ver o código do programa a ser visualizado.
+# Conforme a página é rolada para cima ou para baixo, o painel de código
+# desliza de forma a ficar sempre visível. Esse comportamento pode ser
+# desativado marcando a caixa "Fixar painel" acima da caixa de código.
+
+# Existem dois jeitos de navegar através do rastro de execução. O primeiro
+# é utilizando o mouse para clicar nos botões de próximo, anterior, último e
+# primeiro que estão localizados abaixo da caixa de código. Alternativamente,
+# é possível usar o teclado e pressionar seta para direita, seta para esquerda,
+# End e Home para ter acesso às mesmas funções respectivamente.
+
+# A caixa de código sinaliza com uma seta verde a linha executada mais
+# recentemente, conforme a posição atualmente exibida no rastro de execução.
+# Da mesma forma, uma seta vermelha representa a próxima linha a ser
+# executada. Por padrão toda linha que contém um comando que retorna um
+# resultado será um ponto de parada do rastro de execução, mas existem meios de
+# excluir algumas linhas desse conjunto através do próprio código (veja mais em
+# 'manipulação da visualização'). Além disso, é possível clicar em uma dessas
+# linhas para marcá-la como um breakpoint. Durante a navegação, caso uma ou
+# mais linhas estejam marcadas como breakpoints, os botões de próximo e
+# anterior poderão ser usados para pular entre as linhas configuradas.
+
+# Para retornar ao menu principal, basta clicar no texto "Editar código"
+# abaixo do painel de texto.
+
+# Caso o programa seja interrompido por algum erro de execução (exceção)
+# a mensagem do erro ficará visível no último passo do rastro de execução,
+# em vermelho, abaixo dos botões de navegação. Nessa etapa, o deslizamento
+# do painel de código será automaticamente desativado.
+
+## Área de visualização
+
+# A parte direita da tela é ocupada pela visualização gerada pelo Tutor TuPy.
+# Quando o programa utiliza a função "escrever", todos os dados de saída ficam
+# disponíveis em uma caixa de texto redimensionável na parte superior da
+# área de visualização. O restante do espaço é ocupado por duas seções: os
+# contextos e a memória.
+
+# Na seção de contextos estarão as unidades de escopo de variáveis em TuPy.
+# É chamado de contexto global o espaço no qual todas as variáveis globais
+# são declaradas, isto é, que ficarão acessíveis por todo o programa. A cada
+# bloco indentado de código, seja ele função, classe ou outra estrutura de
+# controle como desvios condicionais, um novo contexto é criado, herdando o
+# acesso a todas as variáveis de contextos em níveis superiores.
+
+# O valor das variáveis é armazenado em memória. À direita da seção de
+# contextos esses valores são dispostos para exibição. Os nomes declarados
+# para as variáveis ficará na seção de contextos, e eles serão associados
+# aos seus valores por meio de setas. Caso muitas setas estejam sobrepostas,
+# é possível destacar uma seta individual das demais passando o mouse sobre ela.

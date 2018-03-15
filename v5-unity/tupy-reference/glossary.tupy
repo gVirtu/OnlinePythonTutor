@@ -4,8 +4,12 @@
 # linguagem TuPy, assim como as suas correspondências em Python.
 
 # TUPY              | PYTHON           | SIGNIFICADO
-------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
 #                   # #                # Comentário
+~~                  # N/D              # Marcador de linha invisível
+~~~                 # N/D              # Marcador de início/fim de bloco invisível
+--                  # N/D              # Marcador de linha omitida do rastro de execução
+---                 # N/D              # Marcador de início/fim de bloco omitido do rastro de execução
 .                   # .                # Acesso a atributo/método de instância
 ..                  # range            # Intervalo de repetição ou vetor
 \                   # \                # Continuação de linha, caracter de escape

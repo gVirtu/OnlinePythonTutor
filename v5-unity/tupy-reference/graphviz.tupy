@@ -1,4 +1,4 @@
-### INTEGRAÇÃO COM GRAPHVIZ ###
+### ABSTRAÇÕES PERSONALIZADAS ###
 
 # Há suporte para renderização de estruturas
 # de dados usando o motor dot da ferramenta Graphviz.
@@ -8,7 +8,8 @@
 # As funções a seguir possibilitam converter uma estrutura
 # para uma cadeia contendo uma definição DOT que é
 # processada automaticamente pelo visualizador e
-# renderizada como imagem.
+# renderizada como imagem, viabilizado a exibição de
+# abstrações personalizadas de estruturas de dados.
 
 # O usuário também pode usar a linguagem DOT para renderizar
 # estruturas arbitrárias em qualquer momento do programa

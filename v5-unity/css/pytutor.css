@@ -851,4 +851,33 @@ h1, h2 {
   font-family: 'Nunito', sans-serif;
 }
 
+ul.tupyLinkList {
+  text-align: center;
+  padding: 0;
+}
+
+ul.tupyLinkList li {
+  margin: 8px 0px;
+  display: inline-block;
+  list-style-type: none;
+}
+
+ul.tupyLinkList li
+a {
+  color: #3D58A2;
+  background-color: #daedff00;
+  box-shadow: 2px 2px #b1d9ff00;
+  padding: 8px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+ul.tupyLinkList li
+a:hover {
+  transition: background-color 200ms, box-shadow 500ms;
+  background-color: #daedff;
+  box-shadow: 3px 3px #b1d9ff;
+  text-decoration: underline;
+}
+
 /* END Java frontend by David Pritchard and Will Gwozdz */

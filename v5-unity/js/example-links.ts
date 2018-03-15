@@ -2,21 +2,22 @@ export var exampleHeaderHtml = `<p style="margin-top: 25px; font-weight: bold; f
 
 <p>Utilize os links a seguir para se familiarizar com a sintaxe de TuPy:</b>
 
-<p style="margin-top: 10px;">
-<a class="tupyReference" id="tupyIntroduction" href="#">introdução</a> |
-<a class="tupyReference" id="tupyDatatypes" href="#">tipos&nbsp;de&nbsp;dados</a> |
-<a class="tupyReference" id="tupyIO" href="#">entrada/saída</a> |
-<a class="tupyReference" id="tupyOperators" href="#">operadores</a> |
-<a class="tupyReference" id="tupyArrays" href="#">vetores&nbsp;e&nbsp;matrizes</a> |
-<a class="tupyReference" id="tupyControlFlow" href="#">estruturas&nbsp;de&nbsp;controle</a> |
-<a class="tupyReference" id="tupyFunctions" href="#">funções</a> |
-<a class="tupyReference" id="tupyClasses" href="#">classes</a> |
-<a class="tupyReference" id="tupyExecutionTrace" href="#">manipulação&nbsp;da&nbsp;visualização</a> |
-<a class="tupyReference" id="tupyStdlib" href="#">funções&nbsp;internas</a> |
-<a class="tupyReference" id="tupyMaths" href="#">funções&nbsp;matemáticas</a> |
-<a class="tupyReference" id="tupyGraphviz" href="#">integração&nbsp;com&nbsp;GraphViz</a> |
-<a class="tupyReference" id="tupyGlossary" href="#">glossário</a>
-</p>
+<ul class="tupyLinkList">
+<li><a class="tupyReference" id="tupyIntroduction" href="#">introdução</a></li>
+<li><a class="tupyReference" id="tupyDatatypes" href="#">tipos&nbsp;de&nbsp;dados</a></li>
+<li><a class="tupyReference" id="tupyIO" href="#">entrada/saída</a></li>
+<li><a class="tupyReference" id="tupyOperators" href="#">operadores</a></li>
+<li><a class="tupyReference" id="tupyArrays" href="#">vetores&nbsp;e&nbsp;matrizes</a></li>
+<li><a class="tupyReference" id="tupyControlFlow" href="#">estruturas&nbsp;de&nbsp;controle</a></li>
+<li><a class="tupyReference" id="tupyFunctions" href="#">funções</a></li>
+<li><a class="tupyReference" id="tupyClasses" href="#">classes</a></li>
+<li><a class="tupyReference" id="tupyExecutionTrace" href="#">manipulação&nbsp;da&nbsp;visualização</a></li>
+<li><a class="tupyReference" id="tupyStdlib" href="#">funções&nbsp;internas</a></li>
+<li><a class="tupyReference" id="tupyMaths" href="#">funções&nbsp;matemáticas</a></li>
+<li><a class="tupyReference" id="tupyGraphviz" href="#">abstrações&nbsp;personalizadas</a></li>
+<li><a class="tupyReference" id="tupyInterface" href="#">interface&nbsp;do&nbsp;usuário</a></li>
+<li><a class="tupyReference" id="tupyGlossary" href="#">glossário</a></li>
+</ul>
 
 <div id="cheatSheet"></div>`
 
@@ -33,6 +34,7 @@ export var TUPY_CHEATSHEET = {
   tupyStdlib: "stdlib.tupy",
   tupyMaths: "maths.tupy",
   tupyGraphviz: "graphviz.tupy",
+  tupyInterface: "interface.tupy",
   tupyGlossary: "glossary.tupy"
 }
 
@@ -345,28 +347,28 @@ export var RUBY_EXAMPLES = {
   rubyProcReturnLink: 'proc-return.rb',
 };
 
-export var tupyExamplesHtml = `<p style="margin-top: 25px; font-weight: bold; font-size: 13pt;">Exemplos de TuPy</p>
+export var tupyExamplesHtml = `<p style="padding-top: 25px; font-weight: bold; font-size: 13pt; border-top: 1px solid #bbbbbb">Exemplos de TuPy</p>
 
 <p style="margin-top: 10px;">Abaixo se encontram implementações em TuPy de alguns algoritmos e operações com estruturas de dados. Clique para abrir o código no editor. <b>Atenção:</b> Certifique-se de ter salvo seu programa antes de clicar nos exemplos abaixo!</p>
 
-<p style="margin-top: 10px;">
-<a class="exampleLink" id="tupyInsertionSort" href="#">insertionSort</a> |
-<a class="exampleLink" id="tupyShellSort" href="#">shellSort</a> |
-<a class="exampleLink" id="tupyMergeSort" href="#">mergeSort</a> |
-<a class="exampleLink" id="tupyHeapSort" href="#">heapSort</a> |
-<a class="exampleLink" id="tupyLinkedList1" href="#">inserção&nbsp;em&nbsp;lista&nbsp;encadeada</a> |
-<a class="exampleLink" id="tupyLinkedList2" href="#">merge&nbsp;em&nbsp;lista&nbsp;encadeada</a> |
-<a class="exampleLink" id="tupyMatrixTranspose" href="#">transposição&nbsp;de&nbsp;matriz</a> |
-<a class="exampleLink" id="tupyMatrixMultiply" href="#">multiplicação&nbsp;de&nbsp;matrizes</a> |
-<a class="exampleLink" id="tupyHashing" href="#">hashing&nbsp;(encadeamento&nbsp;exterior)</a> |
-<a class="exampleLink" id="tupyBST" href="#">árvore&nbsp;binária&nbsp;de&nbsp;busca</a> |
-<a class="exampleLink" id="tupyTreeCenter" href="#">centro&nbsp;de&nbsp;árvore&nbsp;(desfolhamento)</a> |
-<a class="exampleLink" id="tupyDFS" href="#">busca&nbsp;em&nbsp;profundidade</a> |
-<a class="exampleLink" id="tupyBFS" href="#">busca&nbsp;em&nbsp;largura</a> |
-moedas&nbsp;(<a class="exampleLink" id="tupyCoinChange" href="#">sem&nbsp;memorização</a> |
-<a class="exampleLink" id="tupyCoinChange2" href="#">com&nbsp;memorização</a>) |
-<a class="exampleLink" id="tupyChessQueens" href="#">damas&nbsp;pacíficas</a>
-</p>
+<ul class="tupyLinkList">
+<li><a class="exampleLink" id="tupyInsertionSort" href="#">insertionSort</a></li>
+<li><a class="exampleLink" id="tupyShellSort" href="#">shellSort</a></li>
+<li><a class="exampleLink" id="tupyMergeSort" href="#">mergeSort</a></li>
+<li><a class="exampleLink" id="tupyHeapSort" href="#">heapSort</a></li>
+<li><a class="exampleLink" id="tupyLinkedList1" href="#">inserção&nbsp;em&nbsp;lista&nbsp;encadeada</a></li>
+<li><a class="exampleLink" id="tupyLinkedList2" href="#">merge&nbsp;em&nbsp;lista&nbsp;encadeada</a></li>
+<li><a class="exampleLink" id="tupyMatrixTranspose" href="#">transposição&nbsp;de&nbsp;matriz</a></li>
+<li><a class="exampleLink" id="tupyMatrixMultiply" href="#">multiplicação&nbsp;de&nbsp;matrizes</a></li>
+<li><a class="exampleLink" id="tupyHashing" href="#">hashing&nbsp;(encadeamento&nbsp;exterior)</a></li>
+<li><a class="exampleLink" id="tupyBST" href="#">árvore&nbsp;binária&nbsp;de&nbsp;busca</a></li>
+<li><a class="exampleLink" id="tupyTreeCenter" href="#">centro&nbsp;de&nbsp;árvore&nbsp;(desfolhamento)</a></li>
+<li><a class="exampleLink" id="tupyDFS" href="#">busca&nbsp;em&nbsp;profundidade</a></li>
+<li><a class="exampleLink" id="tupyBFS" href="#">busca&nbsp;em&nbsp;largura</a></li>
+<li><a class="exampleLink" id="tupyCoinChange" href="#">moedas&nbsp;sem&nbsp;memorização</a></li>
+<li><a class="exampleLink" id="tupyCoinChange2" href="#">moedas&nbsp;com&nbsp;memorização</a></li>
+<li><a class="exampleLink" id="tupyChessQueens" href="#">damas&nbsp;pacíficas&nbsp;(N&nbsp;rainhas)</a></li>
+</ul>
 `
 /*<p style="margin-top: 5px;">
   <a class="exampleLink" id="tupyHelloWorldLink" href="#">Olá Mundo</a> |
