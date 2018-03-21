@@ -6,7 +6,7 @@ module.exports = {
     node: {
         fs: 'empty'
     },
-    
+
     plugins: [
       // http://stackoverflow.com/questions/29080148/expose-jquery-to-real-window-object-with-webpack
       new webpack.ProvidePlugin({
@@ -58,12 +58,11 @@ module.exports = {
 
     entry: {
         'visualize': "./js/visualize.ts",
-        'opt-live': "./js/opt-live.ts",
-        'iframe-embed': "./js/iframe-embed.ts",
-        'index': "./js/index.ts",
-        'composingprograms': "./js/composingprograms.ts",
-        'csc108h': "./js/csc108h.ts",
-        'pytutor-embed': "./js/pytutor-embed.ts",
+        //'opt-live': "./js/opt-live.ts",
+        //'iframe-embed': "./js/iframe-embed.ts",
+        //'index': "./js/index.ts",
+        //'composingprograms': "./js/composingprograms.ts",
+        //'pytutor-embed': "./js/pytutor-embed.ts",
     },
 
     output: {
