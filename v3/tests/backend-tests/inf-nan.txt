@@ -1,3 +1,0 @@
-x = float('inf')
-y = float('-inf')
-z = float('nan')

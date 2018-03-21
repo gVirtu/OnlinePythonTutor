@@ -1,7 +1,0 @@
-# a try/except inside of an infinite loop
-while True:
-    try:
-        print("good")
-    except:
-        print("bad")
-
