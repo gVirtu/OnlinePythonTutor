@@ -52,7 +52,7 @@ tipo Nó:
         inteiro pos <- BuscaInserção(nova)
         se é_folha:
             chaves <- inserir(chaves, nova, pos)
-            ~~AtualizaChaveVisual()
+            AtualizaChaveVisual() ~~
         senão:
             Nó filho <- filhos[pos]
             se |filho.chaves| = (2*ordem - 1):
