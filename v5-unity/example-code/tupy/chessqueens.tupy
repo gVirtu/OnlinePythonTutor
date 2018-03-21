@@ -22,7 +22,7 @@ inteiro P[N] <- 0
 #####################################################################
 
 visual Tabuleiro(inteiro atéLinha, inteiro[] d <- []):
-    cadeia retorno[*] <- ["[[DOT digraph G { node [shape=plaintext]" \
+    cadeia retorno[*] <- ["digraph G { node [shape=plaintext]" \
                           " 1 [label = <<TABLE CELLPADDING=\"0\" CELLSPACING=\"0\">"]
 
     inteiro i, j
@@ -46,9 +46,9 @@ visual Tabuleiro(inteiro atéLinha, inteiro[] d <- []):
 
         retorno <- inserir(retorno, "</TR>")
 
-    retorno <- inserir(retorno, "</TABLE>>] }]]")
+    retorno <- inserir(retorno, "</TABLE>>] }")
 
-    retornar juntar(retorno)
+    retornar dot(juntar(retorno))
 -----------------------------------------------------------------------
 
 # O programa começa aqui

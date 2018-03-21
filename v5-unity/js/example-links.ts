@@ -362,6 +362,7 @@ export var tupyExamplesHtml = `<p style="padding-top: 25px; font-weight: bold; f
 <li><a class="exampleLink" id="tupyMatrixMultiply" href="#">multiplicação&nbsp;de&nbsp;matrizes</a></li>
 <li><a class="exampleLink" id="tupyHashing" href="#">hashing&nbsp;(encadeamento&nbsp;exterior)</a></li>
 <li><a class="exampleLink" id="tupyBST" href="#">árvore&nbsp;binária&nbsp;de&nbsp;busca</a></li>
+<li><a class="exampleLink" id="tupyBTree" href="#">inserção&nbsp;em&nbsp;árvore&nbsp;B</a></li>
 <li><a class="exampleLink" id="tupyTreeCenter" href="#">centro&nbsp;de&nbsp;árvore&nbsp;(desfolhamento)</a></li>
 <li><a class="exampleLink" id="tupyDFS" href="#">busca&nbsp;em&nbsp;profundidade</a></li>
 <li><a class="exampleLink" id="tupyBFS" href="#">busca&nbsp;em&nbsp;largura</a></li>
