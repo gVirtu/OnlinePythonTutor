@@ -1,6 +1,6 @@
 FROM python:3.6 AS build
 
-WORKDIR /opt/tcc
+WORKDIR /opt/app
 
 # Install base dependencies
 RUN apt-get update -y -q && apt-get install -y -q --no-install-recommends \
