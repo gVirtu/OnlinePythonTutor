@@ -14,7 +14,8 @@ html {
 
 h1 {
   font-family: "Krona One", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  text-shadow: black 4px 4px 2px;
+  color: #ffba29;
+  text-shadow: #534016 4px 4px 2px;
 }
 
 h2, h3, h4, h5, h6 {
@@ -51,12 +52,12 @@ a {
   -webkit-transition: all 0.2s ease-in-out;
   -moz-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
-  color: #42DCA3;
+  color: #ffba29;
 }
 
 a:focus, a:hover {
   text-decoration: none;
-  color: #1d9b6c;
+  color: #efa300;
 }
 
 #mainNav {
@@ -233,16 +234,16 @@ a:focus, a:hover {
 }
 
 .btn-default {
-  color: #42DCA3;
-  border: 1px solid #42DCA3;
+  color: #ffba29;
+  border: 1px solid #ffba29;
   background-color: transparent;
 }
 
 .btn-default:focus, .btn-default:hover {
   color: black;
-  border: 1px solid #42DCA3;
+  border: 1px solid #ffba29;
   outline: none;
-  background-color: #42DCA3;
+  background-color: #ffba29;
 }
 
 ul.banner-social-buttons {
