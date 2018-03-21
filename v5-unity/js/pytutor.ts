@@ -3743,7 +3743,7 @@ class NavigationController {
         originalY = element.offset().top;
 
     // Space between element and top of screen (when scrolling)
-    var topMargin = 20;
+    var topMargin = 5;
 
     // Should probably be set in CSS; but here just for emphasis
     element.css('position', 'relative');
@@ -3751,7 +3751,7 @@ class NavigationController {
     var windowViz = owner
     $(window).on('scroll', function(event) {
       var checkBox = <HTMLInputElement> document.getElementById("codPanelNoScroll");
-        if (!windowViz.hasException() && !checkBox.checked) {
+        if (!windowViz.hasException() && checkBox && !checkBox.checked) {
           var scrollTop = $(window).scrollTop();
 
           element.stop(false, false).animate({
