@@ -96,7 +96,7 @@ a:hover {
 }
 
 #learnHeading, #embedHeading, #shareHeading {
-  font-family: verdana, arial, helvetica, sans-serif;
+  font-family: 'Source Sans Pro', verdana, arial, helvetica, sans-serif;
   font-weight: bold;
   font-size: 24pt;
 }
@@ -120,7 +120,7 @@ div#learnPane #startLink {
   font-weight: normal;
   margin-top: 20px;
   margin-bottom: 25px;
-  font-family: verdana, arial, helvetica, sans-serif;
+  font-family: 'Source Sans Pro', verdana, arial, helvetica, sans-serif;
 }
 
 div#learnPane #startLink a {
@@ -198,5 +198,5 @@ table.layoutTbl td#sharePaneTd {
   margin-left: auto;
   margin-right: auto;
 
-  font-family: verdana, arial, helvetica, sans-serif;
+  font-family: 'Source Sans Pro', verdana, arial, helvetica, sans-serif;
 }

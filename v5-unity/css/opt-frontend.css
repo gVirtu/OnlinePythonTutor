@@ -18,7 +18,7 @@ h2 {
 
 body {
   background-color: white;
-  font-family: verdana, arial, helvetica, sans-serif;
+  font-family: 'Source Sans Pro', verdana, arial, helvetica, sans-serif;
   font-size: 10pt;
 }
 
@@ -290,7 +290,7 @@ button.surveyBtnBig {
 /* for SyntaxErrorSurveyBubble */
 
 textarea.bubbleInputText {
-  font-family: verdana, arial, helvetica, sans-serif;
+  font-family: 'Source Sans Pro', verdana, arial, helvetica, sans-serif;
 	font-size: 9pt;
 	line-height: 1.3em;
 }

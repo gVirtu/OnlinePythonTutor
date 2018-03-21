@@ -41,7 +41,7 @@ div.ExecutionVisualizer {
 }
 
 div.ExecutionVisualizer table.visualizer {
-  font-family: verdana, arial, helvetica, sans-serif;
+  font-family: 'Source Sans Pro', verdana, arial, helvetica, sans-serif;
   font-size: 10pt;
   margin-bottom: 10px;
 }
@@ -679,13 +679,13 @@ textarea.bubbleInputText {
 
 div.ExecutionVisualizer .annotationText,
 div.ExecutionVisualizer .vizDescriptionText {
-  font-family: verdana, arial, helvetica, sans-serif;
+  font-family: 'Source Sans Pro', verdana, arial, helvetica, sans-serif;
   font-size: 11pt;
   line-height: 1.5em;
 }
 
 div.ExecutionVisualizer .vizTitleText {
-  font-family: verdana, arial, helvetica, sans-serif;
+  font-family: 'Source Sans Pro', verdana, arial, helvetica, sans-serif;
   font-size: 16pt;
   margin-bottom: 12pt;
 }
@@ -847,8 +847,8 @@ div.ExecutionVisualizer td.queueFElt table.dictTbl {
   padding: 1em;
 }
 
-h1, h2 {
-  font-family: 'Nunito', sans-serif;
+h1 {
+  font-family: "Krona One", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 ul.tupyLinkList {
@@ -878,6 +878,15 @@ a:hover {
   background-color: #daedff;
   box-shadow: 3px 3px #b1d9ff;
   text-decoration: underline;
+}
+
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 11pt;
+}
+
+button {
+  font-family: 'Source Sans Pro', verdana, arial, helvetica, sans-serif;
 }
 
 /* END Java frontend by David Pritchard and Will Gwozdz */
