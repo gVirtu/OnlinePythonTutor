@@ -26,7 +26,7 @@ mude o link para <b>https://</b> se necessário.</p>
 -->
 
 <p style="margin-top: 25px;">
-<p>O <a href="https://gvirtu.github.io/TutorTuPy/">Tutor TuPy</a> (<a href="https://github.com/gVirtu/TutorTuPy">código no GitHub</a>) é um <i>fork</i> do Online Python Tutor. O interpretador da linguagem TuPy também foi desenvolvido em Python para este projeto.</p>
+<p>O <a href="https://gvirtu.github.io/TuPyOnline/">TuPy Online</a> (<a href="https://github.com/gVirtu/TuPyOnline">código no GitHub</a>) é um <i>fork</i> do Online Python Tutor. O interpretador da linguagem TuPy também foi desenvolvido em Python para este projeto.</p>
 <a href="http://pythontutor.com/">Python Tutor</a> (<a href="https://github.com/pgbovine/OnlinePythonTutor">código no GitHub</a>) suporta sete
 linguagens (apesar do nome):</p>
 
@@ -87,7 +87,7 @@ href="https://github.com/pgbovine/OnlinePythonTutor/tree/master/v4-cokapi/backen
 <a href="https://github.com/pgbovine/opt-cpp-backend">Código do backend</a>.</p>
 
 <p>Use este website sob sua conta e risco. Os desenvolvedores do Python Tutor e do
-Tutor TuPy não se responsabilizam por quaisquer danos causados pelo uso deste
+TuPy Online não se responsabilizam por quaisquer danos causados pelo uso deste
 site.</p>
 
 <p style="margin-top: 25px;">

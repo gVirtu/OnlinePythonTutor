@@ -1,6 +1,6 @@
 ### INTERFACE ###
 
-# O ambiente de desenvolvimento do Tutor TuPy herda vários
+# O ambiente de desenvolvimento do TuPy Online herda vários
 # aspectos do Online Python Tutor (www.pythontutor.com).
 
 
@@ -53,7 +53,7 @@
 
 # O último botão redireciona para uma pesquisa de opinião para avaliar a experiência
 # de uso da ferramenta. Ao participar você estará ajudando o desenvolvimento
-# futuro do Tutor TuPy.
+# futuro do TuPy Online.
 
 ### Referência
 
@@ -64,7 +64,7 @@
 ### Exemplos
 
 # Sob esse painel de texto encontram-se diversos exemplos ilustrativos das
-# capacidades de visualização do Tutor TuPy. Clicar em um dos links fará
+# capacidades de visualização do TuPy Online. Clicar em um dos links fará
 # com que o código digitado no painel principal de edição seja substituído
 # por um programa de exemplo predefinido, que poderá ser executado normalmente
 # com um clique do botão "Visualizar Execução".
@@ -110,7 +110,7 @@
 
 ## Área de visualização
 
-# A parte direita da tela é ocupada pela visualização gerada pelo Tutor TuPy.
+# A parte direita da tela é ocupada pela visualização gerada pelo TuPy Online.
 # Quando o programa utiliza a função "escrever", todos os dados de saída ficam
 # disponíveis em uma caixa de texto redimensionável na parte superior da
 # área de visualização. O restante do espaço é ocupado por duas seções: os
