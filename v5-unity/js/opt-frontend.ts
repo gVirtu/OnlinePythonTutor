@@ -359,7 +359,7 @@ export class OptFrontend extends AbstractBaseFrontend {
 
     this.initDeltaObj();
     this.pyInputAceEditor.on('paste', function(e) {
-      e.text = e.text.replace("←", "<-").replace("≠", "!=").replace("≥", ">=").replace("≤", "<=");
+      e.text = e.text.replace(/←/g, "<-").replace(/≠/g, "!=").replace(/≥/g, ">=").replace(/≤/g, "<=");
     })
 
     this.pyInputAceEditor.on('change', (e) => {
