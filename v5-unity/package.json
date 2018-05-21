@@ -27,6 +27,8 @@
     "url": "https://github.com/pgbovine/OnlinePythonTutor/issues"
   },
   "homepage": "https://github.com/pgbovine/OnlinePythonTutor#readme",
-  "devDependencies": {},
+  "devDependencies": {
+    "webpack-cli": "^2.1.3"
+  },
   "author": ""
 }
