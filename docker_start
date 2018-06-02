@@ -8,10 +8,6 @@ docker run --name tupy-dev \
            -i \
            -p 8003:8003 \
            -t tupy-docker \
-           sh -c "npm link webpack; \
-                  npm link webpack-cli; \
-                  npm link typescript; \
-                  npm install; \
-                  tsd install; \
+           sh -c "yarn install; \
                   pip3 install -r requirements.txt; \
                   sh"

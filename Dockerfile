@@ -14,8 +14,8 @@ RUN apk add --no-cache --virtual .persistent-deps \
         python3 \
         py-pip \
     # Install node packages
-    && npm install --silent --save-dev -g \
-        webpack \
+    && npm install -g yarn \
+    && yarn add webpack \
         webpack-dev-server \
         webpack-cli \
         gulp-cli \
