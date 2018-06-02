@@ -138,6 +138,8 @@ export class ExecutionVisualizer {
 
   visualizerID: number;
 
+  isNewLayout: boolean = false;
+
   breakpoints: d3.Map<{}> = d3.map(); // set of execution points to set as breakpoints
   sortedBreakpointsList: any[] = [];  // sorted and synced with breakpoints
 
@@ -1110,6 +1112,34 @@ export class ExecutionVisualizer {
 
     // add a few pixels of fudge factor on the bottom end due to bottom scrollbar
     return (PO <= LO) && (LO < (PO + H - 25));
+  }
+
+  toggleLayout() {
+    this.isNewLayout = !this.isNewLayout;
+
+    if (this.isNewLayout) {
+      $('#switchLayout').html("Esquema tradicional");
+      $('#altLayoutPane').show();
+      $('#altLayoutPane').append( $('#editCodeLinkDiv') );
+      $('#altLayoutPane').append( $('#navControlsDiv') );
+      this.domRoot.find('#vizLayoutTdFirst').hide();
+      this.redrawLayoutPane();
+    } else {
+      $('#switchLayout').html("Esquema experimental");
+      this.domRoot.find('#vizLayoutTdFirst').show();
+      $('#pyCodeOutputDiv').after( $('#editCodeLinkDiv') );
+      $('#codeDisplayDiv').after( $('#navControlsDiv') );
+      $('#altLayoutPane').hide();
+    }
+
+    this.redrawConnectors();
+  }
+
+  redrawLayoutPane() {
+    $('#altLayoutPane').css({ "margin-left": -$('#dynamicLineView').width()/2,
+                              "position": "fixed",
+                              "bottom": "5%",
+                              "left": "50%" })
   }
 
 } // END class ExecutionVisualizer
@@ -3559,6 +3589,8 @@ class CodeDisplay {
       }
     }
 
+    var lineTrs = [];
+
     if (myViz.prevLineNumber) {
       var pla = this.domRootD3.select('#prevLineArrow');
       var baseY = this.domRoot.find('#gutterTD')[0].getBoundingClientRect().top;
@@ -3588,6 +3620,8 @@ class CodeDisplay {
         pla.attr('transform', translatePrevCmd)
         gutterSVG.find('#prevLineArrow').show();
       }
+
+      lineTrs.push(`<tr><td>Executada: </td>${this.domRoot.find('#pyCodeOutput tr').eq(myViz.prevLineNumber - 1).html()}</tr>`);
     } else {
       gutterSVG.find('#prevLineArrow').hide();
     }
@@ -3621,10 +3655,21 @@ class CodeDisplay {
         cla.attr('transform', translateCurCmd);
       }
       gutterSVG.find('#curLineArrow').show();
+
+      if (!isTerminated)
+        lineTrs.push(`<tr><td>Próxima: </td>${this.domRoot.find('#pyCodeOutput tr').eq(myViz.curLineNumber - 1).html()}</tr>`);
     }
     else {
       gutterSVG.find('#curLineArrow').hide();
     }
+
+    //Update Dynamic Line View
+    var lineViewElements = ["<table>"];
+    lineViewElements.push(...lineTrs);
+    lineViewElements.push("</table>");
+
+    $('#dynamicLineView').html(lineViewElements.join(""));
+    this.owner.redrawLayoutPane();
 
     this.domRootD3.selectAll('#pyCodeOutputDiv td.cod')
       .style('border-top', function(d) {
@@ -3710,6 +3755,7 @@ class NavigationController {
                        </button>\
                        <button id="jmpLastInstr", type="button">Último <i class=\"fas fa-angle-double-right\"></i></button>\
                      </div>\
+                     <button id="switchLayout", type="button">Esquema experimental</i></button>\
                      <div id="rawUserInputDiv">\
                        <span id="userInputPromptStr"/>\
                        <input type="text" id="raw_input_textbox" size="30"/>\
@@ -3771,6 +3817,8 @@ class NavigationController {
     this.domRoot.find("#jmpStepBack").click(() => {this.owner.stepBack();});
     this.domRoot.find("#jmpStepFwd").click(() => {this.owner.stepForward();});
 
+    this.domRoot.find("#switchLayout").click(() => {this.owner.toggleLayout();});
+
     // disable controls initially ...
     this.domRoot.find("#vcrControls #jmpFirstInstr").attr("disabled", true);
     this.domRoot.find("#vcrControls #jmpStepBack").attr("disabled", true);
@@ -3796,11 +3844,11 @@ class NavigationController {
 
   setSliderVal(v: number) {
     // PROGRAMMATICALLY change the value, so evt.originalEvent should be undefined
-    this.domRoot.find('#executionSlider').slider('value', v);
+    $('#executionSlider').slider('value', v);
   }
 
   setVcrControls(msg: string, isFirstInstr: boolean, isLastInstr: boolean) {
-    var vcrControls = this.domRoot.find("#vcrControls");
+    var vcrControls = $("#vcrControls");
     vcrControls.find("#curInstr").html(msg);
     vcrControls.find("#jmpFirstInstr").attr("disabled", false);
     vcrControls.find("#jmpStepBack").attr("disabled", false);
@@ -3819,7 +3867,7 @@ class NavigationController {
 
   setupSlider(maxSliderVal: number) {
     assert(maxSliderVal >= 0);
-    var sliderDiv = this.domRoot.find('#executionSlider');
+    var sliderDiv = $('#executionSlider');
     sliderDiv.slider({min: 0, max: maxSliderVal, step: 1});
     // disable keyboard actions on the slider itself (to prevent double-firing
     // of events), and make skinnier and taller
@@ -3829,8 +3877,8 @@ class NavigationController {
       .css('width', '0.8em')
       .css('height', '1.4em');
 
-    this.domRoot.find(".ui-widget-content").css('font-size', '0.9em');
-    this.domRoot.find('#executionSlider').bind('slide', (evt, ui) => {
+    $(".ui-widget-content").css('font-size', '0.9em');
+    (<any>$('#executionSlider')).bind('slide', (evt, ui) => {
       // this is SUPER subtle. if this value was changed programmatically,
       // then evt.originalEvent will be undefined. however, if this value
       // was changed by a user-initiated event, then this code should be
@@ -3842,13 +3890,13 @@ class NavigationController {
   }
 
   renderSliderBreakpoints(sortedBreakpointsList) {
-    this.domRoot.find("#executionSliderFooter").empty();
-    var w = this.domRoot.find('#executionSlider').width();
+    $("#executionSliderFooter").empty();
+    var w = $('#executionSlider').width();
 
     // I originally didn't want to delete and re-create this overlay every time,
     // but if I don't do so, there are weird flickering artifacts with clearing
     // the SVG container; so it's best to just delete and re-create the container each time
-    var sliderOverlay = this.domRootD3.select('#executionSliderFooter')
+    var sliderOverlay = $('#executionSliderFooter')
       .append('svg')
       .attr('id', 'sliderOverlay')
       .attr('width', w)

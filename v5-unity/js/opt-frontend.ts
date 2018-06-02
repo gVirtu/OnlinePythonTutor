@@ -655,13 +655,14 @@ export class OptFrontend extends AbstractBaseFrontend {
       this.appMode = 'edit'; // canonicalize
 
       $("#pyInputPane").show();
-      $("#pyOutputPane,#embedLinkDiv").hide();
+      $("#pyOutputPane,#embedLinkDiv,#altLayoutPane").hide();
 
       // Potentially controversial: when you enter edit mode, DESTROY any
       // existing visualizer object. note that this simplifies the app's
       // conceptual model but breaks the browser's expected Forward and
       // Back button flow
-      $("#pyOutputPane").empty();
+      $("#pyOutputPane,#altLayoutPane").empty();
+      $("#altLayoutPane").html("<div id=\"dynamicLineView\"></div>");
       // right before destroying, submit the visualizer's updateHistory
       this.submitUpdateHistory('editMode');
       this.myVisualizer = null; // yikes!
