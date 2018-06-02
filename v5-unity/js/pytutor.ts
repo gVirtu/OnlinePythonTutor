@@ -649,6 +649,10 @@ export class ExecutionVisualizer {
 
   // This function is called every time the display needs to be updated
   updateOutput(smoothTransition=false) {
+    //Save current browser width
+    var width = document.documentElement.scrollWidth.toString() + "px";
+    document.getElementById("widthHolder").style.width = width; //Couldn't get this to work via jQuery or D3
+
     if (this.params.hideCode) {
       this.updateOutputMini();
     }
@@ -3398,7 +3402,7 @@ class CodeDisplay {
       }
     }
 
-    var noScrollBox = " (<input type=\"checkbox\" id=\"codPanelNoScroll\"> Fixar painel)";
+    var noScrollBox = " (<input type=\"checkbox\" id=\"codPanelNoScroll\" checked> Fixar painel)";
     this.domRoot.find('#langDisplayDiv').html(langName + noScrollBox);
   }
 
