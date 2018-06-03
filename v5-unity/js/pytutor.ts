@@ -1136,10 +1136,9 @@ export class ExecutionVisualizer {
   }
 
   redrawLayoutPane() {
-    $('#altLayoutPane').css({ "margin-left": -$('#dynamicLineView').width()/2,
-                              "position": "fixed",
-                              "bottom": "5%",
-                              "left": "50%" })
+    if (this.isNewLayout) {
+      this.navControls.renderSliderBreakpoints(this.sortedBreakpointsList);
+    }
   }
 
 } // END class ExecutionVisualizer
@@ -3896,7 +3895,7 @@ class NavigationController {
     // I originally didn't want to delete and re-create this overlay every time,
     // but if I don't do so, there are weird flickering artifacts with clearing
     // the SVG container; so it's best to just delete and re-create the container each time
-    var sliderOverlay = $('#executionSliderFooter')
+    var sliderOverlay = d3.select('#executionSliderFooter')
       .append('svg')
       .attr('id', 'sliderOverlay')
       .attr('width', w)
@@ -3909,7 +3908,7 @@ class NavigationController {
     sliderOverlay.selectAll('rect')
       .data(sortedBreakpointsList)
       .enter().append('rect')
-      .attr('x', function(d, i) {
+      .attr('x', function(d:number, i) {
         // make edge case of 0 look decent:
         return (d === 0) ? 0 : xrange(d) - 1;
       })
