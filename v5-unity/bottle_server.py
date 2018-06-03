@@ -21,13 +21,16 @@ import pg_logger
 import tupy.Interpreter
 import os
 import sys
+import colorama
+
+colorama.init()
 
 BaseRequest.MEMFILE_MAX = 1024 * 1024
 sys.setrecursionlimit(2000) # !!
 
 @route('/')
 def home():
-    response = static_file("index.html", root='.')
+    response = static_file("index.html", root='www')
     response.set_header("Cache-Control", "public, max-age=1")
     return response
 
@@ -42,7 +45,7 @@ def dummy_ok(name=None):
 
 @route('/<filepath:path>')
 def index(filepath):
-    response = static_file(filepath, root='.')
+    response = static_file(filepath, root='www')
     response.set_header("Cache-Control", "public, max-age=1")
     return response
 
@@ -80,4 +83,9 @@ def error_route(code):
     redirect('/index.html', 303)
 
 if __name__ == "__main__":
-    run(host='0.0.0.0', port=os.getenv('PORT', 8003), reloader=True)
+    if ('BOTTLE_CHILD' in os.environ):
+        print(colorama.Fore.RESET + colorama.Style.BRIGHT + "Bem-vindo ao servidor local do TuPy Online!")
+        print("A ferramenta ficará disponível no seu endereço local na porta 8003 enquanto esta janela estiver aberta.")
+        print("")
+        print(colorama.Fore.CYAN + "Para acessar, basta visitar http://localhost:8003 em seu navegador.")
+    run(host='0.0.0.0', port=os.getenv('PORT', 8003), reloader=True, quiet=True)
