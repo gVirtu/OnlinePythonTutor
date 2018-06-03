@@ -22,6 +22,10 @@ import tupy.Interpreter
 import os
 import sys
 import colorama
+import requests
+
+GITHUB_REPO = "gVirtu/TuPyOnline"
+VERSION = "v1.0.1"
 
 colorama.init()
 
@@ -82,9 +86,27 @@ def get_tupy_exec():
 def error_route(code):
     redirect('/index.html', 303)
 
+def check_updates():
+    try:
+        r = requests.get("https://api.github.com/repos/{0}/releases/latest".format(GITHUB_REPO))
+        response = r.json()
+        latest_version = response["tag_name"]
+
+        if (VERSION == latest_version):
+            print(colorama.Fore.GREEN + colorama.Style.BRIGHT + "Você possui a versão mais recente!")
+        else:
+            print(colorama.Fore.MAGENTA + colorama.Style.BRIGHT + "Uma atualização ({0}) está disponível!\n".format(latest_version) \
+                   + "É recomendado baixar a versão mais recente em https://github.com/gVirtu/TuPyOnline/releases/latest")
+    except Exception as e:
+        print(e)
+        print(colorama.Fore.YELLOW + "Ocorreu um erro ao verificar se existem versões mais recentes.\n" + \
+              colorama.Fore.RESET + "Você pode verificar manualmente em https://github.com/gVirtu/TuPyOnline/releases/latest")
+
+
 if __name__ == "__main__":
     if ('BOTTLE_CHILD' in os.environ):
-        print(colorama.Fore.RESET + colorama.Style.BRIGHT + "Bem-vindo ao servidor local do TuPy Online!")
+        check_updates()
+        print("\n" + colorama.Fore.RESET + colorama.Style.BRIGHT + "Bem-vindo ao servidor local do TuPy Online! ({0})".format(VERSION))
         print("A ferramenta ficará disponível no seu endereço local na porta 8003 enquanto esta janela estiver aberta.")
         print("")
         print(colorama.Fore.CYAN + "Para acessar, basta visitar http://localhost:8003 em seu navegador.")
