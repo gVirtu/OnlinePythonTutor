@@ -656,6 +656,7 @@ export class OptFrontend extends AbstractBaseFrontend {
 
       $("#pyInputPane").show();
       $("#pyOutputPane,#embedLinkDiv,#altLayoutPane").hide();
+      $("#widthHolder").width(0);
 
       // Potentially controversial: when you enter edit mode, DESTROY any
       // existing visualizer object. note that this simplifies the app's
