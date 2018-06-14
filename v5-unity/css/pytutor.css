@@ -833,8 +833,8 @@ div.ExecutionVisualizer td.queueFElt table.dictTbl {
   font-size: 18pt;
 }
 
-.ace_static_highlight {
-  font-size: 14px !important;
+.ace_static_highlight .ace_line {
+  font-size: 14px;
 }
 
 .variableTr {
@@ -887,6 +887,59 @@ body {
 
 button {
   font-family: 'Source Sans Pro', verdana, arial, helvetica, sans-serif;
+}
+
+#altLayoutPane {
+  color: #000000;
+  background-color: #ffffff;
+  border: 2px solid #111111;
+  padding: 0 1em 0.5em 1em;
+  z-index: 9999;
+  transform: translate(-50%, 0%);
+  position: fixed;
+  bottom: 5%;
+  left: 50%;
+}
+
+#altLayoutPane #navControlsDiv {
+  margin: 0 auto;
+}
+
+#altLayoutPane #vcrControls {
+  margin: 15px auto;
+  /*width: 100%;*/
+  text-align: center;
+}
+
+#altLayoutPane #vcrControls button {
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+#altLayoutPane #vcrControls #curInstr {
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+#altLayoutPane #editCodeLinkDiv {
+  text-align: center;
+  margin: 8px auto;
+  font-size: 11pt;
+}
+
+#dynamicLineView {
+  padding: 8px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+#dynamicLineView td.cod {
+  font-weight: normal;
+  padding-left: 10pt;
+}
+
+#dynamicLineView .ace_line {
+  font-size: 16pt;
 }
 
 /* END Java frontend by David Pritchard and Will Gwozdz */
