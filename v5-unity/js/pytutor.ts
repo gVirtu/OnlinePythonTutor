@@ -40,6 +40,7 @@ require('./lib/ace/src-min-noconflict/mode-tupy.js');
 require('./lib/rgbcolor.js');
 require('./lib/StackBlur.js');
 require('script-loader!./lib/canvg.js');
+var clipboard = require('clipboard-polyfill')
 
 var html2canvas = require('./lib/html2canvas.js');
 
@@ -1167,6 +1168,53 @@ export class ExecutionVisualizer {
     if (this.isNewLayout) {
       this.navControls.renderSliderBreakpoints(this.sortedBreakpointsList);
     }
+  }
+
+  isSameColor(colorA, colorB) {
+    var computedColorA = $('<div/>').css('color', colorA).css('color');
+    var computedColorB = $('<div/>').css('color', colorB).css('color');
+    console.log(`Comparing color ${computedColorA} against ${computedColorB}`)
+    return computedColorA === computedColorB;
+  }
+
+  exportCode() {
+    var myViz = this;
+    var pyCodeOutput = $('#pyCodeOutput');
+    var origHtml = pyCodeOutput.html();
+    var code = pyCodeOutput.find('.ace_line').map(function() {
+
+      // Wraps text nodes (mostly whitespaces and unicode characters) in span tags so they don't vanish
+      $(this).contents().filter(function() {
+        return this.nodeType === Node.TEXT_NODE
+      }).wrap('<span style="white-space: pre;"/>');
+
+      // Explicitly set the color property in HTML so it gets included in the copied data
+      $(this).find('span').each(function() {
+        var span = $(this)
+        var spanColor = span.css("color");
+        var newText = span.text().replace(/<-/g, "←").replace(/!=/g, "≠").replace(/>=/g, "≥").replace(/<=/g, "≤");
+        span.text(newText);
+
+        //Google Docs workaround - rgb(0, 0, 0) is seemingly ignored
+        if (myViz.isSameColor(spanColor, "black")) {
+          spanColor = "#010101";
+        }
+
+        span.css({"color": spanColor,
+                  "white-space": "pre",
+                  "font-family": "Consolas, monospace"});
+        return span.prop('outerHTML');
+      });
+
+      return $(this).html();
+    }).get().join('');
+
+    var dt = new clipboard.DT();
+    dt.setData("text/html", code);
+    clipboard.write(dt);
+
+    // Undo changes
+    pyCodeOutput.html(origHtml);
   }
 
   exportViz() {
@@ -3833,9 +3881,16 @@ class NavigationController {
                        </button>\
                        <button id="jmpLastInstr", type="button">Último <i class=\"fas fa-angle-double-right\"></i></button>\
                      </div>\
-                     <button id="switchLayout", type="button"><i class="far fa-lightbulb"></i> Esquema experimental</button>\
-                     <button id="saveImage", type="button"><i class="fas fa-file-image"></i> Exportar visualização atual</button>\
-                     <button id="saveElementImage", type="button"><i class="fas fa-image"></i> Exportar elemento</button>\
+                     <table id="extraControls">\
+                      <tr>\
+                        <td><button id="switchLayout", type="button"><i class="far fa-lightbulb"></i> Esquema experimental</button></td>\
+                        <td><button id="saveCode", type="button"><i class="fas fa-copy"></i> Copiar código formatado</button></td>\
+                      </tr>\
+                      <tr>\
+                        <td><button id="saveImage", type="button"><i class="fas fa-file-image"></i> Exportar visualização atual</button></td>\
+                        <td><button id="saveElementImage", type="button"><i class="fas fa-image"></i> Exportar elemento</button></td>\
+                      </tr>\
+                     </table>\
                      <div id="rawUserInputDiv">\
                        <span id="userInputPromptStr"/>\
                        <input type="text" id="raw_input_textbox" size="30"/>\
@@ -3898,6 +3953,7 @@ class NavigationController {
     this.domRoot.find("#jmpStepFwd").click(() => {this.owner.stepForward();});
 
     this.domRoot.find("#switchLayout").click(() => {this.owner.toggleLayout();});
+    this.domRoot.find("#saveCode").click(() => {this.owner.exportCode();});
     this.domRoot.find("#saveImage").click(() => {this.owner.exportViz();});
     this.domRoot.find("#saveElementImage").click(() => {this.owner.toggleElementExport();});
 

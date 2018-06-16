@@ -954,4 +954,14 @@ button {
   border: 1px solid #3D58A2;
 }
 
+#extraControls {
+  margin: 4px auto;
+  width: 100%;
+  text-align: center;
+}
+
+#extraControls button {
+  width: 80%;
+}
+
 /* END Java frontend by David Pritchard and Will Gwozdz */
