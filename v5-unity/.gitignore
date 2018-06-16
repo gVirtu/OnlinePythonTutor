@@ -1,5 +1,6 @@
 node_modules/
 typings/
+build/
 *.js.map
 # ignore *.png only in this directory
 /*.png
