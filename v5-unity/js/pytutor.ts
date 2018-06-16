@@ -37,11 +37,18 @@ require('../css/pytutor');
 require('./lib/ace/src-min-noconflict/ace.js');
 require('./lib/ace/src-min-noconflict/ext-static_highlight.js');
 require('./lib/ace/src-min-noconflict/mode-tupy.js');
+require('./lib/rgbcolor.js');
+require('./lib/StackBlur.js');
+require('script-loader!./lib/canvg.js');
+var clipboard = require('clipboard-polyfill')
+
+var html2canvas = require('./lib/html2canvas.js');
 
 // for TypeScript
 declare var jQuery: JQueryStatic;
 declare var jsPlumb: any;
 declare var Viz: any;
+declare var canvg: any;
 
 export var SVG_ARROW_POLYGON = '0,3 12,3 12,0 18,5 12,10 12,7 0,7';
 var SVG_ARROW_HEIGHT = 10; // must match height of SVG_ARROW_POLYGON
@@ -139,6 +146,7 @@ export class ExecutionVisualizer {
   visualizerID: number;
 
   isNewLayout: boolean = false;
+  isElementExportMode: boolean = false;
 
   breakpoints: d3.Map<{}> = d3.map(); // set of execution points to set as breakpoints
   sortedBreakpointsList: any[] = [];  // sorted and synced with breakpoints
@@ -1118,14 +1126,14 @@ export class ExecutionVisualizer {
     this.isNewLayout = !this.isNewLayout;
 
     if (this.isNewLayout) {
-      $('#switchLayout').html("Esquema tradicional");
+      $('#switchLayout').html("<i class=\"fas fa-lightbulb\"></i> Esquema tradicional");
       $('#altLayoutPane').show();
       $('#altLayoutPane').append( $('#editCodeLinkDiv') );
       $('#altLayoutPane').append( $('#navControlsDiv') );
       this.domRoot.find('#vizLayoutTdFirst').hide();
       this.redrawLayoutPane();
     } else {
-      $('#switchLayout').html("Esquema experimental");
+      $('#switchLayout').html("<i class=\"far fa-lightbulb\"></i> Esquema experimental");
       this.domRoot.find('#vizLayoutTdFirst').show();
       $('#pyCodeOutputDiv').after( $('#editCodeLinkDiv') );
       $('#codeDisplayDiv').after( $('#navControlsDiv') );
@@ -1135,10 +1143,129 @@ export class ExecutionVisualizer {
     this.redrawConnectors();
   }
 
+  toggleElementExport() {
+    this.isElementExportMode = !this.isElementExportMode;
+
+    var myViz = this;
+    var elements = $('.toplevelHeapObject');
+
+    if (this.isElementExportMode) {
+      $('#saveElementImage').html("<i class=\"fas fa-mouse-pointer\"></i> Selecione um elemento...");
+      elements.addClass("exportableElement");
+      elements.click(function() {
+        var file_name = `elemento_${this.id.match(/\d+$/)[0] || "desconhecido"}.png`;
+        myViz.exportImage(this, file_name);
+        myViz.toggleElementExport();
+      })
+    } else {
+      $('#saveElementImage').html("<i class=\"fas fa-image\"></i> Exportar elemento");
+      elements.removeClass("exportableElement");
+      elements.off('click');
+    }
+  }
+
   redrawLayoutPane() {
     if (this.isNewLayout) {
       this.navControls.renderSliderBreakpoints(this.sortedBreakpointsList);
     }
+  }
+
+  isSameColor(colorA, colorB) {
+    var computedColorA = $('<div/>').css('color', colorA).css('color');
+    var computedColorB = $('<div/>').css('color', colorB).css('color');
+    console.log(`Comparing color ${computedColorA} against ${computedColorB}`)
+    return computedColorA === computedColorB;
+  }
+
+  exportCode() {
+    var myViz = this;
+    var pyCodeOutput = $('#pyCodeOutput');
+    var origHtml = pyCodeOutput.html();
+    var code = pyCodeOutput.find('.ace_line').map(function() {
+
+      // Wraps text nodes (mostly whitespaces and unicode characters) in span tags so they don't vanish
+      $(this).contents().filter(function() {
+        return this.nodeType === Node.TEXT_NODE
+      }).wrap('<span style="white-space: pre;"/>');
+
+      // Explicitly set the color property in HTML so it gets included in the copied data
+      $(this).find('span').each(function() {
+        var span = $(this)
+        var spanColor = span.css("color");
+        var newText = span.text().replace(/<-/g, "←").replace(/!=/g, "≠").replace(/>=/g, "≥").replace(/<=/g, "≤");
+        span.text(newText);
+
+        //Google Docs workaround - rgb(0, 0, 0) is seemingly ignored
+        if (myViz.isSameColor(spanColor, "black")) {
+          spanColor = "#010101";
+        }
+
+        span.css({"color": spanColor,
+                  "white-space": "pre",
+                  "font-family": "Consolas, monospace"});
+        return span.prop('outerHTML');
+      });
+
+      return $(this).html();
+    }).get().join('');
+
+    var dt = new clipboard.DT();
+    dt.setData("text/html", code);
+    clipboard.write(dt);
+
+    // Undo changes
+    pyCodeOutput.html(origHtml);
+  }
+
+  exportViz() {
+    var instr_number = this.curInstr + 1;
+    this.exportImage('#dataViz', `tupy_passo${instr_number}.png`);
+  }
+
+  exportImage(query, file_name) {
+    var target = $(query);
+
+    // First render all SVGs to canvases
+    var elements = target.find('svg').map(function() {
+      var svg = $(this);
+      var canvas = $('<canvas></canvas>').css(
+                      {position: 'absolute', left:svg.css('left'), top: svg.css('top')});
+
+      $(canvas).insertAfter(svg);
+
+      // Get the raw SVG string and curate it
+      var content = svg.wrap('<p></p>').parent().html();
+      svg.unwrap();
+
+      canvg(canvas[0], content);
+      svg.hide();
+
+      return {
+          svg: svg,
+          canvas: canvas
+      };
+    });
+
+    //Now convert other DOM elements
+    var myViz = this;
+    html2canvas(target.get(0)).then(function (canvas) {
+        var link = document.createElement('a');
+        link.setAttribute("type", "hidden");
+        document.body.appendChild(link);
+
+        link.href = canvas.toDataURL().replace("image/png", "image/octet-stream");
+        link.download = file_name;
+        link.click();
+
+        // Put the SVGs back in place
+        elements.each(function() {
+          this.canvas.remove();
+          this.svg.show();
+        });
+
+        link.remove();
+      }
+    );
   }
 
 } // END class ExecutionVisualizer
@@ -3754,7 +3881,16 @@ class NavigationController {
                        </button>\
                        <button id="jmpLastInstr", type="button">Último <i class=\"fas fa-angle-double-right\"></i></button>\
                      </div>\
-                     <button id="switchLayout", type="button">Esquema experimental</i></button>\
+                     <table id="extraControls">\
+                      <tr>\
+                        <td><button id="switchLayout", type="button"><i class="far fa-lightbulb"></i> Esquema experimental</button></td>\
+                        <td><button id="saveCode", type="button"><i class="fas fa-copy"></i> Copiar código formatado</button></td>\
+                      </tr>\
+                      <tr>\
+                        <td><button id="saveImage", type="button"><i class="fas fa-file-image"></i> Exportar visualização atual</button></td>\
+                        <td><button id="saveElementImage", type="button"><i class="fas fa-image"></i> Exportar elemento</button></td>\
+                      </tr>\
+                     </table>\
                      <div id="rawUserInputDiv">\
                        <span id="userInputPromptStr"/>\
                        <input type="text" id="raw_input_textbox" size="30"/>\
@@ -3817,6 +3953,9 @@ class NavigationController {
     this.domRoot.find("#jmpStepFwd").click(() => {this.owner.stepForward();});
 
     this.domRoot.find("#switchLayout").click(() => {this.owner.toggleLayout();});
+    this.domRoot.find("#saveCode").click(() => {this.owner.exportCode();});
+    this.domRoot.find("#saveImage").click(() => {this.owner.exportViz();});
+    this.domRoot.find("#saveElementImage").click(() => {this.owner.toggleElementExport();});
 
     // disable controls initially ...
     this.domRoot.find("#vcrControls #jmpFirstInstr").attr("disabled", true);

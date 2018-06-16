@@ -942,4 +942,26 @@ button {
   font-size: 16pt;
 }
 
+.exportableElement {
+  transition: background-color 200ms ease, border 200ms ease;
+  background-color: #ffffff00;
+  border: 1px solid #00000000;
+}
+
+.exportableElement:hover {
+  transition: background-color 200ms ease, border 200ms ease;
+  background-color: #b1d9ff;
+  border: 1px solid #3D58A2;
+}
+
+#extraControls {
+  margin: 4px auto;
+  width: 100%;
+  text-align: center;
+}
+
+#extraControls button {
+  width: 80%;
+}
+
 /* END Java frontend by David Pritchard and Will Gwozdz */
