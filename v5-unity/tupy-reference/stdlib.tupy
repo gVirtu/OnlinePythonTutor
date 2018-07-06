@@ -5,11 +5,12 @@
 # no programa.
 
 # Lista de funções disponíveis:
-# escrever, ler, ler_linha, 
+# escrever, ler, ler_linha,
 # binário, octal, hexadecimal,
 # copiar, comprimento, asserção,
 # cadeia, caracter, inteiro, real, lógico,
-# lista, juntar, embaralhar, inserir, remover, 
+# lista, juntar, embaralhar, inserir, remover,
+# sublista, ordenar, substituir
 # mín, máx, abs, aleatório, inteiro_aleatório
 
 #----------------------------------------------------------------------
@@ -21,7 +22,7 @@
 # Imprime seu retorno para a saída padrão.
 
 # Retorna: Uma cadeia contendo a impressão dos argumentos fornecidos,
-#          separados por espaço. 
+#          separados por espaço.
 
 escrever("Olá", "mundo!", ':', ')')      # escreve "Olá mundo! : )"
 
@@ -54,7 +55,7 @@ ler(a, b, c)                             # atribui valores às variáveis
 #          falso caso contrário.
 
 ler_linha(L)                             # atribui valor à variável L
-                                         # caso não seja atingido o 
+                                         # caso não seja atingido o
                                          # fim de arquivo.
 
 #----------------------------------------------------------------------
@@ -70,7 +71,7 @@ tipo Teste:
     inteiro x
 
 Teste A <- Teste()                  # Instanciação
-Teste B <- A                        # B é uma referência a A 
+Teste B <- A                        # B é uma referência a A
 Teste C <- copiar(A)                # C é uma cópia de A
 A.x <- 1                            # A.x = 1, B.x = 1, C.x = 0
 B.x <- 2                            # A.x = 2, B.x = 2, C.x = 0
@@ -80,9 +81,9 @@ C.x <- 3                            # A.x = 2, B.x = 2, C.x = 3
 ## comprimento(x)
 
 # Parâmetros:
-#   x (lista)
+#   x (lista ou cadeia)
 
-# Retorna: Um inteiro contendo o comprimento da lista x.
+# Retorna: Um inteiro contendo o comprimento da lista ou cadeia x.
 #          Difere do operador de cardinalidade |x| especialmente quando
 #          usado em listas de duas ou mais dimensões. Dada uma lista L:
 #           - |L| = quantos elementos primitivos existem em L
@@ -210,7 +211,7 @@ lógico r <- lógico("")                   # r = falso
 #   s (cadeia)
 
 # Retorna: Uma lista resultante da partição da cadeia x usando s como
-#          separador. 
+#          separador.
 
 cadeia r[*] <- lista("1, 2, 3, 4", ", ") # r = ["1", "2", "3", "4"]
 
@@ -259,10 +260,75 @@ inteiro r[4] <- inserir([1, 2, 3], 4)    # r = [1, 2, 3, 4]
 #   L (lista)
 #   i (inteiro)
 
-# Retorna: Uma cópia da lista x sem o elemento na i-ésima posição.
+# Retorna: Uma cópia da lista L sem o elemento na i-ésima posição.
 #          Indexada a partir de zero.
 
 inteiro r[*] <- remover([1, 2, 3, 4], 2) # r = [1, 2, 4]
+
+#----------------------------------------------------------------------
+## sublista(L, i = nulo, cont = nulo, passo = nulo)
+
+# Parâmetros:
+#   L (lista)
+#   i (inteiro)
+#   cont (inteiro)
+#   passo (inteiro)
+
+# Retorna: Uma sublista de L a partir do elemento na i-ésima posição, contendo
+#          'cont' elementos. Partindo da posição i, serão dados 'cont' passos
+#          de tamanho 'passo' para obter o próximo elemento da sublista.
+#
+#          Caso 'i' não seja fornecido (nulo), a primeira posição será 0.
+#          Caso 'cont' não seja fornecido (nulo), serão dados passos até atingir
+#           o final da lista L.
+#          Caso 'passo' não seja fornecido (nulo), o tamanho do passo será 1.
+
+inteiro r[*] <- sublista([1, 2, 3, 4], 2)                 # r = [3, 4]
+inteiro r[*] <- sublista([1, 2, 3, 4], 1, 2)              # r = [2, 3]
+inteiro r[*] <- sublista([1, 2, 3, 4], 2, nulo, -1)       # r = [3, 2, 1]
+
+#----------------------------------------------------------------------
+## ordenar(L, mapeamento = nulo)
+
+# Parâmetros:
+#   L (lista)
+#   mapeamento (função)
+
+# Retorna: Uma cópia de L ordenada de forma crescente.
+#
+#          Caso fornecida, uma função unária de mapeamento será aplicada a
+#          cada elemento antes de processada a ordenação. Esse mapeamento não
+#          altera os elementos que estarão na lista de retorno, ele é usado
+#          unicamente para determinar a ordem.
+#
+#          Caso a função de mapeamento seja nula, os elementos serão ordenados
+#          de acordo com seus próprios valores em ordem crescente.
+
+inteiro r[*] <- ordenar([4, 3, 2, 1])                   # r = [1, 2, 3, 4]
+
+inteiro decrescente(inteiro x):
+    retornar -x
+inteiro r[*] <- ordenar([1, 2, 3, 4], decrescente)      # r = [4, 3, 2, 1]
+cadeia r[*] <- ordenar(["aaa", "bb", "c"], comprimento) # r = ["c", "bb", "aaa"]
+
+#----------------------------------------------------------------------
+## substituir(c, s, r, m = nulo)
+
+# Parâmetros:
+#   c (cadeia)
+#   s (cadeia)
+#   r (cadeia)
+#   m (inteiro)
+
+# Retorna: Uma cópia da cadeia c, com no máximo m ocorrências da subcadeia s
+#          substituídas pela subcadeia r.
+#
+#          Caso m não seja fornecido (nulo), todas as ocorrências de s serão
+#          substituídas por r.
+
+substituir("ababa", "b", "r")                           # "arara"
+substituir("ababa", "a", "e", 2)                        # "ebeba"
+substituir("ababa", "aba", "")                          # "ba"
 
 #----------------------------------------------------------------------
 ## mín(x, y)
@@ -270,7 +336,7 @@ inteiro r[*] <- remover([1, 2, 3, 4], 2) # r = [1, 2, 4]
 # Parâmetros:
 #   x, y (inteiro|real|caracter|cadeia)
 
-# Retorna: o menor dos dois argumentos fornecidos. Para cadeias, é 
+# Retorna: o menor dos dois argumentos fornecidos. Para cadeias, é
 #          usada ordem lexicográfica.
 
 inteiro r <- mín(-3, 2)                  # r = -3
@@ -282,7 +348,7 @@ cadeia r <- mín("abc", "abb")            # r = "abb"
 # Parâmetros:
 #   x, y (inteiro|real|caracter|cadeia)
 
-# Retorna: o maior dos dois argumentos fornecidos. Para cadeias, é 
+# Retorna: o maior dos dois argumentos fornecidos. Para cadeias, é
 #          usada ordem lexicográfica.
 
 inteiro r <- máx(-3, 2)                  # r = 2
