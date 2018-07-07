@@ -670,6 +670,14 @@ export class OptFrontend extends AbstractBaseFrontend {
 
       $(document).scrollTop(0); // scroll to top to make UX better on small monitors
 
+      // Clear cached renders
+      for (var i = 0, len = localStorage.length; i < len; ++i) {
+          var key = localStorage.key(i);
+          if (key && key.match(/^rendered_/)) {
+            localStorage.removeItem(key);
+          }
+      }
+
       var s: any = { mode: 'edit' };
       // keep these persistent so that they survive page reloads
       // keep these persistent so that they survive page reloads

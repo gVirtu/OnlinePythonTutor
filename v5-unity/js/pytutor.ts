@@ -2835,10 +2835,23 @@ class DataVisualizer {
               var resultSvg = Viz(dotSrc);
               var tempElement = d3DomElement.append('<div id="' + cdataId + '" class="cdataElt"></div>')
 
+              // Prevent blinking when navigating execution trace
+              var cachedSrc = localStorage.getItem(`rendered_${addr}_src`);
+              if (cachedSrc) {
+                var cachedWidth = localStorage.getItem(`rendered_${addr}_width`);
+                var cachedHeight = localStorage.getItem(`rendered_${addr}_height`);
+                tempElement.html( '<img src="' + cachedSrc +
+                                  '" width="' + Number(cachedWidth)*0.75 +
+                                  '" height="' + Number(cachedHeight)*0.75 + '"/>');
+              }
+
               var resultImg = Viz.svgXmlToPngImageElement(resultSvg, 1, function(err, img) {
                 var myElement = tempElement.html( '<img src="' + img.src +
                                                   '" width="' + img.width*0.75 +
                                                   '" height="' + img.height*0.75 + '"/>');
+                localStorage.setItem(`rendered_${addr}_src`, img.src)
+                localStorage.setItem(`rendered_${addr}_width`, img.width)
+                localStorage.setItem(`rendered_${addr}_height`, img.height)
                 myViz.redrawConnectors()
               })
             } catch(err) {
