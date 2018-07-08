@@ -112,8 +112,7 @@ visual X <- vetor(V[2..3], [], 2, "", "2 -> 1:v3:s; 2 [label=\"Veja!\"]; rankdir
 # na função vetor.
 
 # É importante destacar que, na definição gerada, o nó 0 é reservado e
-# invisível, localizado acima da pilha. Os identificadores de colunas '1:cY'
-# do vetor também são substituídos por identificadores de linhas '1:rY'.
+# invisível, localizado acima da pilha.
 
 inteiro V[*] <- [1, 5, 100, 7, 9]
 visual X <- pilha(V)
