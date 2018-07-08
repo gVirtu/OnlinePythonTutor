@@ -148,6 +148,7 @@ export class ExecutionVisualizer {
 
   isNewLayout: boolean = false;
   isElementExportMode: boolean = false;
+  lastExportedElementId: string;
 
   breakpoints: d3.Map<{}> = d3.map(); // set of execution points to set as breakpoints
   sortedBreakpointsList: any[] = [];  // sorted and synced with breakpoints
@@ -1144,6 +1145,11 @@ export class ExecutionVisualizer {
     this.redrawConnectors();
   }
 
+  getFileNameByElement(element) {
+    var currentStep = this.curInstr + 1;
+    return `elemento_${element.id.match(/\d+$/)[0] || "desconhecido"}_passo_${currentStep}.png`;
+  }
+
   toggleElementExport() {
     this.isElementExportMode = !this.isElementExportMode;
 
@@ -1154,14 +1160,28 @@ export class ExecutionVisualizer {
       $('#saveElementImage').html("<i class=\"fas fa-mouse-pointer\"></i> Selecione um elemento...");
       elements.addClass("exportableElement");
       elements.click(function() {
-        var file_name = `elemento_${this.id.match(/\d+$/)[0] || "desconhecido"}.png`;
+        var file_name = myViz.getFileNameByElement(this);
+        myViz.lastExportedElementId = this.id;
         myViz.exportImage(this, file_name);
         myViz.toggleElementExport();
+        $('#redoSaveElementImage').prop("disabled", false);
       })
     } else {
       $('#saveElementImage').html("<i class=\"fas fa-image\"></i> Exportar elemento");
       elements.removeClass("exportableElement");
       elements.off('click');
+    }
+  }
+
+  redoElementExport() {
+    if (this.lastExportedElementId) {
+      var lastExportedElement = $(`#${this.lastExportedElementId}`).get(0);
+      if (lastExportedElement && lastExportedElement.innerHTML) {
+        var file_name = this.getFileNameByElement(lastExportedElement);
+        this.exportImage(lastExportedElement, file_name);
+      } else {
+        $('#redoSaveElementImage').prop("disabled", true);
+      }
     }
   }
 
@@ -3504,7 +3524,14 @@ class CodeDisplay {
          <span id="liveModeSpan" style="display: none;">| <a id="editLiveModeBtn" href="#">Live programming</a></a>\
          </div>\
          <div id="legendDiv"/>\
-         <div id="codeFooterDocs"><p>Você pode usar as setas direcionais, HOME e END ao invés dos botões de navegação.</p><p>Clique em uma linha de código para colocar um breakpoint; use os botões Próximo/Anterior para se deslocar entre eles.</p></div>\
+         <div id="codeFooterDocs"><p>Atalhos:<ul>\
+          <li>◀ ▶ — Anterior/Próximo</li>\
+          <li>HOME/END — Primeiro/Último</li>\
+          <li>SHIFT+X — Esquema experimental</li>\
+          <li>SHIFT+C — Copiar código formatado</li>\
+          <li>SHIFT+V — Exportar visualização atual</li>\
+          <li>SHIFT+E — Exportar elemento</li>\
+          <li>SHIFT+R — Reexportar elemento</li></ul></p><p>Clique em uma linha de código para colocar um breakpoint; use os botões Próximo/Anterior para se deslocar entre eles.</p></div>\
        </div>';
 
     this.domRoot.append(codeDisplayHTML);
@@ -3917,6 +3944,9 @@ class NavigationController {
                         <td><button id="saveImage", type="button"><i class="fas fa-file-image"></i> Exportar visualização atual</button></td>\
                         <td><button id="saveElementImage", type="button"><i class="fas fa-image"></i> Exportar elemento</button></td>\
                       </tr>\
+                      <tr>\
+                        <td><button id="redoSaveElementImage", type="button" disabled><i class="fas fa-redo-alt"></i> Reexportar elemento</button></td>\
+                      </tr>\
                      </table>\
                      <div id="rawUserInputDiv">\
                        <span id="userInputPromptStr"/>\
@@ -3944,6 +3974,31 @@ class NavigationController {
 
           case 39: // right
           owner.stepForward();
+          break;
+
+          case 88: // X
+            if (e.shiftKey) owner.toggleLayout();
+            else return;
+          break;
+
+          case 67: // C
+            if (e.shiftKey) owner.exportCode();
+            else return;
+          break;
+
+          case 86: // V
+            if (e.shiftKey) owner.exportViz();
+            else return;
+          break;
+
+          case 69: // E
+            if (e.shiftKey) owner.toggleElementExport();
+            else return;
+          break;
+
+          case 82: // R
+            if (e.shiftKey) owner.redoElementExport();
+            else return;
           break;
 
           default: return; // exit this handler for other keys
@@ -3983,6 +4038,7 @@ class NavigationController {
     this.domRoot.find("#saveCode").click(() => {this.owner.exportCode();});
     this.domRoot.find("#saveImage").click(() => {this.owner.exportViz();});
     this.domRoot.find("#saveElementImage").click(() => {this.owner.toggleElementExport();});
+    this.domRoot.find("#redoSaveElementImage").click(() => {this.owner.redoElementExport();});
 
     // disable controls initially ...
     this.domRoot.find("#vcrControls #jmpFirstInstr").attr("disabled", true);

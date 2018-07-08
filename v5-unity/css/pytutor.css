@@ -964,4 +964,9 @@ button {
   width: 80%;
 }
 
+div.ExecutionVisualizer #codeFooterDocs ul {
+  list-style-type: none;
+  padding: 0 1em;
+}
+
 /* END Java frontend by David Pritchard and Will Gwozdz */
