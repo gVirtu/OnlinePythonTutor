@@ -180,7 +180,7 @@ div.ExecutionVisualizer textarea#vizDescriptionEditor {
 }
 
 
-div.ExecutionVisualizer #errorOutput {
+div#navControlsDiv #errorOutput {
   color: #e93f34; /* should match brightRed JavaScript variable */
   font-size: 12pt;
   padding: 2px;

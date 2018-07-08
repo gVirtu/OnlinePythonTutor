@@ -20,6 +20,9 @@
   visualization embedded within a webpage, due to multiple matches in
   the global namespace.
 
+  [TuPy Note] - Since embedding was disabled, this rule has been broken a couple times,
+                especially in changes to make the alternate layout work.
+
 - always use generateID and generateHeapObjID to generate unique CSS
   IDs, or else things will break when multiple ExecutionVisualizer
   instances are on a webpage
@@ -3722,6 +3725,17 @@ class CodeDisplay {
       });
   }
 
+  isolateLineHTML(lineNumber) {
+    return this.domRoot
+                .find('#pyCodeOutput tr')
+                .eq(lineNumber)
+                .children()
+                .not("#gutterTD")
+                .map(function() {return this.outerHTML;})
+                .get()
+                .join("")
+  }
+
   updateCodOutput(smoothTransition=false) {
     var gutterSVG = this.domRoot.find('svg#leftCodeGutterSVG');
 
@@ -3801,7 +3815,7 @@ class CodeDisplay {
         gutterSVG.find('#prevLineArrow').show();
       }
 
-      lineTrs.push(`<tr><td>Executada: </td>${this.domRoot.find('#pyCodeOutput tr').eq(myViz.prevLineNumber - 1).html()}</tr>`);
+      lineTrs.push(`<tr><td>Executada: </td>${this.isolateLineHTML(myViz.prevLineNumber - 1)}</tr>`);
     } else {
       gutterSVG.find('#prevLineArrow').hide();
     }
@@ -3837,7 +3851,7 @@ class CodeDisplay {
       gutterSVG.find('#curLineArrow').show();
 
       if (!isTerminated)
-        lineTrs.push(`<tr><td>Próxima: </td>${this.domRoot.find('#pyCodeOutput tr').eq(myViz.curLineNumber - 1).html()}</tr>`);
+        lineTrs.push(`<tr><td>Próxima: </td>${this.isolateLineHTML(myViz.curLineNumber - 1)}</tr>`);
     }
     else {
       gutterSVG.find('#curLineArrow').hide();
@@ -4144,9 +4158,9 @@ class NavigationController {
 
   showError(msg: string) {
     if (msg) {
-      this.domRoot.find("#errorOutput").html(htmlspecialchars(msg)).show();
+      $("#errorOutput").html(htmlspecialchars(msg)).show();
     } else {
-      this.domRoot.find("#errorOutput").hide();
+      $("#errorOutput").hide();
     }
   }
 
