@@ -40,7 +40,8 @@ require('./lib/ace/src-min-noconflict/mode-tupy.js');
 require('./lib/rgbcolor.js');
 require('./lib/StackBlur.js');
 require('script-loader!./lib/canvg.js');
-var clipboard = require('clipboard-polyfill')
+var crypto = require('crypto');
+var clipboard = require('clipboard-polyfill');
 
 var html2canvas = require('./lib/html2canvas.js');
 
@@ -2831,29 +2832,38 @@ class DataVisualizer {
           if (isGraphviz) {
             d3DomElement.append('<div class="cdataHeader">' + leader + 'graphViz' + '</div>');
             try {
-              var dotSrc = dotRegexp.exec(obj[3].replace(new RegExp("\n", 'g'), '\\n'))[1]
-              var resultSvg = Viz(dotSrc);
-              var tempElement = d3DomElement.append('<div id="' + cdataId + '" class="cdataElt"></div>')
+              var dotSrc = dotRegexp.exec(obj[3].replace(new RegExp("\n", 'g'), '\\n'))[1];
+              var hashDot = myViz.hash(dotSrc);
+
+              var tempElement = d3DomElement.append('<div id="' + cdataId + '" class="cdataElt"></div>');
+              var shouldUpdate = true;
 
               // Prevent blinking when navigating execution trace
               var cachedSrc = localStorage.getItem(`rendered_${addr}_src`);
               if (cachedSrc) {
                 var cachedWidth = localStorage.getItem(`rendered_${addr}_width`);
                 var cachedHeight = localStorage.getItem(`rendered_${addr}_height`);
+                var cachedDot = localStorage.getItem(`rendered_${addr}_dot`);
                 tempElement.html( '<img src="' + cachedSrc +
                                   '" width="' + Number(cachedWidth)*0.75 +
                                   '" height="' + Number(cachedHeight)*0.75 + '"/>');
+
+                if (cachedDot === hashDot) shouldUpdate = false;
               }
 
-              var resultImg = Viz.svgXmlToPngImageElement(resultSvg, 1, function(err, img) {
-                var myElement = tempElement.html( '<img src="' + img.src +
-                                                  '" width="' + img.width*0.75 +
-                                                  '" height="' + img.height*0.75 + '"/>');
-                localStorage.setItem(`rendered_${addr}_src`, img.src)
-                localStorage.setItem(`rendered_${addr}_width`, img.width)
-                localStorage.setItem(`rendered_${addr}_height`, img.height)
-                myViz.redrawConnectors()
-              })
+              if (shouldUpdate) {
+                var resultSvg = Viz(dotSrc);
+                Viz.svgXmlToPngImageElement(resultSvg, 1, function(err, img) {
+                  tempElement.html( '<img src="' + img.src +
+                                    '" width="' + img.width*0.75 +
+                                    '" height="' + img.height*0.75 + '"/>');
+                  localStorage.setItem(`rendered_${addr}_src`, img.src);
+                  localStorage.setItem(`rendered_${addr}_width`, img.width);
+                  localStorage.setItem(`rendered_${addr}_height`, img.height);
+                  localStorage.setItem(`rendered_${addr}_dot`, hashDot);
+                  myViz.redrawConnectors()
+                })
+              }
             } catch(err) {
               d3DomElement.append('<div id="' + cdataId + '" class="cdataElt">erro de sintaxe!</div>')
             }
@@ -2905,6 +2915,10 @@ class DataVisualizer {
     else {
       assert(false);
     }
+  }
+
+  hash(string) {
+    return crypto.createHash('sha1').update(string).digest('hex')
   }
 
   renderNestedObject(obj, stepNum: number, d3DomElement) {
