@@ -232,6 +232,7 @@ export class OptFrontend extends AbstractBaseFrontend {
   // this feature was deployed on 2015-09-17, so check logs for
   // viz_interaction.py
   submitUpdateHistory(why) {
+    return false; // disabled in TuPy Online
     if (this.myVisualizer) {
       var encodedUh = this.compressUpdateHistoryList();
       var encodedUhJSON = JSON.stringify(encodedUh);
