@@ -352,9 +352,9 @@ export var tupyExamplesHtml = `<p style="padding-top: 25px; font-weight: bold; f
 <p style="margin-top: 10px;">Abaixo se encontram implementações em TuPy de alguns algoritmos e operações com estruturas de dados. Clique para abrir o código no editor. <b>Atenção:</b> Certifique-se de ter salvo seu programa antes de clicar nos exemplos abaixo!</p>
 
 <ul class="tupyLinkList">
-<li><a class="exampleLink" id="tupyInsertionSort" href="#">insertionSort</a></li>
-<li><a class="exampleLink" id="tupyShellSort" href="#">shellSort</a></li>
-<li><a class="exampleLink" id="tupyMergeSort" href="#">mergeSort</a></li>
+<li><a class="exampleLink loadsInput" id="tupyInsertionSort" href="#">insertionSort</a></li>
+<li><a class="exampleLink loadsInput" id="tupyShellSort" href="#">shellSort</a></li>
+<li><a class="exampleLink loadsInput" id="tupyMergeSort" href="#">mergeSort</a></li>
 <li><a class="exampleLink" id="tupyHeapSort" href="#">heapSort</a></li>
 <li><a class="exampleLink" id="tupyLinkedList1" href="#">inserção&nbsp;em&nbsp;lista&nbsp;encadeada</a></li>
 <li><a class="exampleLink" id="tupyLinkedList2" href="#">merge&nbsp;em&nbsp;lista&nbsp;encadeada</a></li>
@@ -369,6 +369,8 @@ export var tupyExamplesHtml = `<p style="padding-top: 25px; font-weight: bold; f
 <li><a class="exampleLink" id="tupyCoinChange" href="#">moedas&nbsp;sem&nbsp;memorização</a></li>
 <li><a class="exampleLink" id="tupyCoinChange2" href="#">moedas&nbsp;com&nbsp;memorização</a></li>
 <li><a class="exampleLink" id="tupyChessQueens" href="#">damas&nbsp;pacíficas&nbsp;(N&nbsp;rainhas)</a></li>
+<li><a class="exampleLink loadsInput" id="tupySCC" href="#"><span class="newExample">NOVO</span>&nbsp;componentes&nbsp;fortemente&nbsp;conexos&nbsp;(Tarjan)</a></li>
+<li><a class="exampleLink loadsInput" id="tupyHanoi" href="#"><span class="newExample">NOVO</span>&nbsp;torres&nbsp;de&nbsp;Hanoi</a></li>
 </ul>
 `
 /*<p style="margin-top: 5px;">
@@ -401,7 +403,9 @@ export var TUPY_EXAMPLES = {
   tupyBFS: 'bfs.tupy',
   tupyCoinChange: 'coinchange.tupy',
   tupyCoinChange2: 'coinchangememo.tupy',
-  tupyChessQueens: 'chessqueens.tupy'
+  tupyChessQueens: 'chessqueens.tupy',
+  tupySCC: 'tarjan.tupy',
+  tupyHanoi: 'hanoi.tupy'
 };
 
 export var cExamplesHtml = `<p style="margin-top: 25px; font-weight: bold;">C Examples</p>

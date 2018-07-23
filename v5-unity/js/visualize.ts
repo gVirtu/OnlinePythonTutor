@@ -741,38 +741,38 @@ $(document).ready(function() {
   // canned examples
   $(".exampleLink").click(function() {
     var myId = $(this).attr('id');
-    var exFile;
+    var baseFile, exFile;
     var lang;
     if (JS_EXAMPLES[myId] !== undefined) {
-      exFile = JS_EXAMPLES[myId];
+      baseFile = JS_EXAMPLES[myId];
       lang = 'js';
     } else if (TS_EXAMPLES[myId] !== undefined) {
-      exFile = TS_EXAMPLES[myId];
+      baseFile = TS_EXAMPLES[myId];
       lang = 'ts';
     } else if (JAVA_EXAMPLES[myId] !== undefined) {
-      exFile = JAVA_EXAMPLES[myId];
+      baseFile = JAVA_EXAMPLES[myId];
       lang = 'java';
     } else if (RUBY_EXAMPLES[myId] !== undefined) {
-      exFile = RUBY_EXAMPLES[myId];
+      baseFile = RUBY_EXAMPLES[myId];
       lang = 'ruby';
     } else if (C_EXAMPLES[myId] !== undefined) {
-      exFile = C_EXAMPLES[myId];
+      baseFile = C_EXAMPLES[myId];
       lang = 'c';
     } else if (CPP_EXAMPLES[myId] !== undefined) {
-      exFile = CPP_EXAMPLES[myId];
+      baseFile = CPP_EXAMPLES[myId];
       lang = 'cpp';
     } else if (TUPY_EXAMPLES[myId] !== undefined) {
-      exFile = TUPY_EXAMPLES[myId];
+      baseFile = TUPY_EXAMPLES[myId];
       lang = 'tupy';
     } else if (PY2_EXAMPLES[myId] !== undefined) {
-      exFile = PY2_EXAMPLES[myId];
+      baseFile = PY2_EXAMPLES[myId];
       if ($('#pythonVersionSelector').val() === '3') {
         lang = '3';
       } else {
         lang = '2';
       }
     } else {
-      exFile = PY3_EXAMPLES[myId];
+      baseFile = PY3_EXAMPLES[myId];
       assert(exFile !== undefined);
       lang = '3';
     }
@@ -780,9 +780,9 @@ $(document).ready(function() {
     $('#pythonVersionSelector').val(lang);
 
     if (lang === '2' || lang === '3') {
-      exFile = 'example-code/python/' + exFile;
+      exFile = 'example-code/python/' + baseFile;
     } else {
-      exFile = 'example-code/' + lang + '/' + exFile;
+      exFile = 'example-code/' + lang + '/' + baseFile;
     }
 
     $.get(exFile, function(dat) {
@@ -804,6 +804,17 @@ $(document).ready(function() {
       }
       */
     }, 'text' /* data type - set to text or else jQuery tries to EXECUTE the JS example code, haha, eeek! */);
+
+    if (lang === 'tupy' && $(this).hasClass('loadsInput')) {
+      var inputFile = 'example-input/tupy/' + baseFile;
+
+      $.get(inputFile, function(dat) {
+        $('#inputTextArea').val(dat);
+      }, 'text');
+    } else {
+      $('#inputTextArea').val('');
+    }
+
     return false; // prevent an HTML 'a' element click from going to a link
   });
   // tupy cheatsheet

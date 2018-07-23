@@ -1,0 +1,120 @@
+#--------------------------------------------------------------------
+# Detecção de Componentes Fortemente Conexos (Alg. de Tarjan) em TuPy
+# Implementação por Giancarlo França
+#
+# <ATENÇÃO!> - Este programa espera receber uma entrada contendo
+#              uma descrição de grafo. Ela deve seguir o formato:
+#
+#              N M
+#              u1 v1
+#              u2 v2
+#              u3 v3
+#              ...
+#              uM vM
+#
+#              Em que N é o número de vértices, M o número de
+#              arestas, e ui e vi são o par de vértices da
+#              i-ésima aresta do grafo.
+#
+# Este é um exemplo avançado de como combinar as funções de visualização
+# predefinidas de TuPy com instruções DOT para enriquecer uma
+# visualização. Ao final do algoritmo, os componentes fortemente
+# conexos são coloridos com tonalidades aleatórias.
+#--------------------------------------------------------------------
+
+inteiro oculto N, M
+ler(N, M)
+
+inteiro oculto G[N, N]
+
+inteiro oculto indVisita
+inteiro oculto visitado[N]
+inteiro oculto menor[N]
+
+inteiro oculto P[*]
+lógico oculto na_pilha[N]
+
+inteiro oculto cor_comp[N]
+
+inteiro cfcs
+cadeia oculta cores[*] <- embaralhar(["aliceblue", "antiquewhite", "aquamarine", "azure", "beige", "bisque", "blanchedalmond", "blue", "blueviolet", "brown", "burlywood", "cadetblue", "chartreuse", "chocolate", "coral", "cornflowerblue", "cornsilk", "crimson", "cyan", "darkgoldenrod", "darkgreen", "darkkhaki", "darkolivegreen", "darkorange", "darkorchid", "darksalmon", "darkseagreen", "darkslateblue", "darkslategray", "darkslategrey", "darkturquoise", "darkviolet", "deeppink", "deepskyblue", "dimgray", "dimgrey", "dodgerblue", "firebrick", "floralwhite", "forestgreen", "gainsboro", "ghostwhite", "gold", "goldenrod", "gray", "green", "greenyellow", "grey", "honeydew", "hotpink", "indianred", "indigo", "ivory", "khaki", "lavender", "lavenderblush", "lawngreen", "lemonchiffon", "lightblue", "lightcoral", "lightcyan", "lightgoldenrod", "lightgoldenrodyellow", "lightgray", "lightgrey", "lightpink", "lightsalmon", "lightseagreen", "lightskyblue", "lightslateblue", "lightslategray", "lightslategrey", "lightsteelblue", "lightyellow", "limegreen", "linen", "magenta", "maroon", "mediumaquamarine", "mediumblue", "mediumorchid", "mediumpurple", "mediumseagreen", "mediumslateblue", "mediumspringgreen", "mediumturquoise", "mediumvioletred", "midnightblue", "mintcream", "mistyrose", "moccasin", "navajowhite", "navy", "navyblue", "oldlace", "olivedrab", "orange", "orangered", "orchid", "palegoldenrod", "palegreen", "paleturquoise", "palevioletred", "papayawhip", "peachpuff", "peru", "pink", "plum", "powderblue", "purple", "red", "rosybrown", "royalblue", "saddlebrown", "salmon", "sandybrown", "seagreen", "seashell", "sienna", "skyblue", "slateblue", "slategray", "slategrey", "snow", "springgreen", "steelblue", "tan", "thistle", "tomato", "turquoise", "violet", "violetred", "wheat", "white", "whitesmoke", "yellow", "yellowgreen"]) ~~
+
+visual V, VP
+
+empilhar(inteiro valor):
+    P <- inserir(P, valor)
+    VP <- pilha(P)
+
+inteiro desempilhar():
+    inteiro topo <- P[-1]
+    P <- remover(P, -1)
+    VP <- pilha(P)
+    retornar topo
+
+lógico pilha_vazia():
+    retornar |P| = 0
+
+aresta(inteiro u, inteiro v):
+    G[u, v] <- 1
+
+~~~
+Tarjan(inteiro nó):
+    ------------------------
+    menor[nó] <- visitado[nó] <- indVisita <- (indVisita + 1)
+    empilhar(nó)
+    na_pilha[nó] <- verdadeiro
+    V <- digrafo_MA(G, [nó]) ~~
+    ------------------------
+
+    inteiro i
+    para i <- 0..N:
+        se G[nó, i] > 0: --
+            se não visitado[i]: --
+                Tarjan(i)
+            se na_pilha[i]: --
+                menor[nó] <- min(menor[nó], menor[i])
+
+    ~~~~
+    visual oculto menor_vis <- "1:v{vis}:e -> 1:v{menor}:e [color=blue];"
+    menor_vis <- substituir(menor_vis, "{vis}", cadeia(visitado[nó] - visitado[P[0]]))
+    menor_vis <- substituir(menor_vis, "{menor}", cadeia(menor[nó] - visitado[P[0]]))
+    VP <- pilha(P, [], menor_vis)
+    ~~~~
+    se menor[nó] = visitado[nó]:
+        cfcs <- cfcs + 1
+        enquanto não pilha_vazia():
+            inteiro próx <- desempilhar()
+            na_pilha[próx] <- falso
+            se próx = nó:
+                parar
+
+~~~
+atribui_cores():
+    inteiro i
+    cadeia coloração
+    inteiro ind_cor
+    para i <- 0..N:
+        cor_comp[i] <- -1
+    para i <- 0..N:
+        se cor_comp[menor[i]] = -1:
+            cor_comp[menor[i]] <- ind_cor
+            ind_cor <- ind_cor + 1
+        coloração <- coloração + cadeia(i) + \
+                     " [style=filled, color=" + cores[cor_comp[menor[i]]] + "]; "
+    V <- digrafo_MA(G, [], [], "", coloração)
+~~~
+~~~
+inteiro oculto i, u, v
+
+para i <- 0..M:
+    ler(u, v)
+    aresta(u, v)
+~~~
+
+V <- digrafo_MA(G) ~~
+
+para i <- N-1..0 inclusive:
+    se não visitado[i]:
+        Tarjan(i)
+
+atribui_cores() ~~

@@ -991,4 +991,8 @@ div.ExecutionVisualizer #codeFooterDocs ul {
   padding: 0 1em;
 }
 
+ul.tupyLinkList span.newExample {
+  color: red;
+}
+
 /* END Java frontend by David Pritchard and Will Gwozdz */

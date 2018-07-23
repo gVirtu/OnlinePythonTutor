@@ -1,0 +1,84 @@
+#--------------------------------------------------------------------
+# Torres de Hanoi em TuPy
+# Implementação por Giancarlo França
+#
+# Este é um exemplo de visualização customizada para o algoritmo
+# recursivo da solução do clássico jogo de Torres de Hanoi.
+#
+# <ATENÇÃO!> - Este programa espera receber uma entrada contendo
+#              um inteiro N (<= 5), o número de peças no jogo.
+#
+# Exemplo de entrada:
+#         3
+#--------------------------------------------------------------------
+
+inteiro A[*] <- []
+inteiro B[*] <- []
+inteiro C[*] <- []
+
+~~~
+
+inteiro N
+ler(N)
+
+#########################################################################
+# Começo da parte de visualização das torres
+
+# Para aumentar N além de 5, acrescente mais nomes de cores
+visual oculto CORES[*] <- ["lightsalmon", "greenyellow", "dodgerblue", "darkorchid", "goldenrod"]
+visual oculto PEÇAS[N]
+
+# Gera peças em tamanho crescente
+inteiro oculto i
+para i <- 0..N:
+    visual base <- "<TR><TD BORDER='1' FIXEDSIZE='true' BGCOLOR='{COR}' WIDTH='{LARGURA}'> </TD></TR>"
+    base <- substituir(base, "{COR}", CORES[i])
+    base <- substituir(base, "{LARGURA}", cadeia((i+1)*50))
+    PEÇAS[i] <- base
+    A <- inserir(A, i+1, 0)
+
+# Pinos nos quais as peças da torre se encaixam
+visual oculto VAZIO <- "<TR><TD BORDER='0' FIXEDSIZE='true' BGCOLOR='black' WIDTH='5' HEIGHT='22'></TD></TR>"
+
+visual TORRES
+visual desenhaTorre(ref inteiro[] T, inteiro ind):
+    # Começa com uma linha transparente para centralizar os elementos abaixo
+    visual ret[*] <- [cadeia(ind), (" [shape = plaintext, label = <<TABLE BORDER='0' " \
+                                    "CELLSPACING='0' WIDTH='{LARGURA}'> <TR><TD BORDER='0' " \
+                                    "BGCOLOR='transparent' WIDTH='{LARGURA}' HEIGHT='1'></TD></TR>")]
+    inteiro i
+    para i <- |PEÇAS|-1..0 inclusive:
+        se |T| > i:
+            ret <- inserir(ret, PEÇAS[T[i]-1])
+        senão:
+            ret <- inserir(ret, VAZIO)
+    ret <- inserir(ret, "</TABLE>>]; ")
+
+    retornar substituir(juntar(ret), "{LARGURA}", cadeia(N*50))
+
+desenha():
+    visual ret[5] <- ["digraph G {graph [pad=0.5, nodesep=0];",
+                      desenhaTorre(A, 1),
+                      desenhaTorre(B, 2),
+                      desenhaTorre(C, 3), "}"]
+    TORRES <- dot(juntar(ret))
+
+# Fim da parte de visualização das torres
+#########################################################################
+
+mover(ref inteiro[] origem, ref inteiro[] destino):
+    inteiro topo <- origem[-1]
+    origem <- remover(origem, -1)
+    destino <- inserir(destino, topo)
+~~~
+Hanoi(inteiro n, ref inteiro[] origem, ref inteiro[] destino, ref inteiro[] aux):
+    se n > 0: --
+        Hanoi(n - 1, origem, aux, destino)
+
+        mover(origem, destino)
+        desenha() ~~
+
+        Hanoi(n - 1, aux, destino, origem)
+
+desenha() ~~
+Hanoi(N, A, C, B)
