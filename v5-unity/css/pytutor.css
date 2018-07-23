@@ -356,13 +356,13 @@ div.ExecutionVisualizer table.cArrayTbl td.cMultidimArrayElt {
 
 
 div.ExecutionVisualizer .cdataHeader {
-  font-size: 6pt;
+  font-size: 9pt;
   color: #555;
   padding-bottom: 2px;
 }
 
 div.ExecutionVisualizer .cdataElt {
-  font-size: 10pt;
+  font-size: 20pt;
 }
 
 div.ExecutionVisualizer .cdataUninit {
@@ -480,7 +480,7 @@ div.ExecutionVisualizer .objectIdLabel {
 }
 
 div.ExecutionVisualizer .typeLabel {
-  font-size: 8pt;
+  font-size: 6pt;
   color: #555;
   margin-bottom: 2px;
 }
@@ -962,6 +962,28 @@ button {
 
 #extraControls button {
   width: 80%;
+}
+
+div.ExecutionVisualizer span.heapVarName {
+  vertical-align: middle;
+  font-size: 20pt;
+}
+
+div.ExecutionVisualizer div.heapPrimitive {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+div.heapObject table {
+  display: inline-table;
+  vertical-align: middle;
+}
+
+div.heapObject div.emptyListLabel {
+  display: inline;
+  line-height: 30pt;
+  font-size: 16pt;
+  vertical-align: middle;
 }
 
 div.ExecutionVisualizer #codeFooterDocs ul {

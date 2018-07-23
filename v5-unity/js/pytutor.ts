@@ -151,6 +151,7 @@ export class ExecutionVisualizer {
 
   isNewLayout: boolean = false;
   isElementExportMode: boolean = false;
+  enableHoverLabels: boolean = true;
   lastExportedElementId: string;
 
   breakpoints: d3.Map<{}> = d3.map(); // set of execution points to set as breakpoints
@@ -1188,6 +1189,16 @@ export class ExecutionVisualizer {
     }
   }
 
+  toggleHoverLabels() {
+    this.enableHoverLabels = !this.enableHoverLabels;
+
+    if (this.enableHoverLabels) {
+      $('#toggleHoverLabels').html("<i class=\"far fa-check-square\"></i> Identificação de variáveis");
+    } else {
+      $('#toggleHoverLabels').html("<i class=\"far fa-square\"></i> Identificação de variáveis");
+    }
+  }
+
   redrawLayoutPane() {
     if (this.isNewLayout) {
       this.navControls.renderSliderBreakpoints(this.sortedBreakpointsList);
@@ -1378,6 +1389,13 @@ class DataVisualizer {
     return this.owner.generateID('heap_object_' + objID + '_s' + stepNum);
   }
 
+  addVarnameToHeapObject(heapObjID, varname) {
+    if (varname != "__return__") {
+      this.jsPlumbManager.heapObjNames[heapObjID] = this.jsPlumbManager.heapObjNames[heapObjID] || [];
+      this.jsPlumbManager.heapObjNames[heapObjID].push(varname);
+    }
+  }
+
   escape(string) {
     return String(string).replace(/(:|\.|\[|\]|,|=|@)/g, '\\$1')
   }
@@ -1485,6 +1503,8 @@ class DataVisualizer {
       parentPointerConnectionEndpointIDs: d3.map(),
 
       renderedHeapObjectIDs: d3.map(), // format given by generateHeapObjID()
+
+      heapObjNames: {} // used to display variable names when hovering heap objects
     };
   }
 
@@ -2238,6 +2258,7 @@ class DataVisualizer {
 
               assert(!myViz.jsPlumbManager.connectionEndpointIDs.has(varDivID));
               myViz.jsPlumbManager.connectionEndpointIDs.set(varDivID, heapObjID);
+              myViz.addVarnameToHeapObject(heapObjID, varname); //global
               //console.log('STACK->HEAP', varDivID, heapObjID);
             }
           }
@@ -2470,6 +2491,7 @@ class DataVisualizer {
 
               assert(!myViz.jsPlumbManager.connectionEndpointIDs.has(varDivID));
               myViz.jsPlumbManager.connectionEndpointIDs.set(varDivID, heapObjID);
+              myViz.addVarnameToHeapObject(heapObjID, varname); //local (todo: specify depth?)
               //console.log('STACK->HEAP', varDivID, heapObjID);
             }
           }
@@ -2517,6 +2539,16 @@ class DataVisualizer {
       })
       .remove();
 
+    // Add variable name labels that are show on hover
+    $.each(myViz.jsPlumbManager.heapObjNames, function(k, v) {
+        var heapObj = myViz.domRoot.find(`#${k}`);
+        var label = heapObj.find('.heapVarName');
+        label.text(` = ${v.join(', ')}`);
+        label.hide();
+
+        heapObj.mouseenter( function() { if (myViz.owner.enableHoverLabels) label.fadeIn(); });
+        heapObj.mouseleave( function() { label.fadeOut(); });
+    });
 
     // Rightward nudge hack to make tree-like structures look more sane
     // without any sophisticated graph rendering code. Thanks to John
@@ -3034,11 +3066,13 @@ class DataVisualizer {
 
       assert(obj.length >= 1);
       if (obj.length == 1) {
-        d3DomElement.append('<div class="typeLabel">' + typeLabelPrefix + myViz.getRealLabel(label) + ' vazia</div>');
+        d3DomElement.append('<div class="typeLabel emptyListLabel">' + typeLabelPrefix + myViz.getRealLabel(label) + ' vazia</div>');
+        d3DomElement.append('<span class="heapVarName"></span>');
       }
       else {
         d3DomElement.append('<div class="typeLabel">' + typeLabelPrefix + myViz.getRealLabel(label) + '</div>');
         d3DomElement.append('<table class="' + label + 'Tbl"></table>');
+        d3DomElement.append('<span class="heapVarName"></span>');
         var tbl = d3DomElement.children('table');
 
         if (obj[0] == 'LIST' || obj[0] == 'TUPLE') {
@@ -3131,6 +3165,7 @@ class DataVisualizer {
       if (obj.length > headerLength) {
         var lab = isInstance ? 'inst' : 'class';
         d3DomElement.append('<table class="' + lab + 'Tbl"></table>');
+        d3DomElement.append('<span class="heapVarName"></span>');
 
         var tbl = d3DomElement.children('table');
 
@@ -3267,6 +3302,7 @@ class DataVisualizer {
 
       // add a bit of padding to heap primitives, for aesthetics
       d3DomElement.append('<div class="heapPrimitive"></div>');
+      d3DomElement.append('<span class="heapVarName"></span>');
       d3DomElement.find('div.heapPrimitive').append('<div class="typeLabel">' + typeLabelPrefix + typeName + '</div>');
       myViz.renderPrimitiveObject(primitiveVal, stepNum, d3DomElement.find('div.heapPrimitive'));
     }
@@ -3306,6 +3342,7 @@ class DataVisualizer {
 
       if (obj.length > 3) {
         d3DomElement.append('<table class="instTbl"></table>');
+        d3DomElement.append('<span class="heapVarName"></span>');
 
         var tbl = d3DomElement.children('table');
 
@@ -3960,6 +3997,7 @@ class NavigationController {
                       </tr>\
                       <tr>\
                         <td><button id="redoSaveElementImage", type="button" disabled><i class="fas fa-redo-alt"></i> Reexportar elemento</button></td>\
+                        <td><button id="toggleHoverLabels", type="button"><i class=\"far fa-check-square\"></i> Identificação de variáveis</button></td>\
                       </tr>\
                      </table>\
                      <div id="rawUserInputDiv">\
@@ -4015,6 +4053,11 @@ class NavigationController {
             else return;
           break;
 
+          case 77: // M
+            if (e.shiftKey) owner.toggleHoverLabels();
+            else return;
+          break;
+
           default: return; // exit this handler for other keys
       }
       e.preventDefault(); // prevent the default action (scroll / move caret)
@@ -4053,6 +4096,7 @@ class NavigationController {
     this.domRoot.find("#saveImage").click(() => {this.owner.exportViz();});
     this.domRoot.find("#saveElementImage").click(() => {this.owner.toggleElementExport();});
     this.domRoot.find("#redoSaveElementImage").click(() => {this.owner.redoElementExport();});
+    this.domRoot.find("#toggleHoverLabels").click(() => {this.owner.toggleHoverLabels();});
 
     // disable controls initially ...
     this.domRoot.find("#vcrControls #jmpFirstInstr").attr("disabled", true);
