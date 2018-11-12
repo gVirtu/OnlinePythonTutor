@@ -670,6 +670,7 @@ export class OptFrontend extends AbstractBaseFrontend {
       this.myVisualizer = null; // yikes!
 
       $(document).scrollTop(0); // scroll to top to make UX better on small monitors
+      $(document).off('keydown'); // unbind keydown overrides on code edit
 
       // Clear cached renders
       for (var i = 0, len = localStorage.length; i < len; ++i) {

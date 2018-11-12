@@ -3571,7 +3571,8 @@ class CodeDisplay {
           <li>SHIFT+C — Copiar código formatado</li>\
           <li>SHIFT+V — Exportar visualização atual</li>\
           <li>SHIFT+E — Exportar elemento</li>\
-          <li>SHIFT+R — Reexportar elemento</li></ul></p><p>Clique em uma linha de código para colocar um breakpoint; use os botões Próximo/Anterior para se deslocar entre eles.</p></div>\
+          <li>SHIFT+R — Reexportar elemento</li>\
+          <li>SHIFT+M — Identificação de Variáveis</li></ul></p><p>Clique em uma linha de código para colocar um breakpoint; use os botões Próximo/Anterior para se deslocar entre eles.</p></div>\
        </div>';
 
     this.domRoot.append(codeDisplayHTML);
