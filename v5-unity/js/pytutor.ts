@@ -66,7 +66,7 @@ var errorColor = brightRed;
 var breakpointColor = brightRed;
 
 // Unicode arrow types: '\u21d2', '\u21f0', '\u2907'
-export var darkArrowColor = brightRed;
+export var darkArrowColor = '#008c00';
 export var lightArrowColor = '#c9e6ca';
 
 var heapPtrSrcRE = /__heap_pointer_src_/;
