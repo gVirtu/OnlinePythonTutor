@@ -49,11 +49,17 @@ div.ExecutionVisualizer table.visualizer {
 div.ExecutionVisualizer table.visualizer td.vizLayoutTd {
   vertical-align: top;
 }
-
-div.ExecutionVisualizer td#stack_td,
-div.ExecutionVisualizer td#heap_td {
+div.ExecutionVisualizer td#heap_td
+{
   vertical-align:top;
   font-size: 10pt; /* don't make fonts in the heap so big! */
+}
+div.ExecutionVisualizer td#stack_td
+{
+  vertical-align:top;
+  font-size: 10pt; /* don't make fonts in the heap so big! */
+  max-width: 200px;
+  min-width: 200px;
 }
 
 div.ExecutionVisualizer #dataViz {
@@ -488,7 +494,7 @@ div.ExecutionVisualizer .typeLabel {
 div.ExecutionVisualizer div#stack,
 div.ExecutionVisualizer div#globals_area {
   padding-left: 10px;
-  padding-right: 30px;
+  padding-right: 10px;
 
   /* no longer necessary ... */
   /*float: left;*/
@@ -531,7 +537,8 @@ div.ExecutionVisualizer div.stackFrameHeader {
   font-size: 10pt;
   margin-top: 4px;
   margin-bottom: 3px;
-  white-space: nowrap;
+  word-break: break-word;
+  /* white-space: nowrap; */
 }
 
 div.ExecutionVisualizer td.stackFrameVar {
@@ -545,7 +552,7 @@ div.ExecutionVisualizer td.stackFrameValue {
   text-align: left;
   border-bottom: 1px solid #aaaaaa;
   border-left: 1px solid #aaaaaa;
-
+  word-break: break-word;
   vertical-align: middle;
 
   padding-top: 3px;
@@ -558,12 +565,12 @@ div.ExecutionVisualizer .stackFrameVarTable tr {
 }
 
 div.ExecutionVisualizer .stackFrameVarTable {
-  text-align: right;
+  text-align: left;
   padding-top: 3px;
 
   /* right-align the table */
-  margin-left: auto;
-  margin-right: 0px;
+  margin-left: 0px;
+  margin-right: auto;
 
   /* hack to counteract possible nasty CSS reset styles from parent divs */
   border-collapse: separate;
@@ -601,7 +608,7 @@ div.ExecutionVisualizer div.heapPrimitive {
 
 div.ExecutionVisualizer div#stackHeader {
   margin-bottom: 15px;
-  text-align: right;
+  text-align: left;
 }
 
 div.ExecutionVisualizer div#heapHeader {
