@@ -9,5 +9,6 @@ docker run --name tupy-dev \
            -p 8003:8003 \
            -t tupy-docker \
            sh -c "yarn install; \
+                  ./node_modules/.bin/tsd install; \
                   pip3 install -r requirements.txt; \
                   sh"
