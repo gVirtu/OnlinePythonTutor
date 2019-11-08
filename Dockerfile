@@ -20,7 +20,7 @@ RUN apk add --no-cache --virtual .persistent-deps \
         webpack-cli \
         gulp-cli \
         typescript \
-        tsd
+        typings
 
 EXPOSE 8003
 
