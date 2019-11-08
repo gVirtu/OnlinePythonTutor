@@ -560,6 +560,11 @@ div.ExecutionVisualizer td.stackFrameValue {
   padding-bottom: 3px;
 }
 
+div.ExecutionVisualizer td.stackFrameValue > img {
+  max-width: 100%;
+  height: auto;
+}
+
 div.ExecutionVisualizer .stackFrameVarTable tr {
 
 }
